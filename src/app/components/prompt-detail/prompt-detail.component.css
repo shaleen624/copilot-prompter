@@ -1,0 +1,38 @@
+
+.back-button {
+    margin-bottom: 24px;
+}
+
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+}
+
+.description {
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: #424242;
+}
+
+.prompt-code {
+    background-color: #282c34;
+    color: #abb2bf;
+    padding: 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+mat-card-actions {
+    padding: 16px !important;
+}
+
+h4 {
+    margin-top: 24px;
+    margin-bottom: 8px;
+    color: #616161;
+}
