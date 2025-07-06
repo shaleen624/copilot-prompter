@@ -1,13 +1,14 @@
 // Centralized categories and languages for prompts
 export const PROMPT_CATEGORIES: string[] = [
-  'Testing',
   'Backend',
   'Frontend',
+  'Testing',
   'DevOps',
   'Database',
   'Security',
-  'General',
-  'Business'
+  'Business',
+  'General'
+  
 ];
 
 export const PROMPT_LANGUAGES: string[] = [
