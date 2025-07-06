@@ -6,6 +6,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 
 import { Prompt } from '../../models/prompt.model';
+import { PROMPT_CATEGORIES, PROMPT_LANGUAGES } from '../../models/prompt-metadata';
 import { PromptService } from '../../services/prompt.service';
 
 // Material Imports
@@ -32,6 +33,7 @@ import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
         MatIconModule,
         MatSnackBarModule
     ],
+    standalone: true,
     templateUrl: './prompt-form.component.html',
     styleUrls: ['./prompt-form.component.css']
 })
@@ -41,8 +43,8 @@ export class PromptFormComponent implements OnInit {
   tags: string[] = [];
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
 
-  categories = ['Testing', 'Backend', 'Frontend', 'DevOps', 'Database', 'Security'];
-  languages = ['JavaScript', 'Python', 'TypeScript', 'Java'];
+  categories = PROMPT_CATEGORIES;
+  languages = PROMPT_LANGUAGES;
 
   constructor(
     private fb: FormBuilder,

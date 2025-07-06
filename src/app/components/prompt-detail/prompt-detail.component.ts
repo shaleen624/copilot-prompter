@@ -21,7 +21,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
         MatButtonModule, MatIconModule, MatSnackBarModule, MatProgressSpinnerModule
     ],
     templateUrl: './prompt-detail.component.html',
-    styleUrls: ['./prompt-detail.component.css']
+    styleUrls: ['./prompt-detail.component.css'],
+    standalone: true
 })
 export class PromptDetailComponent implements OnInit {
   prompt$!: Observable<Prompt | undefined>;

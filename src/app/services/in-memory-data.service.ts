@@ -1630,8 +1630,148 @@ describe('API Integration', () => {
         category: 'DevOps',
         language: 'Java',
         author: 'observability_guru',
+      },  
+  {
+        id: '66',
+        title: 'JIRA User Story Generator',
+        prompt: `// 📝 Write a JIRA user story for the following feature or requirement.
+// ✅ Checklist:
+//   - Use "As a [role], I want [goal] so that [reason]" format
+//   - Add clear acceptance criteria (Gherkin or checklist)
+//   - Include business value and priority
+//   - Suggest test cases if possible
+//   - Output in JIRA-ready markdown
+//
+// Feature/Requirement: {{feature_description}}
+//
+// 💡 Tip: Use bullet points for acceptance criteria and keep stories concise.
+`,
+        description:
+          'Generate clear, actionable JIRA user stories with acceptance criteria, business value, and test cases.',
+        tags: [
+          'jira',
+          'user-story',
+          'agile',
+          'business-analyst',
+          'scrum',
+          'copilot-optimized',
+        ],
+        category: 'Business',
+        language: 'Any',
+        author: 'ba_scrum',
       },
-      // ... (continue up to 100+ prompts as needed) ...
+      {
+        id: '67',
+        title: 'JIRA Epic Breakdown',
+        prompt: `// 🗂️ Break down the following epic or large feature into JIRA stories and tasks.
+// ✅ Checklist:
+//   - Identify all major user stories
+//   - Suggest technical and non-technical tasks
+//   - Prioritize and group logically
+//   - Output as a JIRA-ready list (markdown or table)
+//
+// Epic/Feature: {{epic_description}}
+//
+// 💡 Tip: Keep stories small and independent; use INVEST criteria.
+`,
+        description:
+          'Decompose large epics into actionable JIRA stories and tasks, ready for backlog grooming and sprint planning.',
+        tags: [
+          'jira',
+          'epic',
+          'breakdown',
+          'agile',
+          'business-analyst',
+          'scrum',
+          'copilot-optimized',
+        ],
+        category: 'Business',
+        language: 'Any',
+        author: 'ba_scrum',
+      },
+      {
+        id: '68',
+        title: 'Acceptance Criteria Generator',
+        prompt: `// ✅ Generate acceptance criteria for the following user story or feature.
+//   - Use Gherkin (Given/When/Then) or checklist format
+//   - Cover all functional and non-functional requirements
+//   - Ensure criteria are testable and unambiguous
+//   - Output as a JIRA-ready list
+//
+// User Story/Feature: {{story_or_feature}}
+//
+// 💡 Tip: Acceptance criteria should be clear enough for both devs and testers.
+`,
+        description:
+          'Create clear, testable acceptance criteria for JIRA stories or features, using Gherkin or checklist format.',
+        tags: [
+          'jira',
+          'acceptance-criteria',
+          'agile',
+          'business-analyst',
+          'scrum',
+          'copilot-optimized',
+        ],
+        category: 'Business',
+        language: 'Any',
+        author: 'ba_scrum',
+      },
+      {
+        id: '69',
+        title: 'JIRA Task Definition Helper',
+        prompt: `// 🛠️ Define clear, actionable JIRA tasks for the following feature or story.
+// ✅ Checklist:
+//   - Make each task atomic and testable
+//   - Include definition of done
+//   - Assign to appropriate role (dev, QA, BA, etc.)
+//   - Output as a JIRA-ready checklist
+//
+// Feature/Story: {{feature_or_story}}
+//
+// 💡 Tip: Tasks should be small enough to complete in a day or less.
+`,
+        description:
+          'Help business analysts and scrum masters define granular, actionable JIRA tasks with clear definition of done.',
+        tags: [
+          'jira',
+          'task',
+          'definition-of-done',
+          'agile',
+          'business-analyst',
+          'scrum',
+          'copilot-optimized',
+        ],
+        category: 'Business',
+        language: 'Any',
+        author: 'ba_scrum',
+      },
+      {
+        id: '70',
+        title: 'Sprint Goal Generator',
+        prompt: `// 🎯 Suggest a sprint goal for the following set of JIRA stories or features.
+// ✅ Checklist:
+//   - Summarize the main business value
+//   - Make the goal specific, measurable, and achievable
+//   - Output as a single, clear statement
+//
+// Stories/Features: {{stories_or_features}}
+//
+// 💡 Tip: Sprint goals should guide the team and stakeholders for the iteration.
+`,
+        description:
+          'Generate focused, actionable sprint goals for scrum teams based on JIRA stories or features.',
+        tags: [
+          'jira',
+          'sprint-goal',
+          'agile',
+          'scrum',
+          'business-analyst',
+          'copilot-optimized',
+        ],
+        category: 'Business',
+        language: 'Any',
+        author: 'ba_scrum',
+      }
     ];
     return { prompts };
   }

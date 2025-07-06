@@ -5,6 +5,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
 import { startWith, map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Prompt } from '../../models/prompt.model';
+import { PROMPT_CATEGORIES, PROMPT_LANGUAGES } from '../../models/prompt-metadata';
 import { PromptService } from '../../services/prompt.service';
 
 import { MatCardModule } from '@angular/material/card';
@@ -24,7 +25,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
         MatChipsModule, MatButtonModule, MatIconModule, MatProgressSpinnerModule
     ],
     templateUrl: './prompt-list.component.html',
-    styleUrls: ['./prompt-list.component.css']
+    styleUrls: ['./prompt-list.component.css'],
+    standalone: true
 })
 export class PromptListComponent implements OnInit {
   prompts$ = new BehaviorSubject<Prompt[]>([]);
@@ -32,8 +34,8 @@ export class PromptListComponent implements OnInit {
   categoryControl = new FormControl('');
   languageControl = new FormControl('');
 
-  categories: string[] = ['Testing', 'Backend', 'Frontend', 'DevOps', 'Database', 'Security'];
-  languages: string[] = ['JavaScript', 'Python', 'TypeScript', 'Java', 'C#', 'Go'];
+  categories: string[] = PROMPT_CATEGORIES;
+  languages: string[] = PROMPT_LANGUAGES;
 
   filteredPrompts$: Observable<Prompt[]> = combineLatest([
     this.prompts$,
