@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
@@ -29,6 +29,7 @@ import { MatSelectModule } from '@angular/material/select';
         BrowserAnimationsModule,
         FormsModule,
         ReactiveFormsModule,
+        HttpClientModule,
         // In-memory Web API
         HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, { dataEncapsulation: false }),
         // Material Modules
@@ -41,5 +42,5 @@ import { MatSelectModule } from '@angular/material/select';
         MatIconModule,
         MatProgressSpinnerModule,
         MatSnackBarModule,
-        MatSelectModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
+    MatSelectModule], providers: [] })
 export class AppModule { }
