@@ -1771,7 +1771,37 @@ describe('API Integration', () => {
         category: 'Business',
         language: 'Any',
         author: 'ba_scrum',
-      }
+      },
+      {
+        id: '71',
+        title: 'JQL Query Generator for JIRA',
+        prompt: `// 🔍 Generate a JQL (JIRA Query Language) query for the following search criteria.
+// ✅ Checklist:
+//   - Interpret the user's requirements and map to JIRA fields
+//   - Use correct JQL syntax (AND/OR, parentheses, operators)
+//   - Suggest filters for project, issue type, status, assignee, date, etc.
+//   - Output the JQL query in a code block
+//   - Briefly explain the query logic
+//
+// Search Criteria: {{criteria}}
+//
+// 💡 Tip: If the criteria are ambiguous, ask clarifying questions or provide multiple query options.
+`,
+        description:
+          'Generate precise JQL queries for JIRA based on user-defined search criteria, with explanations and best practices.',
+        tags: [
+          'jira',
+          'jql',
+          'query',
+          'search',
+          'business-analyst',
+          'scrum',
+          'copilot-optimized',
+        ],
+        category: 'Business',
+        language: 'Any',
+        author: 'ba_scrum',
+      },
     ];
     return { prompts };
   }
