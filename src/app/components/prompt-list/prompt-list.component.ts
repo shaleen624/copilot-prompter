@@ -17,15 +17,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
-  selector: 'app-prompt-list',
-  standalone: true,
-  imports: [
-    CommonModule, RouterModule, ReactiveFormsModule,
-    MatCardModule, MatFormFieldModule, MatInputModule, MatSelectModule,
-    MatChipsModule, MatButtonModule, MatIconModule, MatProgressSpinnerModule
-  ],
-  templateUrl: './prompt-list.component.html',
-  styleUrls: ['./prompt-list.component.css']
+    selector: 'app-prompt-list',
+    imports: [
+        CommonModule, RouterModule, ReactiveFormsModule,
+        MatCardModule, MatFormFieldModule, MatInputModule, MatSelectModule,
+        MatChipsModule, MatButtonModule, MatIconModule, MatProgressSpinnerModule
+    ],
+    templateUrl: './prompt-list.component.html',
+    styleUrls: ['./prompt-list.component.css']
 })
 export class PromptListComponent implements OnInit {
   prompts$ = new BehaviorSubject<Prompt[]>([]);

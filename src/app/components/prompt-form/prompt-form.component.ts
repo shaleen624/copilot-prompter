@@ -19,22 +19,21 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-prompt-form',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatChipsModule,
-    MatIconModule,
-    MatSnackBarModule
-  ],
-  templateUrl: './prompt-form.component.html',
-  styleUrls: ['./prompt-form.component.css']
+    selector: 'app-prompt-form',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatChipsModule,
+        MatIconModule,
+        MatSnackBarModule
+    ],
+    templateUrl: './prompt-form.component.html',
+    styleUrls: ['./prompt-form.component.css']
 })
 export class PromptFormComponent implements OnInit {
   promptForm: FormGroup;

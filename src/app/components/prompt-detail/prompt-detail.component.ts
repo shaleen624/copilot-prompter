@@ -15,14 +15,13 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
-  selector: 'app-prompt-detail',
-  standalone: true,
-  imports: [
-    CommonModule, RouterModule, MatCardModule, MatChipsModule,
-    MatButtonModule, MatIconModule, MatSnackBarModule, MatProgressSpinnerModule
-  ],
-  templateUrl: './prompt-detail.component.html',
-  styleUrls: ['./prompt-detail.component.css']
+    selector: 'app-prompt-detail',
+    imports: [
+        CommonModule, RouterModule, MatCardModule, MatChipsModule,
+        MatButtonModule, MatIconModule, MatSnackBarModule, MatProgressSpinnerModule
+    ],
+    templateUrl: './prompt-detail.component.html',
+    styleUrls: ['./prompt-detail.component.css']
 })
 export class PromptDetailComponent implements OnInit {
   prompt$!: Observable<Prompt | undefined>;
