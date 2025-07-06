@@ -688,4 +688,15 @@ describe('API Integration', () => {
 // Stories/Features: {{stories_or_features}}
 //
 // \u{1F4A1} Tip: Sprint goals should guide the team and stakeholders for the iteration.
-`,description:"Generate focused, actionable sprint goals for scrum teams based on JIRA stories or features.",tags:["jira","sprint-goal","agile","scrum","business-analyst","copilot-optimized"],category:"Business",language:"Any",author:"ba_scrum"}]}}genId(e){return e.length>0?(Math.max(...e.map(i=>Number(i.id)))+1).toString():"11"}static{this.\u0275fac=function(i){return new(i||t)}}static{this.\u0275prov=b({token:t,factory:t.\u0275fac,providedIn:"root"})}}return t})();var tS=(()=>{class t{static{this.\u0275fac=function(i){return new(i||t)}}static{this.\u0275mod=R({type:t,bootstrap:[JI]})}static{this.\u0275inj=A({imports:[wa,QI,sD,sE,Go,og,aD.forRoot(eS,{dataEncapsulation:!1}),XI,Wn,Ki,bs,pn,Ji,nr,Ds,Ss,eo]})}}return t})();eg().bootstrapModule(tS).catch(t=>console.error(t));
+`,description:"Generate focused, actionable sprint goals for scrum teams based on JIRA stories or features.",tags:["jira","sprint-goal","agile","scrum","business-analyst","copilot-optimized"],category:"Business",language:"Any",author:"ba_scrum"},{id:"71",title:"JQL Query Generator for JIRA",prompt:`// \u{1F50D} Generate a JQL (JIRA Query Language) query for the following search criteria.
+// \u2705 Checklist:
+//   - Interpret the user's requirements and map to JIRA fields
+//   - Use correct JQL syntax (AND/OR, parentheses, operators)
+//   - Suggest filters for project, issue type, status, assignee, date, etc.
+//   - Output the JQL query in a code block
+//   - Briefly explain the query logic
+//
+// Search Criteria: {{criteria}}
+//
+// \u{1F4A1} Tip: If the criteria are ambiguous, ask clarifying questions or provide multiple query options.
+`,description:"Generate precise JQL queries for JIRA based on user-defined search criteria, with explanations and best practices.",tags:["jira","jql","query","search","business-analyst","scrum","copilot-optimized"],category:"Business",language:"Any",author:"ba_scrum"}]}}genId(e){return e.length>0?(Math.max(...e.map(i=>Number(i.id)))+1).toString():"11"}static{this.\u0275fac=function(i){return new(i||t)}}static{this.\u0275prov=b({token:t,factory:t.\u0275fac,providedIn:"root"})}}return t})();var tS=(()=>{class t{static{this.\u0275fac=function(i){return new(i||t)}}static{this.\u0275mod=R({type:t,bootstrap:[JI]})}static{this.\u0275inj=A({imports:[wa,QI,sD,sE,Go,og,aD.forRoot(eS,{dataEncapsulation:!1}),XI,Wn,Ki,bs,pn,Ji,nr,Ds,Ss,eo]})}}return t})();eg().bootstrapModule(tS).catch(t=>console.error(t));
