@@ -1,5 +1,5 @@
 
-<div *ngIf="prompt$ | async as prompt; else loading">
+<div *ngIf="prompt && !isLoading; else loading">
   <button mat-stroked-button (click)="goBack()" class="back-button">
     <mat-icon>arrow_back</mat-icon>
     Back to List
@@ -20,17 +20,55 @@
       </mat-chip-listbox>
 
       <h4>Prompt Text</h4>
-      <pre class="prompt-code"><code>{{ prompt.prompt }}</code></pre>
+      <div class="prompt-text-container">
+        <!-- Display mode -->
+        <div *ngIf="!isEditMode" class="prompt-display-wrapper">
+          <pre class="prompt-code"><code>{{ prompt.prompt }}</code></pre>
+          <button mat-icon-button class="inline-edit-btn" (click)="toggleEditMode()" title="Edit inline">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
+        
+        <!-- Edit mode -->
+        <div *ngIf="isEditMode" class="edit-mode">
+          <mat-form-field class="full-width">
+            <mat-label>Edit Prompt</mat-label>
+            <textarea 
+              matInput 
+              [(ngModel)]="editedPrompt"
+              rows="10"
+              cdkTextareaAutosize
+              cdkAutosizeMinRows="5"
+              cdkAutosizeMaxRows="20"
+              placeholder="Enter your prompt text here..."
+              class="dark-textarea">
+            </textarea>
+          </mat-form-field>
+          <div class="inline-edit-actions">
+            <button mat-button (click)="toggleEditMode()">
+              <mat-icon>cancel</mat-icon>
+              Cancel
+            </button>
+            <button mat-button color="primary" (click)="applyInlineChanges()">
+              <mat-icon>save</mat-icon>
+              Apply Changes
+            </button>
+          </div>
+        </div>
+      </div>
     </mat-card-content>
     <mat-card-actions align="end">
-      <button mat-button (click)="editPrompt(prompt.id)">
-        <mat-icon>edit</mat-icon>
-        Edit
-      </button>
-      <button mat-flat-button color="primary" (click)="copyPrompt(prompt.prompt)">
-        <mat-icon>content_copy</mat-icon>
-        Copy Prompt
-      </button>
+      <!-- Display mode buttons -->
+      <div *ngIf="!isEditMode" class="display-buttons">
+        <button mat-button (click)="editPrompt(prompt.id)">
+          <mat-icon>edit</mat-icon>
+          Edit Full
+        </button>
+        <button mat-flat-button color="primary" (click)="copyToClipboard()">
+          <mat-icon>content_copy</mat-icon>
+          Copy Prompt
+        </button>
+      </div>
     </mat-card-actions>
   </mat-card>
 </div>

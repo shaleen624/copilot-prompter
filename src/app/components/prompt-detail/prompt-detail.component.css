@@ -16,15 +16,102 @@
     color: #424242;
 }
 
+.prompt-text-container {
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.prompt-display-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
 .prompt-code {
     background-color: #282c34;
     color: #abb2bf;
     padding: 16px;
     border-radius: 8px;
-    overflow-x: auto;
     white-space: pre-wrap;
     word-wrap: break-word;
     font-family: 'Courier New', Courier, monospace;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.inline-edit-btn {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 10;
+    min-width: 40px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    overflow: visible;
+}
+
+.inline-edit-btn .mat-icon {
+    overflow: visible;
+}
+
+.prompt-display-wrapper:hover .inline-edit-btn {
+    opacity: 1;
+}
+
+.inline-edit-btn:hover {
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.edit-mode {
+    margin-top: 8px;
+}
+
+.inline-edit-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    justify-content: flex-end;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.dark-textarea {
+    background-color: #2d3748 !important;
+    color: #e2e8f0 !important;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    line-height: 1.4;
+    border-radius: 4px;
+}
+
+.full-width .mat-mdc-form-field-input-control {
+    background-color: #2d3748 !important;
+    color: #e2e8f0 !important;
+}
+
+.full-width .mat-mdc-text-field-wrapper {
+    background-color: #2d3748 !important;
+}
+
+.edit-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.display-buttons {
+    display: flex;
+    gap: 8px;
 }
 
 mat-card-actions {
