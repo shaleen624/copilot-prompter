@@ -14,26 +14,32 @@
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Title</mat-label>
           <input matInput formControlName="title" placeholder="e.g., 'Angular Component Unit Tests' or 'React State Management Helper'" required>
-          <mat-error *ngIf="promptForm.get('title')?.hasError('required')">
-            Title is required
-          </mat-error>
+          @if (promptForm.get('title')?.hasError('required')) {
+            <mat-error>
+              Title is required
+            </mat-error>
+          }
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Author</mat-label>
           <input matInput formControlName="author" placeholder="Your name or GitHub username" required>
-          <mat-error *ngIf="promptForm.get('author')?.hasError('required')">
-            Author is required
-          </mat-error>
+          @if (promptForm.get('author')?.hasError('required')) {
+            <mat-error>
+              Author is required
+            </mat-error>
+          }
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Description</mat-label>
           <textarea matInput formControlName="description" placeholder="Brief description of what this prompt does and when to use it. Example: 'Generate comprehensive unit tests for Angular components with proper mocking and edge case coverage.'" rows="3" required>
           </textarea>
-          <mat-error *ngIf="promptForm.get('description')?.hasError('required')">
-            Description is required
-          </mat-error>
+          @if (promptForm.get('description')?.hasError('required')) {
+            <mat-error>
+              Description is required
+            </mat-error>
+          }
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
@@ -49,49 +55,61 @@
 //
 // 💡 Tip: Use TestBed.configureTestingModule for component testing setup." rows="8" required>
           </textarea>
-          <mat-error *ngIf="promptForm.get('prompt')?.hasError('required')">
-            Prompt text is required
-          </mat-error>
+          @if (promptForm.get('prompt')?.hasError('required')) {
+            <mat-error>
+              Prompt text is required
+            </mat-error>
+          }
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Category</mat-label>
           <mat-select formControlName="category" required>
-            <mat-option *ngFor="let category of categories" [value]="category">
-              {{category}}
-            </mat-option>
+            @for (category of categories; track category) {
+              <mat-option [value]="category">
+                {{category}}
+              </mat-option>
+            }
           </mat-select>
-          <mat-error *ngIf="promptForm.get('category')?.hasError('required')">
-            Category is required
-          </mat-error>
+          @if (promptForm.get('category')?.hasError('required')) {
+            <mat-error>
+              Category is required
+            </mat-error>
+          }
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Language</mat-label>
           <mat-select formControlName="language" required>
-            <mat-option *ngFor="let language of languages" [value]="language">
-              {{language}}
-            </mat-option>
+            @for (language of languages; track language) {
+              <mat-option [value]="language">
+                {{language}}
+              </mat-option>
+            }
           </mat-select>
-          <mat-error *ngIf="promptForm.get('language')?.hasError('required')">
-            Language is required
-          </mat-error>
+          @if (promptForm.get('language')?.hasError('required')) {
+            <mat-error>
+              Language is required
+            </mat-error>
+          }
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Tags</mat-label>
           <mat-chip-grid #chipGrid aria-label="Tag selection">
-            <mat-chip-row *ngFor="let tag of tags"
-              (removed)="removeTag(tag)">
-              {{tag}}
-              <button matChipRemove [attr.aria-label]="'remove ' + tag">
-                <mat-icon>cancel</mat-icon>
-              </button>
-            </mat-chip-row>
+            @for (tag of tags; track tag) {
+              <mat-chip-row
+                (removed)="removeTag(tag)">
+                {{tag}}
+                <button matChipRemove [attr.aria-label]="'remove ' + tag">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip-row>
+            }
             <input placeholder="Add tags (e.g., angular, testing, api, checklist)..."
-                   [matChipInputFor]="chipGrid"
-                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                   (matChipInputTokenEnd)="addTag($event)">
+              [matChipInputFor]="chipGrid"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              (matChipInputTokenEnd)="addTag($event)">
           </mat-chip-grid>
           <mat-hint>Press Enter or comma to add tags. Use relevant keywords that describe your prompt.</mat-hint>
         </mat-form-field>

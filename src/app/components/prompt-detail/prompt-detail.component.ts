@@ -1,6 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, Location } from '@angular/common';
+import { Location } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Observable, of } from 'rxjs';
@@ -20,10 +20,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 @Component({
     selector: 'app-prompt-detail',
     imports: [
-        CommonModule, RouterModule, FormsModule, MatCardModule, MatChipsModule,
-        MatButtonModule, MatIconModule, MatSnackBarModule, MatProgressSpinnerModule,
-        MatInputModule, MatFormFieldModule
-    ],
+    RouterModule,
+    FormsModule,
+    MatCardModule,
+    MatChipsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatSnackBarModule,
+    MatProgressSpinnerModule,
+    MatInputModule,
+    MatFormFieldModule
+],
     templateUrl: './prompt-detail.component.html',
     styleUrls: ['./prompt-detail.component.css'],
     standalone: true

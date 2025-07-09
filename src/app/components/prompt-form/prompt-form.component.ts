@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
@@ -25,18 +25,17 @@ import { Inject } from '@angular/core';
 @Component({
     selector: 'app-prompt-form',
     imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        MatButtonModule,
-        MatCardModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatSelectModule,
-        MatChipsModule,
-        MatIconModule,
-        MatSnackBarModule,
-        MatDialogModule
-    ],
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatChipsModule,
+    MatIconModule,
+    MatSnackBarModule,
+    MatDialogModule
+],
     standalone: true,
     templateUrl: './prompt-form.component.html',
     styleUrls: ['./prompt-form.component.css']
@@ -227,14 +226,13 @@ export class PromptFormComponent implements OnInit {
   `],
   standalone: true,
   imports: [
-    CommonModule,
     MatDialogModule,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
     MatSnackBarModule
-  ]
+]
 })
 export class JsonSubmissionDialogComponent {
   jsonString: string;
