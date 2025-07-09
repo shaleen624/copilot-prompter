@@ -11,12 +11,12 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^20.0.6",
-    "@angular/cdk": "^19.2.14",
+    "@angular/cdk": "^20.0.6",
     "@angular/common": "^20.0.6",
     "@angular/compiler": "^20.0.6",
     "@angular/core": "^20.0.6",
     "@angular/forms": "^20.0.6",
-    "@angular/material": "^19.2.14",
+    "@angular/material": "^20.0.6",
     "@angular/platform-browser": "^20.0.6",
     "@angular/platform-browser-dynamic": "^20.0.6",
     "@angular/router": "^20.0.6",
@@ -24,8 +24,7 @@
     "highlight.js": "^11.11.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "uuid": "^11.1.0",
-    "zone.js": "~0.15.1"
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@angular/build": "^20.0.6",

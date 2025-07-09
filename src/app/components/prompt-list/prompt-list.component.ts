@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -26,9 +26,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ],
     templateUrl: './prompt-list.component.html',
     styleUrls: ['./prompt-list.component.css'],
-    standalone: true
+    standalone: true,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PromptListComponent implements OnInit {
+  private router = inject(Router);
+  private promptService = inject(PromptService);
+  
   prompts$ = new BehaviorSubject<Prompt[]>([]);
   searchControl = new FormControl('');
   categoryControl = new FormControl('');
@@ -67,17 +71,23 @@ export class PromptListComponent implements OnInit {
     })
   );
 
-  constructor(
-    private promptService: PromptService,
-    private router: Router
-  ) {}
+  // Track by function for better performance
+  trackByPromptId = (index: number, prompt: Prompt): string => prompt.id;
+  trackByTag = (index: number, tag: string): string => tag;
 
   ngOnInit(): void {
-    this.loadPrompts();
+    this.getPrompts();
   }
 
-  loadPrompts(): void {
-    this.promptService.getPrompts()
-      .subscribe(prompts => this.prompts$.next(prompts));
+  getPrompts(): void {
+    this.promptService.getPrompts().subscribe(prompts => {
+      this.prompts$.next(prompts);
+    });
+  }
+
+  clearFilters(): void {
+    this.searchControl.setValue('');
+    this.categoryControl.setValue('');
+    this.languageControl.setValue('');
   }
 }

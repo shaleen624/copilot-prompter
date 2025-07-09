@@ -1,21 +1,20 @@
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { Prompt } from '../models/prompt.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PromptService {
+  private http = inject(HttpClient);
   private promptsUrl = 'api/prompts';  // URL to web api
 
-  httpOptions = {
+  private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
-
-  constructor(private http: HttpClient) { }
 
   getPrompts(): Observable<Prompt[]> {
     return this.http.get<Prompt[]>(this.promptsUrl)

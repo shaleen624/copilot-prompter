@@ -1,5 +1,4 @@
-
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject, input } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -33,54 +32,51 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 ],
     templateUrl: './prompt-detail.component.html',
     styleUrls: ['./prompt-detail.component.css'],
-    standalone: true
+    standalone: true,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PromptDetailComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private promptService = inject(PromptService);
+  private location = inject(Location);
+  private snackBar = inject(MatSnackBar);
+
   prompt: Prompt | undefined;
   editedPrompt: string = '';
   isEditMode: boolean = false;
   isLoading: boolean = false;
   isUpdating: boolean = false;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private promptService: PromptService,
-    private location: Location,
-    private snackBar: MatSnackBar
-  ) { }
+  // Track by function for better performance
+  trackByTag = (index: number, tag: string): string => tag;
 
   ngOnInit(): void {
     this.getPrompt();
   }
 
   getPrompt(): void {
-    this.isLoading = true;
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.promptService.getPrompt(id).subscribe({
-        next: (prompt) => {
-          this.prompt = prompt;
-          this.editedPrompt = prompt ? prompt.prompt : '';
-          this.isLoading = false;
-        },
-        error: (error) => {
-          console.error('Error fetching prompt:', error);
-          this.isLoading = false;
-          this.snackBar.open('Error loading prompt', 'Close', { duration: 3000 });
-        }
-      });
+      this.isLoading = true;
+      this.promptService.getPrompt(id)
+        .subscribe({
+          next: (prompt) => {
+            this.prompt = prompt;
+            this.editedPrompt = prompt.prompt;
+            this.isLoading = false;
+          },
+          error: () => {
+            this.isLoading = false;
+          }
+        });
     }
   }
 
   toggleEditMode(): void {
-    if (this.isEditMode) {
-      // Exit edit mode without saving changes
-      this.editedPrompt = this.prompt?.prompt || '';
-      this.isEditMode = false;
-    } else {
-      // Enter edit mode
-      this.isEditMode = true;
+    this.isEditMode = !this.isEditMode;
+    if (this.isEditMode && this.prompt) {
+      this.editedPrompt = this.prompt.prompt;
     }
   }
 
@@ -116,17 +112,9 @@ export class PromptDetailComponent implements OnInit {
   }
 
   copyToClipboard(): void {
-    const textToCopy = this.isEditMode ? this.editedPrompt : this.prompt?.prompt;
-    if (textToCopy) {
-      navigator.clipboard.writeText(textToCopy).then(() => {
-        this.snackBar.open('Prompt copied to clipboard!', 'Close', {
-          duration: 2000,
-          horizontalPosition: 'center',
-          verticalPosition: 'bottom'
-        });
-      }).catch(err => {
-        console.error('Failed to copy text:', err);
-        this.snackBar.open('Failed to copy prompt', 'Close', { duration: 2000 });
+    if (this.prompt) {
+      navigator.clipboard.writeText(this.prompt.prompt).then(() => {
+        this.snackBar.open('Copied to clipboard!', 'Close', { duration: 2000 });
       });
     }
   }

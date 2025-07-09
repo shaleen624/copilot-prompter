@@ -35,7 +35,7 @@
 
   @if (filteredPrompts$ | async; as prompts) {
     <div class="prompts-grid">
-      @for (prompt of prompts; track prompt) {
+      @for (prompt of prompts; track trackByPromptId($index, prompt)) {
         <mat-card class="prompt-card" [routerLink]="['/prompts', prompt.id]">
           <mat-card-header>
             <mat-card-title>{{ prompt.title }}</mat-card-title>
@@ -44,7 +44,7 @@
           <mat-card-content>
             <p>{{ prompt.description }}</p>
             <mat-chip-listbox aria-label="Prompt tags">
-              @for (tag of prompt.tags; track tag) {
+              @for (tag of prompt.tags; track trackByTag($index, tag)) {
                 <mat-chip [color]="'accent'" [disabled]="true">
                   {{ tag }}
                 </mat-chip>

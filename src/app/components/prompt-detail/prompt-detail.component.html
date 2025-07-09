@@ -16,7 +16,7 @@
         <p class="description">{{ prompt.description }}</p>
         <h4>Tags</h4>
         <mat-chip-listbox aria-label="Prompt tags">
-          @for (tag of prompt.tags; track tag) {
+          @for (tag of prompt.tags; track trackByTag($index, tag)) {
             <mat-chip disabled color="accent">{{ tag }}</mat-chip>
           }
         </mat-chip-listbox>

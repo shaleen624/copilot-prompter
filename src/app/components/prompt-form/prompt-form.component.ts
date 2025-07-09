@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -38,9 +38,17 @@ import { Inject } from '@angular/core';
 ],
     standalone: true,
     templateUrl: './prompt-form.component.html',
-    styleUrls: ['./prompt-form.component.css']
+    styleUrls: ['./prompt-form.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PromptFormComponent implements OnInit {
+  private fb = inject(FormBuilder);
+  private promptService = inject(PromptService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private snackBar = inject(MatSnackBar);
+  private dialog = inject(MatDialog);
+
   promptForm: FormGroup;
   isEditMode = false;
   tags: string[] = [];
@@ -49,14 +57,12 @@ export class PromptFormComponent implements OnInit {
   categories = PROMPT_CATEGORIES;
   languages = PROMPT_LANGUAGES;
 
-  constructor(
-    private fb: FormBuilder,
-    private promptService: PromptService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private snackBar: MatSnackBar,
-    private dialog: MatDialog
-  ) {
+  // Track by functions for better performance
+  trackByCategory = (index: number, category: string): string => category;
+  trackByLanguage = (index: number, language: string): string => language;
+  trackByTag = (index: number, tag: string): string => tag;
+
+  constructor() {
     this.promptForm = this.fb.group({
       title: ['', Validators.required],
       author: ['', Validators.required],
