@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, inject, input } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject, ChangeDetectorRef } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -41,6 +41,7 @@ export class PromptDetailComponent implements OnInit {
   private promptService = inject(PromptService);
   private location = inject(Location);
   private snackBar = inject(MatSnackBar);
+  private cdr = inject(ChangeDetectorRef);
 
   prompt: Prompt | undefined;
   editedPrompt: string = '';
@@ -59,15 +60,21 @@ export class PromptDetailComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.isLoading = true;
+      this.cdr.markForCheck(); // Trigger change detection for loading state
+      
       this.promptService.getPrompt(id)
         .subscribe({
           next: (prompt) => {
             this.prompt = prompt;
             this.editedPrompt = prompt.prompt;
             this.isLoading = false;
+            this.cdr.markForCheck(); // Trigger change detection for loaded state
           },
-          error: () => {
+          error: (error) => {
+            console.error('Error fetching prompt:', error);
             this.isLoading = false;
+            this.cdr.markForCheck(); // Trigger change detection for error state
+            this.snackBar.open('Error loading prompt', 'Close', { duration: 3000 });
           }
         });
     }
@@ -78,6 +85,7 @@ export class PromptDetailComponent implements OnInit {
     if (this.isEditMode && this.prompt) {
       this.editedPrompt = this.prompt.prompt;
     }
+    this.cdr.markForCheck();
   }
 
   applyInlineChanges(): void {
@@ -86,6 +94,7 @@ export class PromptDetailComponent implements OnInit {
     // Just update the display without saving to backend
     this.prompt = { ...this.prompt, prompt: this.editedPrompt };
     this.isEditMode = false;
+    this.cdr.markForCheck();
     this.snackBar.open('Prompt updated for copying', 'Close', { duration: 2000 });
   }
 
@@ -93,6 +102,8 @@ export class PromptDetailComponent implements OnInit {
     if (!this.prompt) return;
 
     this.isUpdating = true;
+    this.cdr.markForCheck();
+    
     const updatedPrompt = { ...this.prompt, prompt: this.editedPrompt };
     
     this.promptService.updatePrompt(updatedPrompt).subscribe({
@@ -101,11 +112,13 @@ export class PromptDetailComponent implements OnInit {
         this.editedPrompt = savedPrompt.prompt;
         this.isEditMode = false;
         this.isUpdating = false;
+        this.cdr.markForCheck();
         this.snackBar.open('Prompt updated successfully', 'Close', { duration: 3000 });
       },
       error: (error) => {
         console.error('Error updating prompt:', error);
         this.isUpdating = false;
+        this.cdr.markForCheck();
         this.snackBar.open('Error updating prompt', 'Close', { duration: 3000 });
       }
     });
