@@ -9,22 +9,19 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { InMemoryDataService } from './services/in-memory-data.service';
 
-// Material Imports
+// Material Imports for AppComponent
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatSelectModule } from '@angular/material/select';
 
-@NgModule({ declarations: [
+
+
+@NgModule({
+    declarations: [
         AppComponent
     ],
-    bootstrap: [AppComponent], imports: [BrowserModule,
+    imports: [
+        BrowserModule,
         AppRoutingModule,
         BrowserAnimationsModule,
         FormsModule,
@@ -32,15 +29,12 @@ import { MatSelectModule } from '@angular/material/select';
         HttpClientModule,
         // In-memory Web API
         HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, { dataEncapsulation: false }),
-        // Material Modules
+        // Material Modules for AppComponent
         MatToolbarModule,
         MatButtonModule,
-        MatCardModule,
-        MatInputModule,
-        MatFormFieldModule,
-        MatChipsModule,
-        MatIconModule,
-        MatProgressSpinnerModule,
-        MatSnackBarModule,
-    MatSelectModule], providers: [] })
+        MatIconModule
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
+})
 export class AppModule { }
