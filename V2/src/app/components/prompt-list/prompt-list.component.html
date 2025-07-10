@@ -1,0 +1,63 @@
+<div class="prompt-list-container">
+  <div class="filters-container">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search prompts</mat-label>
+      <input matInput [formControl]="searchControl" placeholder="Search by title, description, or tags">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <div class="filter-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Category</mat-label>
+        <mat-select [formControl]="categoryControl">
+          <mat-option value="">All Categories</mat-option>
+          @for (category of categories; track category) {
+            <mat-option [value]="category">
+              {{category}}
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Language</mat-label>
+        <mat-select [formControl]="languageControl">
+          <mat-option value="">All Languages</mat-option>
+          @for (lang of languages; track lang) {
+            <mat-option [value]="lang">
+              {{lang}}
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  @if (filteredPrompts$ | async; as prompts) {
+    <div class="prompts-grid">
+      @for (prompt of prompts; track trackByPromptId($index, prompt)) {
+        <mat-card class="prompt-card" [routerLink]="['/prompts', prompt.id]">
+          <mat-card-header>
+            <mat-card-title>{{ prompt.title }}</mat-card-title>
+            <mat-card-subtitle>{{ prompt.language }} | {{ prompt.category }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>{{ prompt.description }}</p>
+            <mat-chip-listbox aria-label="Prompt tags">
+              @for (tag of prompt.tags; track trackByTag($index, tag)) {
+                <mat-chip [color]="'accent'" [disabled]="true">
+                  {{ tag }}
+                </mat-chip>
+              }
+            </mat-chip-listbox>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  } @else {
+    <div class="spinner-container">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
+  }
+
+</div>

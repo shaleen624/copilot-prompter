@@ -1,0 +1,86 @@
+
+@if (prompt && !isLoading) {
+  <div>
+    <button mat-stroked-button (click)="goBack()" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+      Back to List
+    </button>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{ prompt.title }}</mat-card-title>
+        <mat-card-subtitle>
+          By {{ prompt.author }} | Language: {{ prompt.language }} | Category: {{ prompt.category }}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="description">{{ prompt.description }}</p>
+        <h4>Tags</h4>
+        <mat-chip-listbox aria-label="Prompt tags">
+          @for (tag of prompt.tags; track trackByTag($index, tag)) {
+            <mat-chip disabled color="accent">{{ tag }}</mat-chip>
+          }
+        </mat-chip-listbox>
+        <h4>Prompt Text</h4>
+        <div class="prompt-text-container">
+          <!-- Display mode -->
+          @if (!isEditMode) {
+            <div class="prompt-display-wrapper">
+              <pre class="prompt-code"><code>{{ prompt.prompt }}</code></pre>
+              <button mat-icon-button class="inline-edit-btn" (click)="toggleEditMode()" title="Edit inline">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+          }
+          <!-- Edit mode -->
+          @if (isEditMode) {
+            <div class="edit-mode">
+              <mat-form-field class="full-width">
+                <mat-label>Edit Prompt</mat-label>
+                <textarea
+                  matInput
+                  [(ngModel)]="editedPrompt"
+                  rows="10"
+                  cdkTextareaAutosize
+                  cdkAutosizeMinRows="5"
+                  cdkAutosizeMaxRows="20"
+                  placeholder="Enter your prompt text here..."
+                  class="dark-textarea">
+                </textarea>
+              </mat-form-field>
+              <div class="inline-edit-actions">
+                <button mat-button (click)="toggleEditMode()">
+                  <mat-icon>cancel</mat-icon>
+                  Cancel
+                </button>
+                <button mat-button color="primary" (click)="applyInlineChanges()">
+                  <mat-icon>save</mat-icon>
+                  Apply Changes
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <!-- Display mode buttons -->
+        @if (!isEditMode) {
+          <div class="display-buttons">
+            <button mat-button (click)="editPrompt(prompt.id)">
+              <mat-icon>edit</mat-icon>
+              Edit Full
+            </button>
+            <button mat-flat-button color="primary" (click)="copyToClipboard()">
+              <mat-icon>content_copy</mat-icon>
+              Copy Prompt
+            </button>
+          </div>
+        }
+      </mat-card-actions>
+    </mat-card>
+  </div>
+} @else {
+  <div class="spinner-container">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </div>
+}
+

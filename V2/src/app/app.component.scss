@@ -1,0 +1,40 @@
+.brand-right {
+  align-items: flex-end;
+  text-align: right;
+}
+// Brand styles for toolbar title and subtitle
+.brand {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.brand-title {
+  font-size: 1.25em;
+  font-weight: 500;
+}
+
+.brand-subtitle {
+  font-size: 0.85em;
+  color: #e0e0e0;
+  line-height: 1.1;
+}
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.main-content {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+mat-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+button {
+  margin-left: 8px;
+}
