@@ -35,6 +35,7 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(
       FormsModule,
       ReactiveFormsModule,
+      // In-memory Web API for both prompts and templates
       HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, { dataEncapsulation: false })
     )
   ]

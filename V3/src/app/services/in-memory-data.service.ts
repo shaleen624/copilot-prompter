@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { InMemoryDbService, RequestInfo } from 'angular-in-memory-web-api';
-import { Observable } from 'rxjs';
+import { InMemoryDbService } from 'angular-in-memory-web-api';
 import { Prompt } from '../models/prompt.model';
+import { CopilotTemplate } from '../models/copilot-template.model';
 
 @Injectable({
   providedIn: 'root',
@@ -1057,7 +1057,7 @@ describe('API Integration', () => {
 //   - Propose test organization and coverage goals
 //   - Output actionable, prioritized testing steps
 //
-// Input: Web app description or requirements
+// Input: Web app description and requirements
 //
 // 💡 Tip: Use tables to compare tools and show example test structures.
 `,
@@ -1803,16 +1803,177 @@ describe('API Integration', () => {
         author: 'ba_scrum',
       },
     ];
-    return { prompts };
+
+    const copilotTemplates: CopilotTemplate[] = [
+      {
+        id: '1',
+        name: 'Angular Development Guidelines',
+        category: 'Frontend Framework',
+        language: 'TypeScript',
+        framework: 'Angular',
+        description: 'Comprehensive guidelines for Angular development with modern best practices',
+        content: `# Angular Project Guidelines
+
+## Project Context
+This is an Angular application following modern development practices with TypeScript, Angular Material, and reactive programming patterns.
+
+## Coding Standards
+- Use TypeScript strict mode and proper type definitions
+- Follow Angular style guide conventions
+- Implement OnPush change detection strategy where possible
+- Use reactive forms over template-driven forms
+- Implement proper error handling and loading states
+
+## Architecture Guidelines
+- Follow the single responsibility principle
+- Use dependency injection for services
+- Implement proper separation of concerns between components, services, and models
+- Use Angular Material components consistently
+- Follow feature module structure for large applications
+
+## Framework-Specific Rules
+- Use Angular's built-in validators and create custom validators when needed
+- Implement proper unsubscription patterns for observables (takeUntil, async pipe)
+- Use trackBy functions in *ngFor loops for performance
+- Prefer standalone components in Angular 14+
+- Use Angular's testing utilities (TestBed, ComponentFixture) for unit tests
+
+## File Structure
+- Services go in \`/src/app/services/\`
+- Components go in \`/src/app/components/\`
+- Models/interfaces go in \`/src/app/models/\`
+- Use barrel exports (index.ts) for clean imports
+- Organize by feature modules for larger applications
+
+## Testing Preferences
+- Write unit tests for all components and services
+- Use Jasmine and Karma for unit testing
+- Use Cypress or Protractor for e2e testing
+- Aim for 80%+ code coverage
+- Mock external dependencies in tests`,
+        tags: ['angular', 'typescript', 'frontend', 'best-practices', 'reactive-forms'],
+        popularity: 95,
+        lastUpdated: new Date('2024-12-01'),
+        author: 'angular_team'
+      },
+      {
+        id: '2',
+        name: 'React TypeScript Best Practices',
+        category: 'Frontend Framework',
+        language: 'TypeScript',
+        framework: 'React',
+        description: 'Modern React development with TypeScript, hooks, and performance optimization',
+        content: `# React TypeScript Guidelines
+
+## Project Context
+This is a React application built with TypeScript, utilizing modern hooks, context API, and performance optimization techniques.
+
+## Coding Standards
+- Use functional components with hooks over class components
+- Implement proper TypeScript interfaces for props and state
+- Use meaningful component and variable names
+- Follow consistent file naming conventions (PascalCase for components)
+- Use ESLint and Prettier for code formatting
+
+## Architecture Guidelines
+- Use composition over inheritance
+- Implement proper component hierarchy
+- Use React Context for global state management
+- Keep components small and focused
+- Use custom hooks for reusable logic
+
+## Framework-Specific Rules
+- Use useCallback and useMemo for performance optimization
+- Implement proper error boundaries
+- Use React.memo for component memoization
+- Prefer controlled components over uncontrolled
+- Use proper key props in lists
+
+## File Structure
+- Components in \`/src/components/\`
+- Hooks in \`/src/hooks/\`
+- Types in \`/src/types/\`
+- Utils in \`/src/utils/\`
+- Use index.ts files for clean exports
+
+## Testing Preferences
+- Use Jest and React Testing Library
+- Write unit tests for all components
+- Use mock functions for external dependencies
+- Test user interactions and edge cases
+- Aim for high test coverage`,
+        tags: ['react', 'typescript', 'hooks', 'frontend', 'performance'],
+        popularity: 92,
+        lastUpdated: new Date('2024-12-01'),
+        author: 'react_team'
+      },
+      {
+        id: '3',
+        name: 'Node.js API Development',
+        category: 'Backend Framework',
+        language: 'JavaScript',
+        framework: 'Node.js',
+        description: 'Best practices for building RESTful APIs with Node.js and Express',
+        content: `# Node.js API Development Guidelines
+
+## Project Context
+This is a Node.js backend application built with Express.js, focusing on RESTful API design and scalable architecture.
+
+## Coding Standards
+- Use async/await over callbacks
+- Implement proper error handling middleware
+- Use meaningful HTTP status codes
+- Follow RESTful naming conventions
+- Use environment variables for configuration
+
+## Architecture Guidelines
+- Implement layered architecture (routes, controllers, services, models)
+- Use dependency injection where appropriate
+- Implement proper logging and monitoring
+- Use middleware for cross-cutting concerns
+- Follow SOLID principles
+
+## Framework-Specific Rules
+- Use Express.js for routing and middleware
+- Implement proper validation using Joi or similar
+- Use Helmet for security headers
+- Implement rate limiting and CORS
+- Use compression middleware for performance
+
+## File Structure
+- Routes in \`/src/routes/\`
+- Controllers in \`/src/controllers/\`
+- Services in \`/src/services/\`
+- Models in \`/src/models/\`
+- Middleware in \`/src/middleware/\`
+- Utilities in \`/src/utils/\`
+
+## Testing Preferences
+- Use Jest for unit testing
+- Use Supertest for API testing
+- Mock external dependencies
+- Test error scenarios
+- Aim for comprehensive test coverage`,
+        tags: ['nodejs', 'express', 'backend', 'api', 'rest'],
+        popularity: 88,
+        lastUpdated: new Date('2024-12-01'),
+        author: 'nodejs_team'
+      }
+    ];
+
+    return { prompts, copilotTemplates };
   }
 
-  // Overrides the genId method to ensure that a prompt always has an ID.
-  // If the prompts array is empty, the method below returns the initial number (11).
-  // if the prompts array is not empty, the method below returns the highest
-  // prompt id + 1.
-  genId(prompts: Prompt[]): string {
-    return prompts.length > 0
-      ? (Math.max(...prompts.map((p) => Number(p.id))) + 1).toString()
-      : '11';
+  // Overrides the genId method to ensure that items always have an ID.
+  // If the collection is empty, the method below returns the initial number (1).
+  // if the collection is not empty, the method below returns the highest
+  // item id + 1.
+  genId(prompts: Prompt[]): string;
+  genId(copilotTemplates: CopilotTemplate[]): string;
+  genId(collection: any[]): string {
+    if (!collection || collection.length === 0) {
+      return '1';
+    }
+    return (Math.max(...collection.map((item) => Number(item.id))) + 1).toString();
   }
 }

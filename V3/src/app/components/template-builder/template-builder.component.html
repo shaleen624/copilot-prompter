@@ -1,0 +1,392 @@
+<div class="template-builder-container">
+  <div class="header-section">
+    <button mat-stroked-button (click)="goBack()" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+      Back to Gallery
+    </button>
+    
+    <h1>{{ isEditMode ? 'Edit' : 'Create' }} Copilot Template</h1>
+    <p>Build a custom copilot instructions template using our guided builder.</p>
+  </div>
+
+  <mat-horizontal-stepper #stepper>
+    <!-- Step 1: Basic Information -->
+    <mat-step [stepControl]="templateForm" label="Basic Information">
+      <form [formGroup]="templateForm">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Template Information</mat-card-title>
+            <mat-card-subtitle>Basic details about your copilot template</mat-card-subtitle>
+          </mat-card-header>
+          
+          <mat-card-content>
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Template Name</mat-label>
+                <input matInput formControlName="name" placeholder="e.g., Angular Best Practices" required>
+                @if (templateForm.get('name')?.hasError('required')) {
+                  <mat-error>Template name is required</mat-error>
+                }
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Description</mat-label>
+                <textarea matInput formControlName="description" 
+                  placeholder="Brief description of what this template provides and when to use it" 
+                  rows="3" required></textarea>
+                @if (templateForm.get('description')?.hasError('required')) {
+                  <mat-error>Description is required</mat-error>
+                }
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline">
+                <mat-label>Category</mat-label>
+                <mat-select formControlName="category" required>
+                  @for (category of categories; track trackByCategory($index, category)) {
+                    <mat-option [value]="category">{{ category }}</mat-option>
+                  }
+                </mat-select>
+                @if (templateForm.get('category')?.hasError('required')) {
+                  <mat-error>Category is required</mat-error>
+                }
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Primary Language</mat-label>
+                <mat-select formControlName="language" required>
+                  @for (language of languages; track trackByLanguage($index, language)) {
+                    <mat-option [value]="language">{{ language }}</mat-option>
+                  }
+                </mat-select>
+                @if (templateForm.get('language')?.hasError('required')) {
+                  <mat-error>Language is required</mat-error>
+                }
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Framework (Optional)</mat-label>
+                <mat-select formControlName="framework">
+                  @for (framework of frameworks; track trackByFramework($index, framework)) {
+                    <mat-option [value]="framework">{{ framework }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline">
+                <mat-label>Author</mat-label>
+                <input matInput formControlName="author" placeholder="Your name or team name" required>
+                @if (templateForm.get('author')?.hasError('required')) {
+                  <mat-error>Author is required</mat-error>
+                }
+              </mat-form-field>
+
+              <div class="tags-section">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Tags</mat-label>
+                  <mat-chip-grid #chipGrid>
+                    @for (tag of tags; track trackByTag($index, tag)) {
+                      <mat-chip-row (removed)="removeTag(tag)">
+                        {{ tag }}
+                        <button matChipRemove>
+                          <mat-icon>cancel</mat-icon>
+                        </button>
+                      </mat-chip-row>
+                    }
+                  </mat-chip-grid>
+                  <input placeholder="Add tag and press Enter" 
+                    [matChipInputFor]="chipGrid"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    (matChipInputTokenEnd)="addTag($event)">
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-card-content>
+          
+          <mat-card-actions>
+            <button mat-raised-button color="primary" matStepperNext [disabled]="!templateForm.valid">
+              Next
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </form>
+    </mat-step>
+
+    <!-- Step 2: Template Builder -->
+    <mat-step [stepControl]="builderForm" label="Build Template">
+      <form [formGroup]="builderForm">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Template Content Builder</mat-card-title>
+            <mat-card-subtitle>Configure the content sections for your copilot template</mat-card-subtitle>
+          </mat-card-header>
+          
+          <mat-card-content>
+            <mat-tab-group>
+              <!-- Project Context Tab -->
+              <mat-tab label="Project Context">
+                <div class="tab-content">
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Project Context</mat-label>
+                    <textarea matInput formControlName="projectContext" 
+                      placeholder="Describe your project, its purpose, architecture, and key technologies used..."
+                      rows="4"></textarea>
+                  </mat-form-field>
+                </div>
+              </mat-tab>
+
+              <!-- Coding Standards Tab -->
+              <mat-tab label="Coding Standards">
+                <div class="tab-content">
+                  <div class="suggestions-section">
+                    <h4>Quick Add Suggestions:</h4>
+                    <div class="suggestion-chips">
+                      @for (suggestion of codingStandardsSuggestions; track suggestion) {
+                        <mat-chip (click)="addToArray('codingStandards', suggestion)">
+                          {{ suggestion }}
+                        </mat-chip>
+                      }
+                    </div>
+                  </div>
+                  
+                  <mat-divider></mat-divider>
+                  
+                  <div class="array-section">
+                    <h4>Your Coding Standards:</h4>
+                    @for (control of codingStandards.controls; track $index) {
+                      <div class="array-item">
+                        <mat-form-field appearance="outline" class="flex-1">
+                          <input matInput [formControl]="$any(control)">
+                        </mat-form-field>
+                        <button mat-icon-button (click)="removeFromArray('codingStandards', $index)" type="button">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </div>
+                    }
+                    <button mat-stroked-button (click)="addToArray('codingStandards', '')" type="button">
+                      <mat-icon>add</mat-icon>
+                      Add Custom Standard
+                    </button>
+                  </div>
+                </div>
+              </mat-tab>
+
+              <!-- Architecture Guidelines Tab -->
+              <mat-tab label="Architecture">
+                <div class="tab-content">
+                  <div class="suggestions-section">
+                    <h4>Quick Add Suggestions:</h4>
+                    <div class="suggestion-chips">
+                      @for (suggestion of architectureGuidelines; track suggestion) {
+                        <mat-chip (click)="addToArray('architectureGuidelines', suggestion)">
+                          {{ suggestion }}
+                        </mat-chip>
+                      }
+                    </div>
+                  </div>
+                  
+                  <mat-divider></mat-divider>
+                  
+                  <div class="array-section">
+                    <h4>Your Architecture Guidelines:</h4>
+                    @for (control of architectureGuidelinesArray.controls; track $index) {
+                      <div class="array-item">
+                        <mat-form-field appearance="outline" class="flex-1">
+                          <input matInput [formControl]="$any(control)">
+                        </mat-form-field>
+                        <button mat-icon-button (click)="removeFromArray('architectureGuidelines', $index)" type="button">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </div>
+                    }
+                    <button mat-stroked-button (click)="addToArray('architectureGuidelines', '')" type="button">
+                      <mat-icon>add</mat-icon>
+                      Add Custom Guideline
+                    </button>
+                  </div>
+                </div>
+              </mat-tab>
+
+              <!-- Framework Rules Tab -->
+              <mat-tab label="Framework Rules">
+                <div class="tab-content">
+                  <div class="suggestions-section">
+                    <h4>Quick Add Suggestions:</h4>
+                    <div class="suggestion-chips">
+                      @for (suggestion of frameworkRulesSuggestions; track suggestion) {
+                        <mat-chip (click)="addToArray('frameworkRules', suggestion)">
+                          {{ suggestion }}
+                        </mat-chip>
+                      }
+                    </div>
+                  </div>
+                  
+                  <mat-divider></mat-divider>
+                  
+                  <div class="array-section">
+                    <h4>Your Framework Rules:</h4>
+                    @for (control of frameworkRules.controls; track $index) {
+                      <div class="array-item">
+                        <mat-form-field appearance="outline" class="flex-1">
+                          <input matInput [formControl]="$any(control)">
+                        </mat-form-field>
+                        <button mat-icon-button (click)="removeFromArray('frameworkRules', $index)" type="button">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </div>
+                    }
+                    <button mat-stroked-button (click)="addToArray('frameworkRules', '')" type="button">
+                      <mat-icon>add</mat-icon>
+                      Add Custom Rule
+                    </button>
+                  </div>
+                </div>
+              </mat-tab>
+
+              <!-- File Structure Tab -->
+              <mat-tab label="File Structure">
+                <div class="tab-content">
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>File Structure Guidelines</mat-label>
+                    <textarea matInput formControlName="fileStructure" 
+                      placeholder="Describe your preferred file and folder organization, naming conventions, etc..."
+                      rows="6"></textarea>
+                  </mat-form-field>
+                </div>
+              </mat-tab>
+
+              <!-- Testing Tab -->
+              <mat-tab label="Testing">
+                <div class="tab-content">
+                  <div class="suggestions-section">
+                    <h4>Quick Add Suggestions:</h4>
+                    <div class="suggestion-chips">
+                      @for (suggestion of testingPreferencesSuggestions; track suggestion) {
+                        <mat-chip (click)="addToArray('testingPreferences', suggestion)">
+                          {{ suggestion }}
+                        </mat-chip>
+                      }
+                    </div>
+                  </div>
+                  
+                  <mat-divider></mat-divider>
+                  
+                  <div class="array-section">
+                    <h4>Your Testing Preferences:</h4>
+                    @for (control of testingPreferences.controls; track $index) {
+                      <div class="array-item">
+                        <mat-form-field appearance="outline" class="flex-1">
+                          <input matInput [formControl]="$any(control)">
+                        </mat-form-field>
+                        <button mat-icon-button (click)="removeFromArray('testingPreferences', $index)" type="button">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </div>
+                    }
+                    <button mat-stroked-button (click)="addToArray('testingPreferences', '')" type="button">
+                      <mat-icon>add</mat-icon>
+                      Add Custom Preference
+                    </button>
+                  </div>
+                </div>
+              </mat-tab>
+
+              <!-- Custom Sections Tab -->
+              <mat-tab label="Custom Sections">
+                <div class="tab-content">
+                  <div class="custom-sections">
+                    @for (section of customSections.controls; track $index) {
+                      <mat-card class="custom-section-card">
+                        <mat-card-header>
+                          <mat-card-title>Custom Section {{ $index + 1 }}</mat-card-title>
+                          <button mat-icon-button (click)="removeCustomSection($index)" type="button">
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                        </mat-card-header>
+                        <mat-card-content>
+                          <div class="form-row">
+                            <mat-form-field appearance="outline" class="full-width">
+                              <mat-label>Section Title</mat-label>
+                              <input matInput [formControl]="$any(section.get('title')!)" placeholder="e.g., Deployment Guidelines">
+                            </mat-form-field>
+                          </div>
+                          <div class="form-row">
+                            <mat-form-field appearance="outline" class="full-width">
+                              <mat-label>Section Content</mat-label>
+                              <textarea matInput [formControl]="$any(section.get('content')!)" 
+                                placeholder="Content for this section..." rows="4"></textarea>
+                            </mat-form-field>
+                          </div>
+                        </mat-card-content>
+                      </mat-card>
+                    }
+                    
+                    <button mat-stroked-button (click)="addCustomSection()" type="button" class="add-section-btn">
+                      <mat-icon>add</mat-icon>
+                      Add Custom Section
+                    </button>
+                  </div>
+                </div>
+              </mat-tab>
+            </mat-tab-group>
+          </mat-card-content>
+          
+          <mat-card-actions>
+            <button mat-button matStepperPrevious>Previous</button>
+            <button mat-raised-button color="primary" matStepperNext (click)="generateTemplate()">
+              Generate & Preview
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </form>
+    </mat-step>
+
+    <!-- Step 3: Preview & Save -->
+    <mat-step label="Preview & Save">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Template Preview</mat-card-title>
+          <mat-card-subtitle>Review your generated copilot instructions template</mat-card-subtitle>
+        </mat-card-header>
+        
+        <mat-card-content>
+          @if (generatedContent) {
+            <div class="preview-section">
+              <div class="preview-header">
+                <h4>Generated Template:</h4>
+                <div class="preview-actions">
+                  <button mat-icon-button (click)="copyTemplate()" title="Copy to clipboard">
+                    <mat-icon>content_copy</mat-icon>
+                  </button>
+                  <button mat-icon-button (click)="downloadTemplate()" title="Download as .md">
+                    <mat-icon>download</mat-icon>
+                  </button>
+                </div>
+              </div>
+              
+              <div class="code-container">
+                <pre class="code-content">{{ generatedContent }}</pre>
+              </div>
+            </div>
+          } @else {
+            <div class="no-content">
+              <p>Click "Generate & Preview" in the previous step to see your template.</p>
+            </div>
+          }
+        </mat-card-content>
+        
+        <mat-card-actions>
+          <button mat-button matStepperPrevious>Previous</button>
+          <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!templateForm.valid || !generatedContent">
+            {{ isEditMode ? 'Update' : 'Create' }} Template
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>

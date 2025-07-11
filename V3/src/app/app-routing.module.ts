@@ -21,5 +21,26 @@ export const routes: Routes = [
     path: 'edit/:id', 
     loadComponent: () => import('./components/prompt-form/prompt-form.component').then(m => m.PromptFormComponent),
     title: 'Edit Prompt - Copilot Prompter'
+  },
+  // Template routes
+  { 
+    path: 'templates', 
+    loadComponent: () => import('./components/template-gallery/template-gallery.component').then(m => m.TemplateGalleryComponent),
+    title: 'Copilot Templates - Copilot Prompter'
+  },
+  { 
+    path: 'templates/create', 
+    loadComponent: () => import('./components/template-builder/template-builder.component').then(m => m.TemplateBuilderComponent),
+    title: 'Create Template - Copilot Prompter'
+  },
+  { 
+    path: 'templates/edit/:id', 
+    loadComponent: () => import('./components/template-builder/template-builder.component').then(m => m.TemplateBuilderComponent),
+    title: 'Edit Template - Copilot Prompter'
+  },
+  { 
+    path: 'templates/:id', 
+    loadComponent: () => import('./components/template-detail/template-detail.component').then(m => m.TemplateDetailComponent),
+    title: 'Template Details - Copilot Prompter'
   }
 ];

@@ -1,0 +1,165 @@
+@if (template && !isLoading) {
+  <div class="template-detail-container">
+    <div class="header-actions">
+      <button mat-stroked-button (click)="goBack()" class="back-button">
+        <mat-icon>arrow_back</mat-icon>
+        Back to Gallery
+      </button>
+      
+      <div class="action-buttons">
+        <button mat-raised-button color="primary" (click)="copyToClipboard()">
+          <mat-icon>content_copy</mat-icon>
+          Copy Template
+        </button>
+        <button mat-stroked-button (click)="downloadAsMarkdown()">
+          <mat-icon>download</mat-icon>
+          Download .md
+        </button>
+        <button mat-stroked-button (click)="createGitHubFile()">
+          <mat-icon>folder</mat-icon>
+          Create GitHub File
+        </button>
+        <button mat-button (click)="editTemplate()">
+          <mat-icon>edit</mat-icon>
+          Edit
+        </button>
+      </div>
+    </div>
+
+    <mat-card class="template-header-card">
+      <mat-card-header>
+        <div class="template-header-content">
+          <div class="template-title-section">
+            <mat-card-title>{{ template.name }}</mat-card-title>
+            <div class="popularity-badge">
+              <mat-icon>star</mat-icon>
+              <span>{{ template.popularity }}% popularity</span>
+            </div>
+          </div>
+          
+          <mat-card-subtitle class="template-subtitle">
+            <div class="meta-info">
+              <span><strong>Language:</strong> {{ template.language }}</span>
+              @if (template.framework) {
+                <span><strong>Framework:</strong> {{ template.framework }}</span>
+              }
+              <span><strong>Category:</strong> {{ template.category }}</span>
+              <span><strong>Author:</strong> {{ template.author }}</span>
+              <span><strong>Last Updated:</strong> {{ template.lastUpdated | date:'mediumDate' }}</span>
+            </div>
+          </mat-card-subtitle>
+        </div>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <p class="template-description">{{ template.description }}</p>
+        
+        <div class="tags-section">
+          <h4>Tags</h4>
+          <mat-chip-listbox aria-label="Template tags">
+            @for (tag of template.tags; track trackByTag($index, tag)) {
+              <mat-chip disabled color="accent">{{ tag }}</mat-chip>
+            }
+          </mat-chip-listbox>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="template-content-card">
+      <mat-card-header>
+        <mat-card-title>Template Content</mat-card-title>
+        <mat-card-subtitle>
+          Copy this content to your <code>.github/copilot-instructions.md</code> file
+        </mat-card-subtitle>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <mat-tab-group>
+          <mat-tab label="Preview">
+            <div class="preview-content">
+              <pre>{{ template.content }}</pre>
+            </div>
+          </mat-tab>
+          
+          <mat-tab label="Raw Markdown">
+            <div class="code-container">
+              <div class="code-header">
+                <span>copilot-instructions.md</span>
+                <button mat-icon-button (click)="copyToClipboard()" title="Copy to clipboard">
+                  <mat-icon>content_copy</mat-icon>
+                </button>
+              </div>
+              <pre class="code-content"><code>{{ template.content }}</code></pre>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card-content>
+      
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="copyToClipboard()">
+          <mat-icon>content_copy</mat-icon>
+          Copy Template
+        </button>
+        <button mat-stroked-button (click)="downloadAsMarkdown()">
+          <mat-icon>download</mat-icon>
+          Download as .md
+        </button>
+        <button mat-stroked-button (click)="createGitHubFile()">
+          <mat-icon>folder</mat-icon>
+          Create GitHub File
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="usage-instructions-card">
+      <mat-card-header>
+        <mat-card-title>How to Use This Template</mat-card-title>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <ol class="usage-steps">
+          <li>
+            <strong>Copy the template content</strong> using the "Copy Template" button above
+          </li>
+          <li>
+            <strong>Create the file</strong> <code>.github/copilot-instructions.md</code> in your repository root
+          </li>
+          <li>
+            <strong>Paste the content</strong> into the file
+          </li>
+          <li>
+            <strong>Customize</strong> the instructions to match your specific project needs
+          </li>
+          <li>
+            <strong>Commit and push</strong> the file to your repository
+          </li>
+          <li>
+            <strong>Start coding</strong> and GitHub Copilot will follow your custom instructions!
+          </li>
+        </ol>
+        
+        <div class="tip-box">
+          <mat-icon>lightbulb</mat-icon>
+          <div>
+            <strong>Pro Tip:</strong> Customize the template by adding project-specific rules, 
+            coding standards, and architectural guidelines that match your team's preferences.
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+} @else if (isLoading) {
+  <div class="spinner-container">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </div>
+} @else {
+  <div class="error-container">
+    <mat-icon>error_outline</mat-icon>
+    <h3>Template Not Found</h3>
+    <p>The requested template could not be loaded.</p>
+    <button mat-raised-button color="primary" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+      Back to Gallery
+    </button>
+  </div>
+}
