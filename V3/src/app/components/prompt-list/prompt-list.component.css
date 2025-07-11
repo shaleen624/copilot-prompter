@@ -1,0 +1,112 @@
+.filter-bar {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  background: white;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.filter-item {
+  flex: 1 1 200px;
+}
+
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+}
+
+.prompt-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.prompt-card {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.prompt-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+.prompt-card .description {
+    height: 60px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;  
+}
+
+mat-card-content {
+  flex-grow: 1;
+}
+
+.mat-mdc-chip-set {
+    margin-top: 12px;
+}
+
+.no-results {
+    text-align: center;
+    padding: 40px;
+    color: #757575;
+}
+
+.prompt-list-container {
+  padding: 16px;
+}
+
+.filters-container {
+  margin-bottom: 24px;
+}
+
+.search-field {
+  width: 100%;
+}
+
+.filter-row {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.filter-row mat-form-field {
+  flex: 1;
+}
+
+.prompts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  padding: 16px 0;
+}
+
+.prompt-card {
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.prompt-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+mat-card-content {
+  margin-top: 16px;
+}
+
+mat-chip-listbox {
+  margin-top: 16px;
+}
+
+mat-chip {
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
