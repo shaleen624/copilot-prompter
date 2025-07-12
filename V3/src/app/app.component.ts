@@ -35,6 +35,14 @@ export class AppComponent implements OnInit {
     return this.adminService.isAdmin;
   }
 
+  get isLoggedIn() {
+    return this.adminService.isLoggedIn;
+  }
+
+  get enableLogin() {
+    return this.adminService.enableLogin;
+  }
+
   ngOnInit(): void {
     // Log performance metrics after app initialization
     setTimeout(() => {
@@ -56,6 +64,11 @@ export class AppComponent implements OnInit {
     this.adminService.toggleAdminMode();
   }
 
+  logout(): void {
+    this.adminService.logout();
+    this.router.navigate(['/']);
+  }
+
   isPromptsActive(): boolean {
     const route = this.currentRoute();
     return route.includes('/prompts') || route === '/create' || route === '/' || route === '';
@@ -63,5 +76,10 @@ export class AppComponent implements OnInit {
 
   isTemplatesActive(): boolean {
     return this.currentRoute().includes('/templates');
+  }
+
+  isLandingOrLogin(): boolean {
+    const route = this.currentRoute();
+    return route === '/' || route === '/login';
   }
 }

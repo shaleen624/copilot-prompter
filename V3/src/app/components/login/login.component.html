@@ -1,0 +1,81 @@
+<div class="login-container">
+  <div class="login-header-main">
+    <h1 class="main-title">
+      <span class="gradient-text">Copilot Prompter</span>
+    </h1>
+    <p class="main-subtitle">Secure Access to Your AI Assistant Toolkit</p>
+  </div>
+  
+  <div class="login-card">
+    <div class="login-header">
+      <mat-icon class="login-icon">login</mat-icon>
+      <h2 class="login-title">Welcome Back</h2>
+      <p class="login-subtitle">Sign in to Copilot Prompter</p>
+    </div>
+
+    <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <div class="form-field">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Username</mat-label>
+          <input matInput 
+                 type="text" 
+                 formControlName="username" 
+                 placeholder="Enter your username"
+                 autocomplete="username">
+          <mat-icon matSuffix>person</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="form-field">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput 
+                 [type]="hidePassword ? 'password' : 'text'" 
+                 formControlName="password" 
+                 placeholder="Enter your password"
+                 autocomplete="current-password">
+          <mat-icon matSuffix 
+                    class="password-toggle" 
+                    (click)="togglePasswordVisibility()">
+            {{hidePassword ? 'visibility' : 'visibility_off'}}
+          </mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="error-message" *ngIf="errorMessage">
+        <mat-icon>error</mat-icon>
+        <span>{{ errorMessage }}</span>
+      </div>
+
+      <div class="login-actions">
+        <button mat-raised-button 
+                color="primary" 
+                type="submit" 
+                class="login-button"
+                [disabled]="!loginForm.valid || isLoading">
+          <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+          <mat-icon *ngIf="!isLoading">login</mat-icon>
+          <span *ngIf="!isLoading">Sign In</span>
+        </button>
+      </div>
+    </form>
+
+    <div class="demo-credentials">
+      <h3>Demo Credentials:</h3>
+      <div class="credential-info">
+        <p><strong>Admin:</strong> admin / admin</p>
+        <p><strong>User:</strong> user / user</p>
+      </div>
+    </div>
+
+    <div class="login-footer">
+      <button mat-button 
+              color="primary" 
+              class="back-button"
+              (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        Back to Home
+      </button>
+    </div>
+  </div>
+</div>

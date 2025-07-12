@@ -63,6 +63,13 @@
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
+  
+  // Full-screen pages without padding or max-width
+  &.full-screen {
+    padding: 0;
+    max-width: none;
+    margin: 0;
+  }
 }
 
 mat-toolbar {

@@ -1,7 +1,16 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/prompts', pathMatch: 'full' },
+  { 
+    path: '', 
+    loadComponent: () => import('./components/landing/landing.component').then(m => m.LandingComponent),
+    title: 'Copilot Prompter - Your AI Assistant Toolkit'
+  },
+  { 
+    path: 'login', 
+    loadComponent: () => import('./components/login/login.component').then(m => m.LoginComponent),
+    title: 'Login - Copilot Prompter'
+  },
   { 
     path: 'prompts', 
     loadComponent: () => import('./components/prompt-list/prompt-list.component').then(m => m.PromptListComponent),

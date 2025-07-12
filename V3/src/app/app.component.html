@@ -1,47 +1,66 @@
 
-<mat-toolbar color="primary">
-  <span class="brand brand-right" routerLink="/">
-    <span class="brand-title">Copilot Prompter</span>
-    <!-- <span class="brand-subtitle">by Shaleen Kumar</span> -->
-  </span>
-  
-  <div class="nav-links">
-    <button mat-button routerLink="/prompts" [class.active-nav]="isPromptsActive()">
-      <mat-icon>code</mat-icon>
-      Prompts
-    </button>
-    <button mat-button routerLink="/templates" [class.active-nav]="isTemplatesActive()">
-      <mat-icon>settings</mat-icon>
-      Templates
-    </button>
-  </div>
-  
-  <span class="toolbar-spacer"></span>
-  
-  <div class="action-buttons">
-    @if (isPromptsActive()) {
-      <button mat-raised-button color="accent" routerLink="/create">
-        <mat-icon>add</mat-icon>
-        New Prompt
-      </button>
-    } @else if (isTemplatesActive()) {
-      <button mat-raised-button color="accent" routerLink="/templates/create">
-        <mat-icon>build</mat-icon>
-        New Template
-      </button>
-    }
+@if (!isLandingOrLogin()) {
+  <mat-toolbar color="primary">
+    <span class="brand brand-right" routerLink="/">
+      <span class="brand-title">Copilot Prompter</span>
+      <!-- <span class="brand-subtitle">by Shaleen Kumar</span> -->
+    </span>
     
-    <div class="admin-toggle">
-      <span class="admin-label">Admin</span>
-      <mat-slide-toggle 
-        [checked]="isAdmin()" 
-        (change)="toggleAdminMode()"
-        color="accent">
-      </mat-slide-toggle>
-    </div>
-  </div>
-</mat-toolbar>
+    @if (!enableLogin() || isLoggedIn()) {
+      <div class="nav-links">
+        <button mat-button routerLink="/prompts" [class.active-nav]="isPromptsActive()">
+          <mat-icon>code</mat-icon>
+          Prompts
+        </button>
+        <button mat-button routerLink="/templates" [class.active-nav]="isTemplatesActive()">
+          <mat-icon>settings</mat-icon>
+          Templates
+        </button>
+      </div>
+      
+      <span class="toolbar-spacer"></span>
+      
+      <div class="action-buttons">
+        @if (isPromptsActive()) {
+          <button mat-raised-button color="accent" routerLink="/create">
+            <mat-icon>add</mat-icon>
+            New Prompt
+          </button>
+        } @else if (isTemplatesActive()) {
+          <button mat-raised-button color="accent" routerLink="/templates/create">
+            <mat-icon>build</mat-icon>
+            New Template
+          </button>
+        }
+        
+        <div class="admin-toggle">
+          <span class="admin-label">Admin</span>
+          <mat-slide-toggle 
+            [checked]="isAdmin()" 
+            (change)="toggleAdminMode()"
+            color="accent">
+          </mat-slide-toggle>
+        </div>
 
-<main class="main-content">
+        @if (enableLogin()) {
+          <button mat-button (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            Logout
+          </button>
+        }
+      </div>
+    } @else {
+      <span class="toolbar-spacer"></span>
+      <div class="action-buttons">
+        <button mat-raised-button color="accent" routerLink="/login">
+          <mat-icon>login</mat-icon>
+          Login
+        </button>
+      </div>
+    }
+  </mat-toolbar>
+}
+
+<main class="main-content" [class.full-screen]="isLandingOrLogin()">
   <router-outlet></router-outlet>
 </main>
