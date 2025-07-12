@@ -6,6 +6,7 @@ import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs';
 import { Prompt } from '../../models/prompt.model';
 import { PromptService } from '../../services/prompt.service';
+import { AdminService } from '../../services/admin.service';
 import { CodeEditorComponent } from '../code-editor';
 
 import { MatCardModule } from '@angular/material/card';
@@ -46,6 +47,7 @@ export class PromptDetailComponent implements OnInit {
   private location = inject(Location);
   private snackBar = inject(MatSnackBar);
   private cdr = inject(ChangeDetectorRef);
+  private adminService = inject(AdminService);
 
   prompt: Prompt | undefined;
   editedPrompt: string = '';
@@ -55,6 +57,10 @@ export class PromptDetailComponent implements OnInit {
 
   // Track by function for better performance
   trackByTag = (index: number, tag: string): string => tag;
+
+  get isAdmin() {
+    return this.adminService.isAdmin;
+  }
 
   ngOnInit(): void {
     this.getPrompt();
@@ -138,6 +144,21 @@ export class PromptDetailComponent implements OnInit {
 
   onContentChange(newContent: string): void {
     this.editedPrompt = newContent;
+  }
+
+  downloadAsText(): void {
+    if (this.prompt) {
+      const blob = new Blob([this.prompt.prompt], { type: 'text/plain' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${this.prompt.title.replace(/\s+/g, '-').toLowerCase()}-prompt.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+      this.snackBar.open('Prompt downloaded!', 'Close', { duration: 2000 });
+    }
   }
 
   editPrompt(id: string): void {

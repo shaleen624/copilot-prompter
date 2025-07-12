@@ -1,18 +1,130 @@
-.back-button {
-    margin-bottom: 24px;
+.prompt-detail-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
 }
 
-.spinner-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50vh;
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  gap: 16px;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.prompt-info-card {
+  margin-bottom: 24px;
+}
+
+/* Main content spacing */
+.mat-card-header {
+  margin-bottom: 16px;
+}
+
+.mat-card-content {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.mat-card-content h4 {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  color: #1976d2;
+  font-weight: 500;
+}
+
+.mat-card-content h4:first-of-type {
+  margin-top: 16px;
 }
 
 .description {
-    font-size: 1.1em;
-    line-height: 1.6;
-    color: #424242;
+  font-size: 1.1em;
+  line-height: 1.6;
+  color: #424242;
+  margin-bottom: 24px;
+}
+
+.tags-section {
+  margin-bottom: 24px;
+}
+
+.tags-section h4 {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.mat-chip-listbox {
+  margin-bottom: 0;
+}
+
+.prompt-text-section {
+  margin-bottom: 0;
+}
+
+.prompt-text-section h4 {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+/* Card actions spacing */
+mat-card-actions {
+  display: flex;
+  gap: 16px;
+  padding: 16px !important;
+}
+
+mat-card-actions button {
+  min-width: 120px;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .prompt-detail-container {
+    padding: 16px;
+  }
+  
+  .header-actions {
+    margin-bottom: 16px;
+  }
+  
+  .prompt-info-card {
+    margin-bottom: 16px;
+  }
+  
+  .description {
+    margin-bottom: 16px;
+  }
+  
+  .tags-section {
+    margin-bottom: 16px;
+  }
+  
+  mat-card-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  mat-card-actions button {
+    margin-bottom: 8px;
+    min-width: auto;
+  }
+  
+  mat-card-actions button:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .prompt-text-container {

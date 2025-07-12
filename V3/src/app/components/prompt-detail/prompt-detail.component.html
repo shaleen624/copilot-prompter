@@ -1,11 +1,14 @@
 
 @if (prompt && !isLoading) {
-  <div>
-    <button mat-stroked-button (click)="goBack()" class="back-button">
-      <mat-icon>arrow_back</mat-icon>
-      Back to List
-    </button>
-    <mat-card>
+  <div class="prompt-detail-container">
+    <div class="header-actions">
+      <button mat-stroked-button (click)="goBack()" class="back-button">
+        <mat-icon>arrow_back</mat-icon>
+        Back to List
+      </button>
+    </div>
+    
+    <mat-card class="prompt-info-card">
       <mat-card-header>
         <mat-card-title>{{ prompt.title }}</mat-card-title>
         <mat-card-subtitle>
@@ -14,45 +17,55 @@
       </mat-card-header>
       <mat-card-content>
         <p class="description">{{ prompt.description }}</p>
-        <h4>Tags</h4>
-        <mat-chip-listbox aria-label="Prompt tags">
-          @for (tag of prompt.tags; track trackByTag($index, tag)) {
-            <mat-chip disabled color="accent">{{ tag }}</mat-chip>
-          }
-        </mat-chip-listbox>
-        <h4>Prompt Text</h4>
-        <app-code-editor
-          [content]="prompt.prompt"
-          [fileName]="prompt.title + '.txt'"
-          [language]="'text'"
-          [showEditButton]="true"
-          [showCopyButton]="true"
-          [placeholder]="'Enter your prompt text here...'"
-          [minRows]="8"
-          [maxRows]="20"
-          [isEditMode]="isEditMode"
-          (contentChange)="onContentChange($event)"
-          (editStart)="toggleEditMode()"
-          (editSave)="applyInlineChanges()"
-          (editCancel)="toggleEditMode()"
-          (copyToClipboard)="copyToClipboard()">
-        </app-code-editor>
+        
+        <div class="tags-section">
+          <h4>Tags</h4>
+          <mat-chip-listbox aria-label="Prompt tags">
+            @for (tag of prompt.tags; track trackByTag($index, tag)) {
+              <mat-chip disabled color="accent">{{ tag }}</mat-chip>
+            }
+          </mat-chip-listbox>
+        </div>
+        
+        <div class="prompt-text-section">
+          <h4>Prompt Text</h4>
+          <app-code-editor
+            [content]="prompt.prompt"
+            [fileName]="prompt.title + '.txt'"
+            [language]="'text'"
+            [showEditButton]="true"
+            [showCopyButton]="true"
+            [placeholder]="'Enter your prompt text here...'"
+            [minRows]="8"
+            [maxRows]="20"
+            [isEditMode]="isEditMode"
+            (contentChange)="onContentChange($event)"
+            (editStart)="toggleEditMode()"
+            (editSave)="applyInlineChanges()"
+            (editCancel)="toggleEditMode()"
+            (copyToClipboard)="copyToClipboard()">
+          </app-code-editor>
+        </div>
       </mat-card-content>
-      <mat-card-actions align="end">
-        <!-- Display mode buttons -->
-        @if (!isEditMode) {
-          <div class="display-buttons">
-            <button mat-button (click)="editPrompt(prompt.id)">
+      
+      @if (!isEditMode) {
+        <mat-card-actions>
+          <button mat-raised-button color="primary" (click)="copyToClipboard()">
+            <mat-icon>content_copy</mat-icon>
+            Copy Prompt
+          </button>
+          <button mat-stroked-button (click)="downloadAsText()">
+            <mat-icon>download</mat-icon>
+            Download as .txt
+          </button>
+          @if (isAdmin()) {
+            <button mat-stroked-button (click)="editPrompt(prompt.id)">
               <mat-icon>edit</mat-icon>
               Edit Full
             </button>
-            <button mat-flat-button color="primary" (click)="copyToClipboard()">
-              <mat-icon>content_copy</mat-icon>
-              Copy Prompt
-            </button>
-          </div>
-        }
-      </mat-card-actions>
+          }
+        </mat-card-actions>
+      }
     </mat-card>
   </div>
 } @else {
