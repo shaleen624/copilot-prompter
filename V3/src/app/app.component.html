@@ -6,11 +6,11 @@
   </span>
   
   <div class="nav-links">
-    <button mat-button routerLink="/prompts" routerLinkActive="active-link">
+    <button mat-button routerLink="/prompts" [class.active-nav]="isPromptsActive()">
       <mat-icon>code</mat-icon>
       Prompts
     </button>
-    <button mat-button routerLink="/templates" routerLinkActive="active-link">
+    <button mat-button routerLink="/templates" [class.active-nav]="isTemplatesActive()">
       <mat-icon>settings</mat-icon>
       Templates
     </button>
@@ -19,14 +19,26 @@
   <span class="toolbar-spacer"></span>
   
   <div class="action-buttons">
-    <button mat-raised-button color="accent" routerLink="/create">
-      <mat-icon>add</mat-icon>
-      New Prompt
-    </button>
-    <button mat-stroked-button routerLink="/templates/create" class="template-btn">
-      <mat-icon>build</mat-icon>
-      New Template
-    </button>
+    @if (isPromptsActive()) {
+      <button mat-raised-button color="accent" routerLink="/create">
+        <mat-icon>add</mat-icon>
+        New Prompt
+      </button>
+    } @else if (isTemplatesActive()) {
+      <button mat-raised-button color="accent" routerLink="/templates/create">
+        <mat-icon>build</mat-icon>
+        New Template
+      </button>
+    }
+    
+    <div class="admin-toggle">
+      <span class="admin-label">Admin</span>
+      <mat-slide-toggle 
+        [checked]="isAdmin()" 
+        (change)="toggleAdminMode()"
+        color="accent">
+      </mat-slide-toggle>
+    </div>
   </div>
 </mat-toolbar>
 

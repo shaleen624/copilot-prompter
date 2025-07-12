@@ -20,10 +20,12 @@
           <mat-icon>folder</mat-icon>
           Create GitHub File
         </button> -->
-        <button mat-button (click)="editTemplate()">
-          <mat-icon>edit</mat-icon>
-          Edit
-        </button>
+        @if (isAdmin()) {
+          <button mat-button (click)="editTemplate()">
+            <mat-icon>edit</mat-icon>
+            Edit
+          </button>
+        }
       </div>
     </div>
 

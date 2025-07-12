@@ -2,6 +2,7 @@
   align-items: flex-end;
   text-align: right;
 }
+
 // Brand styles for toolbar title and subtitle
 .brand {
   display: flex;
@@ -19,8 +20,45 @@
   color: #e0e0e0;
   line-height: 1.1;
 }
+
+.nav-links {
+  display: flex;
+  gap: 8px;
+  margin-left: 32px;
+}
+
+.nav-links button {
+  margin: 0;
+}
+
+.active-nav {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: #fff !important;
+}
+
 .toolbar-spacer {
   flex: 1 1 auto;
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.admin-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.admin-label {
+  font-size: 0.875rem;
+  color: #e0e0e0;
+  font-weight: 500;
 }
 
 .main-content {
@@ -35,6 +73,18 @@ mat-toolbar {
   z-index: 1000;
 }
 
-button {
-  margin-left: 8px;
+// Responsive design
+@media (max-width: 768px) {
+  .nav-links {
+    margin-left: 16px;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .admin-toggle {
+    order: -1;
+  }
 }

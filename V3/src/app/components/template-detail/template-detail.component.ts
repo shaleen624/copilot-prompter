@@ -5,6 +5,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CopilotTemplate } from '../../models/copilot-template.model';
 import { CopilotTemplateService } from '../../services/copilot-template.service';
+import { AdminService } from '../../services/admin.service';
 import { MarkdownComponent } from 'ngx-markdown';
 
 import { MatCardModule } from '@angular/material/card';
@@ -43,9 +44,14 @@ export class TemplateDetailComponent implements OnInit {
   private location = inject(Location);
   private snackBar = inject(MatSnackBar);
   private cdr = inject(ChangeDetectorRef);
+  private adminService = inject(AdminService);
 
   template: CopilotTemplate | undefined;
   isLoading: boolean = false;
+
+  get isAdmin() {
+    return this.adminService.isAdmin;
+  }
 
   // Track by function for better performance
   trackByTag = (index: number, tag: string): string => tag;

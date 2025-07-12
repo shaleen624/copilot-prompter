@@ -145,11 +145,11 @@ export class PromptFormComponent implements OnInit {
   showJsonDialog(prompt: Prompt): void {
     const dialogRef = this.dialog.open(JsonSubmissionDialogComponent, {
       width: '600px',
-      data: { prompt }
+      data: { jsonData: prompt }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
+      if (result?.proceed) {
         this.router.navigate(['/prompts']);
       }
     });

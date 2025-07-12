@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { Prompt } from '../../models/prompt.model';
+import { CopilotTemplate } from '../../models/copilot-template.model';
 
 @Component({
   selector: 'app-json-submission-dialog',
@@ -27,10 +28,10 @@ export class JsonSubmissionDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<JsonSubmissionDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { prompt: Prompt },
+    @Inject(MAT_DIALOG_DATA) public data: { jsonData: Prompt | CopilotTemplate },
     private snackBar: MatSnackBar
   ) {
-    this.jsonString = JSON.stringify(data.prompt, null, 2);
+    this.jsonString = JSON.stringify(data.jsonData, null, 2);
   }
 
   onCancel(): void {
@@ -48,6 +49,6 @@ export class JsonSubmissionDialogComponent {
   onSubmit(): void {
     // Open SharePoint link
     window.open('https://sharepoint.company.com/prompts', '_blank');
-    this.dialogRef.close(true);
+    this.dialogRef.close({ proceed: true });
   }
 }

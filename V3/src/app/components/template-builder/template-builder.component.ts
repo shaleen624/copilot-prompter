@@ -4,9 +4,11 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray, For
 import { ActivatedRoute, Router } from '@angular/router';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { MatDialog } from '@angular/material/dialog';
 
 import { CopilotTemplate, CopilotTemplateSection, COPILOT_TEMPLATE_CATEGORIES, COPILOT_TEMPLATE_LANGUAGES, COPILOT_TEMPLATE_FRAMEWORKS } from '../../models/copilot-template.model';
 import { CopilotTemplateService } from '../../services/copilot-template.service';
+import { JsonSubmissionDialogComponent } from '../json-submission-dialog/json-submission-dialog.component';
 
 // Material Imports
 import { MatButtonModule } from '@angular/material/button';
@@ -20,6 +22,7 @@ import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-template-builder',
@@ -36,7 +39,8 @@ import { MatDividerModule } from '@angular/material/divider';
     MatSnackBarModule,
     MatStepperModule,
     MatTabsModule,
-    MatDividerModule
+    MatDividerModule,
+    MatDialogModule
   ],
   standalone: true,
   templateUrl: './template-builder.component.html',
@@ -49,6 +53,7 @@ export class TemplateBuilderComponent implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private snackBar = inject(MatSnackBar);
+  private dialog = inject(MatDialog);
 
   templateForm: FormGroup;
   builderForm: FormGroup;
@@ -348,27 +353,43 @@ export class TemplateBuilderComponent implements OnInit {
         id: this.isEditMode ? this.route.snapshot.paramMap.get('id')! : crypto.randomUUID()
       };
 
-      if (this.isEditMode) {
-        this.templateService.updateTemplate(template).subscribe({
-          next: () => {
-            this.snackBar.open('Template updated successfully', 'Close', { duration: 3000 });
-            this.router.navigate(['/templates']);
-          },
-          error: () => {
-            this.snackBar.open('Error updating template', 'Close', { duration: 3000 });
-          }
-        });
-      } else {
-        this.templateService.addTemplate(template).subscribe({
-          next: () => {
-            this.snackBar.open('Template created successfully', 'Close', { duration: 3000 });
-            this.router.navigate(['/templates']);
-          },
-          error: () => {
-            this.snackBar.open('Error creating template', 'Close', { duration: 3000 });
-          }
-        });
-      }
+      // Open the JSON submission dialog
+      const dialogRef = this.dialog.open(JsonSubmissionDialogComponent, {
+        width: '80%',
+        maxWidth: '800px',
+        data: { jsonData: template }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result?.proceed) {
+          // User confirmed, proceed with the submission
+          this.submitTemplate(template);
+        }
+      });
+    }
+  }
+
+  private submitTemplate(template: CopilotTemplate): void {
+    if (this.isEditMode) {
+      this.templateService.updateTemplate(template).subscribe({
+        next: () => {
+          this.snackBar.open('Template updated successfully', 'Close', { duration: 3000 });
+          this.router.navigate(['/templates']);
+        },
+        error: () => {
+          this.snackBar.open('Error updating template', 'Close', { duration: 3000 });
+        }
+      });
+    } else {
+      this.templateService.addTemplate(template).subscribe({
+        next: () => {
+          this.snackBar.open('Template created successfully', 'Close', { duration: 3000 });
+          this.router.navigate(['/templates']);
+        },
+        error: () => {
+          this.snackBar.open('Error creating template', 'Close', { duration: 3000 });
+        }
+      });
     }
   }
 
