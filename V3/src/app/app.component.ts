@@ -57,7 +57,8 @@ export class AppComponent implements OnInit {
   }
 
   isPromptsActive(): boolean {
-    return this.currentRoute().includes('/prompts') || this.currentRoute() === '/create';
+    const route = this.currentRoute();
+    return route.includes('/prompts') || route === '/create' || route === '/' || route === '';
   }
 
   isTemplatesActive(): boolean {

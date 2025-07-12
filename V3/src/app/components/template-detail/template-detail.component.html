@@ -81,12 +81,22 @@
         <mat-card-subtitle>
           Copy this content to your <code>.github/copilot-instructions.md</code> file
         </mat-card-subtitle>
+        <div class="card-header-actions">
+          <button mat-icon-button (click)="startInlineEdit()" title="Edit inline">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
       </mat-card-header>
       
       <mat-card-content>
-        <mat-tab-group>
+        <mat-tab-group [selectedIndex]="selectedTabIndex()" (selectedIndexChange)="selectedTabIndex.set($event)">
           <mat-tab label="Preview">
             <div class="preview-content markdown-preview">
+              <div class="tab-header-actions">
+                <button mat-icon-button (click)="startInlineEdit()" title="Edit inline">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </div>
               <markdown [data]="template.content"></markdown>
             </div>
           </mat-tab>
@@ -95,31 +105,66 @@
             <div class="code-container">
               <div class="code-header">
                 <span>copilot-instructions.md</span>
-                <button mat-icon-button (click)="copyToClipboard()" title="Copy to clipboard">
-                  <mat-icon>content_copy</mat-icon>
-                </button>
+                <div class="code-header-actions">
+                  @if (!isEditMode()) {
+                    <button mat-icon-button (click)="startInlineEdit()" title="Edit inline">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                  }
+                  <button mat-icon-button (click)="copyToClipboard()" title="Copy to clipboard">
+                    <mat-icon>content_copy</mat-icon>
+                  </button>
+                </div>
               </div>
-              <pre class="code-content language-markdown"><code>{{ template.content }}</code></pre>
+              @if (isEditMode()) {
+                <div class="edit-container">
+                  <mat-form-field appearance="outline" class="full-width">
+                    <textarea 
+                      matInput 
+                      [(ngModel)]="editableContent"
+                      placeholder="Edit template content..."
+                      class="edit-textarea"
+                      cdkTextareaAutosize
+                      cdkAutosizeMinRows="10"
+                      cdkAutosizeMaxRows="25">
+                    </textarea>
+                  </mat-form-field>
+                  <div class="edit-actions">
+                    <button mat-button (click)="cancelInlineEdit()">
+                      <mat-icon>cancel</mat-icon>
+                      Cancel
+                    </button>
+                    <button mat-button color="primary" (click)="saveInlineEdit()">
+                      <mat-icon>save</mat-icon>
+                      Apply Changes
+                    </button>
+                  </div>
+                </div>
+              } @else {
+                <pre class="code-content language-markdown"><code>{{ template.content }}</code></pre>
+              }
             </div>
           </mat-tab>
         </mat-tab-group>
       </mat-card-content>
       
-      <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="copyToClipboard()">
-          <mat-icon>content_copy</mat-icon>
-          Copy Template
-        </button>
-        <button mat-stroked-button (click)="downloadAsMarkdown()">
-          <mat-icon>download</mat-icon>
-          Download as .md
-        </button>
-        <!-- Hidden for now - will enable later -->
-        <!-- <button mat-stroked-button (click)="createGitHubFile()">
-          <mat-icon>folder</mat-icon>
-          Create GitHub File
-        </button> -->
-      </mat-card-actions>
+      @if (!isEditMode()) {
+        <mat-card-actions>
+          <button mat-raised-button color="primary" (click)="copyToClipboard()">
+            <mat-icon>content_copy</mat-icon>
+            Copy Template
+          </button>
+          <button mat-stroked-button (click)="downloadAsMarkdown()">
+            <mat-icon>download</mat-icon>
+            Download as .md
+          </button>
+          <!-- Hidden for now - will enable later -->
+          <!-- <button mat-stroked-button (click)="createGitHubFile()">
+            <mat-icon>folder</mat-icon>
+            Create GitHub File
+          </button> -->
+        </mat-card-actions>
+      }
     </mat-card>
 
     <mat-card class="usage-instructions-card">

@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject, ChangeDetectorRef, signal } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -15,6 +15,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { TextFieldModule } from '@angular/cdk/text-field';
 
 @Component({
   selector: 'app-template-detail',
@@ -29,6 +32,9 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatSnackBarModule,
     MatProgressSpinnerModule,
     MatTabsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    TextFieldModule,
     DatePipe,
     MarkdownComponent
   ],
@@ -48,6 +54,9 @@ export class TemplateDetailComponent implements OnInit {
 
   template: CopilotTemplate | undefined;
   isLoading: boolean = false;
+  isEditMode = signal(false);
+  editableContent = signal('');
+  selectedTabIndex = signal(0);
 
   get isAdmin() {
     return this.adminService.isAdmin;
@@ -121,6 +130,30 @@ export class TemplateDetailComponent implements OnInit {
   editTemplate(): void {
     if (this.template) {
       this.router.navigate(['/templates/edit', this.template.id]);
+    }
+  }
+
+  startInlineEdit(): void {
+    if (this.template) {
+      this.editableContent.set(this.template.content);
+      this.isEditMode.set(true);
+      this.selectedTabIndex.set(1); // Switch to Raw Markdown tab
+      this.cdr.markForCheck();
+    }
+  }
+
+  cancelInlineEdit(): void {
+    this.isEditMode.set(false);
+    this.editableContent.set('');
+    this.cdr.markForCheck();
+  }
+
+  saveInlineEdit(): void {
+    if (this.template && this.editableContent()) {
+      this.template.content = this.editableContent();
+      this.isEditMode.set(false);
+      this.snackBar.open('Content updated (local changes only)', 'Close', { duration: 3000 });
+      this.cdr.markForCheck();
     }
   }
 
