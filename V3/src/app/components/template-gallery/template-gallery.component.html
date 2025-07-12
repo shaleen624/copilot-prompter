@@ -89,10 +89,12 @@
           <mat-card-header>
             <div class="template-header">
               <mat-card-title>{{ template.name }}</mat-card-title>
+              @if (isAdmin()) {
               <div class="popularity-badge">
                 <mat-icon>star</mat-icon>
                 <span>{{ template.popularity }}%</span>
               </div>
+            }
             </div>
           </mat-card-header>
           
@@ -108,7 +110,7 @@
             </mat-card-subtitle>
             
             <p class="template-description">{{ template.description }}</p>
-            
+            @if (isAdmin()) {
             <div class="template-meta">
               <span class="last-updated">
                 <mat-icon>update</mat-icon>
@@ -119,6 +121,7 @@
                 {{ template.author }}
               </span>
             </div>
+          }
 
             <mat-chip-listbox aria-label="Template tags" class="template-tags">
               @for (tag of template.tags; track trackByTag($index, tag)) {

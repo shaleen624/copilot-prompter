@@ -16,6 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
+import { AdminService } from 'src/app/services/admin.service';
 
 @Component({
   selector: 'app-template-gallery',
@@ -34,6 +35,7 @@ export class TemplateGalleryComponent implements OnInit {
   private router = inject(Router);
   private templateService = inject(CopilotTemplateService);
   private snackBar = inject(MatSnackBar);
+  private adminService = inject(AdminService);
   
   templates$ = new BehaviorSubject<CopilotTemplate[]>([]);
   searchControl = new FormControl('');
@@ -83,7 +85,10 @@ export class TemplateGalleryComponent implements OnInit {
   // Track by function for better performance
   trackByTemplateId = (index: number, template: CopilotTemplate): string => template.id;
   trackByTag = (index: number, tag: string): string => tag;
-
+  
+  get isAdmin() {
+    return this.adminService.isAdmin;
+  }
   ngOnInit(): void {
     this.getTemplates();
   }
