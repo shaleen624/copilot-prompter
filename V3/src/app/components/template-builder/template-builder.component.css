@@ -1,7 +1,21 @@
 .template-builder-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 24px;
+  padding: 24px 48px;
+  background: linear-gradient(135deg, #f7fafc 0%, #e2e8f0 50%, #ffffff 100%);
+  min-height: 100vh;
+}
+
+@media (max-width: 1200px) {
+  .template-builder-container {
+    padding: 24px 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .template-builder-container {
+    padding: 24px 16px;
+  }
 }
 
 .header-section {
