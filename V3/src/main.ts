@@ -6,6 +6,7 @@ import { provideZonelessChangeDetection } from '@angular/core';
 import { importProvidersFrom } from '@angular/core';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MarkdownModule } from 'ngx-markdown';
 
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app-routing.module';
@@ -31,12 +32,13 @@ bootstrapApplication(AppComponent, {
     // Animations with reduced motion support
     provideAnimations(),
     
-    // Import legacy modules for in-memory API
+    // Import legacy modules for in-memory API and markdown
     importProvidersFrom(
       FormsModule,
       ReactiveFormsModule,
       // In-memory Web API for both prompts and templates
-      HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, { dataEncapsulation: false })
+      HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, { dataEncapsulation: false }),
+      MarkdownModule.forRoot()
     )
   ]
 }).catch(err => console.error(err));

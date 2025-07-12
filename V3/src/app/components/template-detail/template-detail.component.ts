@@ -5,6 +5,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CopilotTemplate } from '../../models/copilot-template.model';
 import { CopilotTemplateService } from '../../services/copilot-template.service';
+import { MarkdownComponent } from 'ngx-markdown';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -27,7 +28,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatSnackBarModule,
     MatProgressSpinnerModule,
     MatTabsModule,
-    DatePipe
+    DatePipe,
+    MarkdownComponent
   ],
   templateUrl: './template-detail.component.html',
   styleUrls: ['./template-detail.component.css'],

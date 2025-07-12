@@ -76,8 +76,8 @@
       <mat-card-content>
         <mat-tab-group>
           <mat-tab label="Preview">
-            <div class="preview-content">
-              <pre>{{ template.content }}</pre>
+            <div class="preview-content markdown-preview">
+              <markdown [data]="template.content"></markdown>
             </div>
           </mat-tab>
           
@@ -89,7 +89,7 @@
                   <mat-icon>content_copy</mat-icon>
                 </button>
               </div>
-              <pre class="code-content"><code>{{ template.content }}</code></pre>
+              <pre class="code-content language-markdown"><code>{{ template.content }}</code></pre>
             </div>
           </mat-tab>
         </mat-tab-group>
