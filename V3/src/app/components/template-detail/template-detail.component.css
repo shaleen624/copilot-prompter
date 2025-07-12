@@ -261,12 +261,14 @@ mat-card-actions button {
   box-sizing: border-box;
   transition: border-color 0.3s ease;
   margin: 0;
+  caret-color: #ffffff;
 }
 
 .edit-textarea:focus {
   border-color: #4caf50;
   outline: none;
   box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+  caret-color: #ffffff !important;
 }
 
 .full-width .mat-mdc-form-field {
@@ -329,7 +331,7 @@ mat-card-actions button {
   background: #282c34;
   color: #abb2bf;
   font-family: 'Courier New', Courier, monospace;
-  font-size: 0.875rem;
+  font-size: 14px;
   line-height: 1.5;
   overflow-x: auto;
   white-space: pre-wrap;
@@ -575,7 +577,7 @@ mat-card-actions button {
   }
   
   .code-content {
-    font-size: 0.75rem;
+    font-size: 13px;
   }
   
   .usage-steps li {

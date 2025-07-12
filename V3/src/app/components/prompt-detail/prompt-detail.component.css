@@ -34,6 +34,8 @@
     white-space: pre-wrap;
     word-wrap: break-word;
     font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    line-height: 1.5;
     margin: 0;
     width: 100%;
     box-sizing: border-box;
@@ -187,12 +189,14 @@
     transition: border-color 0.3s ease;
     margin: 0;
     width: 100%;
+    caret-color: #ffffff;
 }
 
 .dark-textarea:focus {
     border-color: #4caf50 !important;
     outline: none;
     box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+    caret-color: #ffffff;
 }
 
 .full-width .mat-mdc-form-field-input-control {
