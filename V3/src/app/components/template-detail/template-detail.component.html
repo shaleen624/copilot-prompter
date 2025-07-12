@@ -15,10 +15,11 @@
           <mat-icon>download</mat-icon>
           Download .md
         </button>
-        <button mat-stroked-button (click)="createGitHubFile()">
+        <!-- Hidden for now - will enable later -->
+        <!-- <button mat-stroked-button (click)="createGitHubFile()">
           <mat-icon>folder</mat-icon>
           Create GitHub File
-        </button>
+        </button> -->
         <button mat-button (click)="editTemplate()">
           <mat-icon>edit</mat-icon>
           Edit
@@ -39,13 +40,20 @@
           
           <mat-card-subtitle class="template-subtitle">
             <div class="meta-info">
-              <span><strong>Language:</strong> {{ template.language }}</span>
-              @if (template.framework) {
-                <span><strong>Framework:</strong> {{ template.framework }}</span>
-              }
-              <span><strong>Category:</strong> {{ template.category }}</span>
-              <span><strong>Author:</strong> {{ template.author }}</span>
-              <span><strong>Last Updated:</strong> {{ template.lastUpdated | date:'mediumDate' }}</span>
+              <div class="meta-left">
+                <span>{{ template.language }}</span>
+                @if (template.framework) {
+                  <span class="meta-separator">|</span>
+                  <span>{{ template.framework }}</span>
+                }
+                <span class="meta-separator">|</span>
+                <span>{{ template.category }}</span>
+                <span class="meta-separator">|</span>
+                <span>{{ template.author }}</span>
+              </div>
+              <div class="meta-right">
+                <span>{{ template.lastUpdated | date:'mediumDate' }}</span>
+              </div>
             </div>
           </mat-card-subtitle>
         </div>
@@ -104,10 +112,11 @@
           <mat-icon>download</mat-icon>
           Download as .md
         </button>
-        <button mat-stroked-button (click)="createGitHubFile()">
+        <!-- Hidden for now - will enable later -->
+        <!-- <button mat-stroked-button (click)="createGitHubFile()">
           <mat-icon>folder</mat-icon>
           Create GitHub File
-        </button>
+        </button> -->
       </mat-card-actions>
     </mat-card>
 

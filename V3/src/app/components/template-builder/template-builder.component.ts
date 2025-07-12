@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
@@ -23,6 +24,7 @@ import { MatDividerModule } from '@angular/material/divider';
 @Component({
   selector: 'app-template-builder',
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     MatButtonModule,
     MatCardModule,
@@ -164,6 +166,7 @@ export class TemplateBuilderComponent implements OnInit {
 
   loadTemplate(id: string): void {
     this.templateService.getTemplate(id).subscribe(template => {
+      // Populate basic form
       this.templateForm.patchValue({
         name: template.name,
         description: template.description,
@@ -172,15 +175,107 @@ export class TemplateBuilderComponent implements OnInit {
         framework: template.framework,
         author: template.author
       });
+      
       this.tags = [...template.tags];
       this.generatedContent = template.content;
+      
+      // Parse content and populate form arrays
+      this.parseAndPopulateFormArrays(template.content);
+    });
+  }
+
+  private parseAndPopulateFormArrays(content: string): void {
+    // Clear existing arrays
+    this.codingStandards.clear();
+    this.architectureGuidelinesArray.clear();
+    this.frameworkRules.clear();
+    this.testingPreferences.clear();
+    this.customSections.clear();
+
+    // Parse the markdown content
+    const lines = content.split('\n');
+    let currentSection = '';
+    let currentSectionContent = '';
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      
+      // Check for section headers
+      if (line.startsWith('## ')) {
+        // Process previous section
+        if (currentSection) {
+          this.processParsedSection(currentSection, currentSectionContent);
+        }
+        
+        currentSection = line.replace('## ', '').trim();
+        currentSectionContent = '';
+      } else if (line.startsWith('# ')) {
+        // Skip main title
+        continue;
+      } else {
+        currentSectionContent += line + '\n';
+      }
+    }
+    
+    // Process the last section
+    if (currentSection) {
+      this.processParsedSection(currentSection, currentSectionContent);
+    }
+  }
+
+  private processParsedSection(sectionTitle: string, content: string): void {
+    const normalizedTitle = sectionTitle.toLowerCase();
+    
+    if (normalizedTitle.includes('project context')) {
+      this.builderForm.patchValue({ projectContext: content.trim() });
+    } else if (normalizedTitle.includes('coding standards')) {
+      this.parseListItems(content, 'codingStandards');
+    } else if (normalizedTitle.includes('architecture')) {
+      this.parseListItems(content, 'architectureGuidelines');
+    } else if (normalizedTitle.includes('framework')) {
+      this.parseListItems(content, 'frameworkRules');
+    } else if (normalizedTitle.includes('file structure')) {
+      this.builderForm.patchValue({ fileStructure: content.trim() });
+    } else if (normalizedTitle.includes('testing')) {
+      this.parseListItems(content, 'testingPreferences');
+    } else {
+      // Custom section
+      const customSection = this.fb.group({
+        title: [sectionTitle],
+        content: [content.trim()],
+        order: [this.customSections.length]
+      });
+      this.customSections.push(customSection);
+    }
+  }
+
+  private parseListItems(content: string, arrayName: string): void {
+    const lines = content.split('\n');
+    const array = this.builderForm.get(arrayName) as FormArray;
+    
+    lines.forEach(line => {
+      const trimmed = line.trim();
+      if (trimmed.startsWith('- ')) {
+        const item = trimmed.substring(2).trim();
+        if (item) {
+          array.push(new FormControl(item));
+        }
+      }
     });
   }
 
   addToArray(arrayName: string, value: string): void {
-    if (value.trim()) {
-      const array = this.builderForm.get(arrayName) as FormArray;
-      array.push(new FormControl(value.trim()));
+    const array = this.builderForm.get(arrayName) as FormArray;
+    
+    if (value && value.trim()) {
+      // Check if the value already exists to avoid duplicates
+      const exists = array.controls.some(control => control.value === value.trim());
+      if (!exists) {
+        array.push(new FormControl(value.trim()));
+      }
+    } else {
+      // If no value provided, add empty control for manual entry
+      array.push(new FormControl(''));
     }
   }
 

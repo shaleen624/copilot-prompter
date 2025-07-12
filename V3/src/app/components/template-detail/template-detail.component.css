@@ -20,8 +20,23 @@
 
 .action-buttons {
   display: flex;
-  gap: 12px;
+  gap: 16px;
   flex-wrap: wrap;
+}
+
+.action-buttons button {
+  min-width: 120px;
+}
+
+/* Card actions spacing */
+mat-card-actions {
+  display: flex;
+  gap: 16px;
+  padding: 16px !important;
+}
+
+mat-card-actions button {
+  min-width: 120px;
 }
 
 .template-header-card {
@@ -70,15 +85,36 @@
 }
 
 .meta-info {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-top: 8px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.meta-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.meta-right {
+  color: #757575;
+  font-size: 0.875rem;
+  font-style: italic;
 }
 
 .meta-info span {
   color: #666;
   font-size: 0.875rem;
+}
+
+.meta-separator {
+  color: #ccc !important;
+  font-weight: 300;
+  margin: 0 4px;
 }
 
 .template-description {
@@ -355,6 +391,16 @@
   .meta-info {
     grid-template-columns: 1fr;
     gap: 8px;
+  }
+  
+  .meta-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .meta-right {
+    align-self: flex-end;
   }
   
   .code-content {
