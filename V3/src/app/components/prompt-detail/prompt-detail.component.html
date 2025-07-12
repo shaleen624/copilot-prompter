@@ -34,8 +34,7 @@
           <!-- Edit mode -->
           @if (isEditMode) {
             <div class="edit-mode">
-              <mat-form-field class="full-width">
-                <mat-label>Edit Prompt</mat-label>
+              <mat-form-field appearance="outline" class="full-width">
                 <textarea
                   matInput
                   [(ngModel)]="editedPrompt"

@@ -73,7 +73,7 @@
 .edit-mode {
     margin-top: 8px;
     padding: 0;
-    background-color: #f8f9fa;
+    background-color: #2d3748;
     border: 2px solid #4caf50;
     border-radius: 8px;
     position: relative;
@@ -101,14 +101,14 @@
     position: absolute;
     top: 8px;
     left: 140px;
-    background: rgba(76, 175, 80, 0.1);
-    color: #2e7d32;
+    background: rgba(76, 175, 80, 0.2);
+    color: #81c784;
     padding: 4px 12px;
     border-radius: 4px;
     font-size: 11px;
     font-style: italic;
     z-index: 2;
-    border: 1px solid rgba(76, 175, 80, 0.3);
+    border: 1px solid rgba(76, 175, 80, 0.4);
 }
 
 /* Responsive design for edit mode instructions */
@@ -143,9 +143,32 @@
     gap: 12px;
     margin: 0 16px 16px 16px;
     padding-top: 16px;
-    border-top: 1px solid #e0e0e0;
-    background-color: #f8f9fa;
+    border-top: 1px solid #4a5568;
+    background-color: #2d3748;
     justify-content: flex-end;
+}
+
+.inline-edit-actions button {
+    background-color: #4a5568;
+    color: #e2e8f0;
+    border: 1px solid #718096;
+    transition: all 0.3s ease;
+}
+
+.inline-edit-actions button:hover {
+    background-color: #718096;
+    color: #ffffff;
+}
+
+.inline-edit-actions button[color="primary"] {
+    background-color: #4caf50;
+    color: white;
+    border: 1px solid #4caf50;
+}
+
+.inline-edit-actions button[color="primary"]:hover {
+    background-color: #388e3c;
+    border-color: #388e3c;
 }
 
 .full-width {
@@ -153,14 +176,14 @@
 }
 
 .dark-textarea {
-    background-color: #ffffff !important;
-    color: #333333 !important;
+    background-color: #2d3748 !important;
+    color: #e2e8f0 !important;
     font-family: 'Courier New', Courier, monospace;
     font-size: 14px;
     line-height: 1.6;
     border-radius: 4px;
     padding: 16px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #4a5568;
     transition: border-color 0.3s ease;
     margin: 0;
     width: 100%;
@@ -173,8 +196,8 @@
 }
 
 .full-width .mat-mdc-form-field-input-control {
-    background-color: #ffffff !important;
-    color: #333333 !important;
+    background-color: #2d3748 !important;
+    color: #e2e8f0 !important;
 }
 
 .full-width .mat-mdc-form-field {
@@ -190,7 +213,23 @@
 }
 
 .full-width .mat-mdc-text-field-wrapper {
-    background-color: #ffffff !important;
+    background-color: #2d3748 !important;
+}
+
+/* Remove any white outlines or borders */
+.full-width .mat-mdc-form-field-outline {
+    display: none;
+}
+
+.full-width .mat-mdc-form-field-outline-start,
+.full-width .mat-mdc-form-field-outline-end,
+.full-width .mat-mdc-form-field-outline-notch {
+    display: none;
+}
+
+.full-width .mat-mdc-form-field-wrapper {
+    background-color: #2d3748 !important;
+    padding: 0;
 }
 
 .edit-buttons {
