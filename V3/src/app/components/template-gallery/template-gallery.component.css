@@ -176,7 +176,7 @@
   border-radius: 12px;
   overflow: hidden;
   position: relative;
-  height: 400px; /* Fixed height for uniform cards */
+  min-height: 400px; /* Increased minimum height */
   display: flex;
   flex-direction: column;
 }
@@ -191,8 +191,12 @@
 
 .template-card mat-card-actions {
   margin-top: auto;
-  padding: 16px;
+  padding: 12px 16px;
   border-top: 1px solid #e0e0e0;
+  min-height: 56px; /* Ensure minimum height for buttons */
+  display: flex;
+  align-items: center;
+  flex-shrink: 0; /* Prevent shrinking */
 }
 
 .template-card:hover {
@@ -254,12 +258,13 @@
   color: #666;
   line-height: 1.5;
   margin: 16px 0;
-  min-height: 48px;
+  max-height: 72px; /* Limit to 3 lines approximately */
   display: -webkit-box;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .template-meta {
@@ -286,6 +291,9 @@
 .template-tags {
   margin-top: auto;
   padding-top: 16px;
+  max-height: 80px; /* Limit tag area height */
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
 .template-tags mat-chip {

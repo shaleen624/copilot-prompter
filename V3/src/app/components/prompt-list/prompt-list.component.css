@@ -229,7 +229,7 @@ mat-card-content {
 .prompt-card {
   cursor: pointer;
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  height: 300px; /* Fixed height for uniform cards */
+  min-height: 350px; /* Increased minimum height */
   display: flex;
   flex-direction: column;
 }
