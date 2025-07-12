@@ -111,14 +111,42 @@
 }
 
 .filter-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr auto;
+  display: flex;
   gap: 16px;
-  align-items: end;
+  align-items: flex-end;
+}
+
+.filter-row mat-form-field {
+  flex: 1;
+  min-width: 150px;
 }
 
 .clear-filter-btn {
   height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  margin-bottom: 1.64375em; /* Match Material form field bottom margin */
+}
+
+/* Responsive design for filter row */
+@media (max-width: 768px) {
+  .filter-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .filter-row mat-form-field {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+  
+  .clear-filter-btn {
+    margin-bottom: 0;
+    margin-top: 8px;
+    align-self: flex-start;
+  }
 }
 
 .templates-grid {
@@ -283,12 +311,17 @@ mat-card-actions button {
   }
   
   .filter-row {
-    grid-template-columns: 1fr;
+    flex-wrap: wrap;
     gap: 12px;
   }
   
+  .filter-row mat-form-field {
+    min-width: 200px;
+  }
+  
   .clear-filter-btn {
-    height: auto;
+    height: 48px;
+    min-width: 120px;
   }
 }
 
@@ -305,6 +338,25 @@ mat-card-actions button {
     padding: 24px;
   }
   
+  .filter-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .filter-row mat-form-field {
+    width: 100%;
+    margin-bottom: 8px;
+    min-width: unset;
+  }
+  
+  .clear-filter-btn {
+    margin-bottom: 0;
+    margin-top: 8px;
+    align-self: flex-start;
+    height: 48px;
+    min-width: 120px;
+  }
+  
   .templates-grid {
     grid-template-columns: 1fr;
   }
@@ -313,5 +365,22 @@ mat-card-actions button {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .clear-filter-btn {
+    width: 100%;
+    justify-content: center;
+    height: 44px;
+    font-size: 0.875rem;
+  }
+  
+  .filters-container {
+    padding: 16px;
+  }
+  
+  .search-field {
+    margin-bottom: 12px;
   }
 }
