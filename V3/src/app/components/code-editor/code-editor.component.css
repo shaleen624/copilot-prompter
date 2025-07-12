@@ -1,0 +1,199 @@
+.code-editor-container {
+  margin: 16px 0;
+}
+
+.code-display-container {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.code-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #f5f5f5;
+  border-bottom: 1px solid #e0e0e0;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.code-header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.code-content {
+  margin: 0;
+  padding: 16px;
+  background: #282c34;
+  color: #abb2bf;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Enhanced inline editing styles */
+.edit-container {
+  padding: 0;
+  background-color: #2d3748;
+  border: 2px solid #4caf50;
+  border-radius: 8px;
+  position: relative;
+  margin: 16px 0;
+  overflow: hidden;
+}
+
+.edit-container::before {
+  content: "✏️ EDIT MODE";
+  position: absolute;
+  top: 8px;
+  left: 16px;
+  background: #4caf50;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  z-index: 2;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.edit-container::after {
+  content: "Make your changes below and click 'Apply Changes' to save";
+  position: absolute;
+  top: 8px;
+  left: 140px;
+  background: rgba(76, 175, 80, 0.2);
+  color: #81c784;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-style: italic;
+  z-index: 2;
+  border: 1px solid rgba(76, 175, 80, 0.4);
+}
+
+.full-width {
+  width: 100%;
+  padding: 16px;
+  padding-top: 48px; /* Make room for the edit mode indicator */
+}
+
+.full-width .mat-mdc-form-field-wrapper {
+  width: 100%;
+  padding: 0;
+  background-color: #2d3748 !important;
+}
+
+.full-width .mat-mdc-text-field-wrapper {
+  width: 100%;
+  background-color: #2d3748 !important;
+}
+
+/* Remove any white outlines or borders */
+.full-width .mat-mdc-form-field-outline {
+  display: none;
+}
+
+.full-width .mat-mdc-form-field-outline-start,
+.full-width .mat-mdc-form-field-outline-end,
+.full-width .mat-mdc-form-field-outline-notch {
+  display: none;
+}
+
+.edit-textarea {
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  resize: vertical;
+  width: 100%;
+  background-color: #2d3748 !important;
+  color: #e2e8f0 !important;
+  border: 1px solid #4a5568;
+  border-radius: 4px;
+  padding: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+  margin: 0;
+  caret-color: #ffffff;
+}
+
+.edit-textarea:focus {
+  border-color: #4caf50;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+  caret-color: #ffffff;
+}
+
+.full-width .mat-mdc-form-field {
+  width: 100%;
+  margin: 0;
+}
+
+.full-width .mat-mdc-form-field .mat-mdc-form-field-infix {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+.full-width .mat-mdc-form-field-input-control {
+  background-color: #2d3748 !important;
+  color: #e2e8f0 !important;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin: 0 16px 16px 16px;
+  padding-top: 16px;
+  border-top: 1px solid #4a5568;
+  background-color: #2d3748;
+}
+
+/* Button styling for dark background */
+.edit-actions button {
+  background-color: #4a5568;
+  color: #e2e8f0;
+  border: 1px solid #718096;
+  transition: all 0.3s ease;
+}
+
+.edit-actions button:hover {
+  background-color: #718096;
+  color: #ffffff;
+}
+
+.edit-actions button[color="primary"] {
+  background-color: #4caf50;
+  color: white;
+  border: 1px solid #4caf50;
+}
+
+.edit-actions button[color="primary"]:hover {
+  background-color: #388e3c;
+  border-color: #388e3c;
+}
+
+/* Responsive design for edit mode instructions */
+@media (max-width: 768px) {
+  .edit-container::after {
+    display: none;
+  }
+  
+  .edit-container::before {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .code-content {
+    font-size: 13px;
+  }
+}

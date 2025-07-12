@@ -6,6 +6,7 @@ import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs';
 import { Prompt } from '../../models/prompt.model';
 import { PromptService } from '../../services/prompt.service';
+import { CodeEditorComponent } from '../code-editor';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -30,7 +31,8 @@ import { TextFieldModule } from '@angular/cdk/text-field';
     MatProgressSpinnerModule,
     MatInputModule,
     MatFormFieldModule,
-    TextFieldModule
+    TextFieldModule,
+    CodeEditorComponent
 ],
     templateUrl: './prompt-detail.component.html',
     styleUrls: ['./prompt-detail.component.css'],
@@ -132,6 +134,10 @@ export class PromptDetailComponent implements OnInit {
         this.snackBar.open('Copied to clipboard!', 'Close', { duration: 2000 });
       });
     }
+  }
+
+  onContentChange(newContent: string): void {
+    this.editedPrompt = newContent;
   }
 
   editPrompt(id: string): void {

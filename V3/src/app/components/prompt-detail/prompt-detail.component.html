@@ -21,43 +21,22 @@
           }
         </mat-chip-listbox>
         <h4>Prompt Text</h4>
-        <div class="prompt-text-container">
-          <!-- Display mode -->
-          @if (!isEditMode) {
-            <div class="prompt-display-wrapper">
-              <pre class="prompt-code"><code>{{ prompt.prompt }}</code></pre>
-              <button mat-icon-button class="inline-edit-btn" (click)="toggleEditMode()" title="Edit inline">
-                <mat-icon>edit</mat-icon>
-              </button>
-            </div>
-          }
-          <!-- Edit mode -->
-          @if (isEditMode) {
-            <div class="edit-mode">
-              <mat-form-field appearance="outline" class="full-width">
-                <textarea
-                  matInput
-                  [(ngModel)]="editedPrompt"
-                  cdkTextareaAutosize
-                  cdkAutosizeMinRows="8"
-                  cdkAutosizeMaxRows="20"
-                  placeholder="Enter your prompt text here..."
-                  class="dark-textarea">
-                </textarea>
-              </mat-form-field>
-              <div class="inline-edit-actions">
-                <button mat-button (click)="toggleEditMode()">
-                  <mat-icon>cancel</mat-icon>
-                  Cancel
-                </button>
-                <button mat-button color="primary" (click)="applyInlineChanges()">
-                  <mat-icon>save</mat-icon>
-                  Apply Changes
-                </button>
-              </div>
-            </div>
-          }
-        </div>
+        <app-code-editor
+          [content]="prompt.prompt"
+          [fileName]="prompt.title + '.txt'"
+          [language]="'text'"
+          [showEditButton]="true"
+          [showCopyButton]="true"
+          [placeholder]="'Enter your prompt text here...'"
+          [minRows]="8"
+          [maxRows]="20"
+          [isEditMode]="isEditMode"
+          (contentChange)="onContentChange($event)"
+          (editStart)="toggleEditMode()"
+          (editSave)="applyInlineChanges()"
+          (editCancel)="toggleEditMode()"
+          (copyToClipboard)="copyToClipboard()">
+        </app-code-editor>
       </mat-card-content>
       <mat-card-actions align="end">
         <!-- Display mode buttons -->

@@ -102,48 +102,22 @@
           </mat-tab>
           
           <mat-tab label="Raw Markdown">
-            <div class="code-container">
-              <div class="code-header">
-                <span>copilot-instructions.md</span>
-                <div class="code-header-actions">
-                  @if (!isEditMode()) {
-                    <button mat-icon-button (click)="startInlineEdit()" title="Edit inline">
-                      <mat-icon>edit</mat-icon>
-                    </button>
-                  }
-                  <button mat-icon-button (click)="copyToClipboard()" title="Copy to clipboard">
-                    <mat-icon>content_copy</mat-icon>
-                  </button>
-                </div>
-              </div>
-              @if (isEditMode()) {
-                <div class="edit-container">
-                  <mat-form-field appearance="outline" class="full-width">
-                    <textarea 
-                      matInput 
-                      [(ngModel)]="editableContent"
-                      placeholder="Edit template content..."
-                      class="edit-textarea"
-                      cdkTextareaAutosize
-                      cdkAutosizeMinRows="10"
-                      cdkAutosizeMaxRows="25">
-                    </textarea>
-                  </mat-form-field>
-                  <div class="edit-actions">
-                    <button mat-button (click)="cancelInlineEdit()">
-                      <mat-icon>cancel</mat-icon>
-                      Cancel
-                    </button>
-                    <button mat-button color="primary" (click)="saveInlineEdit()">
-                      <mat-icon>save</mat-icon>
-                      Apply Changes
-                    </button>
-                  </div>
-                </div>
-              } @else {
-                <pre class="code-content language-markdown"><code>{{ template.content }}</code></pre>
-              }
-            </div>
+            <app-code-editor
+              [content]="template.content"
+              [fileName]="'copilot-instructions.md'"
+              [language]="'markdown'"
+              [showEditButton]="true"
+              [showCopyButton]="true"
+              [placeholder]="'Edit template content...'"
+              [minRows]="10"
+              [maxRows]="25"
+              [isEditMode]="isEditMode()"
+              (contentChange)="onContentChange($event)"
+              (editStart)="startInlineEdit()"
+              (editSave)="saveInlineEdit()"
+              (editCancel)="cancelInlineEdit()"
+              (copyToClipboard)="copyToClipboard()">
+            </app-code-editor>
           </mat-tab>
         </mat-tab-group>
       </mat-card-content>

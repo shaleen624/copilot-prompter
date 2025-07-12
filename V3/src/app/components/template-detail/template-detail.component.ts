@@ -7,6 +7,7 @@ import { CopilotTemplate } from '../../models/copilot-template.model';
 import { CopilotTemplateService } from '../../services/copilot-template.service';
 import { AdminService } from '../../services/admin.service';
 import { MarkdownComponent } from 'ngx-markdown';
+import { CodeEditorComponent } from '../code-editor';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -36,7 +37,8 @@ import { TextFieldModule } from '@angular/cdk/text-field';
     MatInputModule,
     TextFieldModule,
     DatePipe,
-    MarkdownComponent
+    MarkdownComponent,
+    CodeEditorComponent
   ],
   templateUrl: './template-detail.component.html',
   styleUrls: ['./template-detail.component.css'],
@@ -155,6 +157,10 @@ export class TemplateDetailComponent implements OnInit {
       this.snackBar.open('Content updated (local changes only)', 'Close', { duration: 3000 });
       this.cdr.markForCheck();
     }
+  }
+
+  onContentChange(newContent: string): void {
+    this.editableContent.set(newContent);
   }
 
   goBack(): void {
