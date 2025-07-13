@@ -82,7 +82,7 @@
   border-radius: 12px;
   text-align: center;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  transition: all 0.3s ease-in-out;
+  transition: all 0.15s ease-out;
 }
 
 .benefit-card:hover {
@@ -177,7 +177,7 @@
 
 .template-card {
   cursor: pointer;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.15s ease-out;
   border-radius: 12px;
   overflow: hidden;
   position: relative;
