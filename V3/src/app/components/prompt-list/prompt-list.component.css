@@ -92,6 +92,11 @@
 
 .benefit-card:hover {
   transform: translateY(-2px);
+  box-shadow: 
+    0 2px 8px rgba(0,0,0,0.1),
+    0 0 0 1px rgba(76, 175, 80, 0.2),
+    0 0 15px rgba(76, 175, 80, 0.3);
+  border: 1px solid rgba(76, 175, 80, 0.4);
 }
 
 .benefit-card mat-icon {
@@ -236,7 +241,12 @@ mat-card-content {
 
 .prompt-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.1),
+    0 0 0 2px rgba(76, 175, 80, 0.3),
+    0 0 20px rgba(76, 175, 80, 0.4),
+    0 0 40px rgba(76, 175, 80, 0.2);
+  border: 2px solid rgba(76, 175, 80, 0.6);
 }
 
 .prompt-card mat-card-content {

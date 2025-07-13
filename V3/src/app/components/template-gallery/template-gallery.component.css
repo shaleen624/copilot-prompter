@@ -82,11 +82,16 @@
   border-radius: 12px;
   text-align: center;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  transition: transform 0.2s ease;
+  transition: all 0.3s ease-in-out;
 }
 
 .benefit-card:hover {
   transform: translateY(-2px);
+  box-shadow: 
+    0 2px 8px rgba(0,0,0,0.1),
+    0 0 0 2px rgba(0, 123, 255, 0.3),
+    0 0 20px rgba(0, 123, 255, 0.5);
+  border: 2px solid rgba(0, 123, 255, 0.6);
 }
 
 .benefit-card mat-icon {
@@ -172,7 +177,7 @@
 
 .template-card {
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s ease-in-out;
   border-radius: 12px;
   overflow: hidden;
   position: relative;
@@ -201,7 +206,12 @@
 
 .template-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.15),
+    0 0 0 2px rgba(0, 123, 255, 0.3),
+    0 0 20px rgba(0, 123, 255, 0.6),
+    0 0 40px rgba(0, 123, 255, 0.4);
+  border: 2px solid rgba(0, 123, 255, 0.8);
 }
 
 .template-header {
