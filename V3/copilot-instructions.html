@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copilot Instructions Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            color: #5a6b8a;
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        pre {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        code {
+            background: #f8f9fa;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .do-dont {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .do, .dont {
+            padding: 1rem;
+            border-radius: 5px;
+        }
+
+        .do {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+        }
+
+        .dont {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+        }
+
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .template-card {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            border: 1px solid #e9ecef;
+        }
+
+        .nav {
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav a {
+            color: #667eea;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .nav a:hover {
+            background-color: #f8f9fa;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 50%;
+            text-decoration: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .do-dont {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav ul {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 Copilot Instructions Guide</h1>
+            <p class="subtitle">A simple guide to help AI assistants code better</p>
+        </header>
+
+        <nav class="nav">
+            <ul>
+                <li><a href="#what-are">What Are Copilot Instructions?</a></li>
+                <li><a href="#quick-start">Quick Start</a></li>
+                <li><a href="#tips">Writing Tips</a></li>
+                <li><a href="#templates">Templates</a></li>
+                <li><a href="#setup">Setup</a></li>
+            </ul>
+        </nav>
+
+        <div class="content">
+            <section id="what-are" class="section">
+                <h2>🎯 What Are Copilot Instructions?</h2>
+                <p>A <code>copilot-instructions.md</code> file tells AI assistants how to help you code better. It's like a cheat sheet for your project's rules and preferences.</p>
+            </section>
+
+            <section id="quick-start" class="section">
+                <h2>🚀 Quick Start (3 Steps)</h2>
+                
+                <h3>Step 1: Create the File</h3>
+                <pre><code># In your project root
+touch copilot-instructions.md</code></pre>
+
+                <h3>Step 2: Use This Simple Template</h3>
+                <pre><code># [Your Project Name] Instructions
+
+## Project Context
+- Tech stack: [e.g., React, TypeScript, Node.js]
+- Architecture: [e.g., Microservices, MVC, Component-based]
+
+## Coding Standards
+- Use strict mode for your language
+- Follow established style guides
+- Use consistent naming conventions
+- Write clear, descriptive comments
+
+## Testing
+- Write unit tests for all functions
+- Aim for 80%+ code coverage
+- Test edge cases and error scenarios
+- Use mocking for external dependencies
+
+## Security
+- Sanitize all user inputs
+- Use HTTPS for all communications
+- Validate data on both client and server
+- Handle errors gracefully</code></pre>
+
+                <h3>Step 3: Customize for Your Project</h3>
+                <p>Copy templates from this Copilot Prompter app and adapt them!</p>
+            </section>
+
+            <section id="tips" class="section">
+                <h2>💡 Writing Tips</h2>
+                
+                <div class="do-dont">
+                    <div class="do">
+                        <h3>✅ Do This:</h3>
+                        <ul>
+                            <li><strong>Be specific:</strong> "Use camelCase for variables" ✓</li>
+                            <li><strong>Show examples:</strong> Include code snippets</li>
+                            <li><strong>Keep it current:</strong> Update regularly</li>
+                            <li><strong>Prioritize:</strong> Important rules first</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="dont">
+                        <h3>❌ Avoid This:</h3>
+                        <ul>
+                            <li><strong>Being vague:</strong> "Use good naming" ✗</li>
+                            <li><strong>Too much text:</strong> Keep it scannable</li>
+                            <li><strong>Contradictions:</strong> Check for conflicts</li>
+                            <li><strong>Outdated info:</strong> Remove old patterns</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="templates" class="section">
+                <h2>📚 Quick Templates</h2>
+                
+                <div class="template-grid">
+                    <div class="template-card">
+                        <h3>Frontend Project</h3>
+                        <pre><code># Frontend Project Instructions
+- Use modern component patterns
+- Implement responsive design
+- Optimize for performance
+- Follow accessibility guidelines</code></pre>
+                    </div>
+                    
+                    <div class="template-card">
+                        <h3>Backend API</h3>
+                        <pre><code># Backend API Instructions
+- Use async patterns where possible
+- Implement proper error handling
+- Follow RESTful conventions
+- Use appropriate HTTP status codes</code></pre>
+                    </div>
+                    
+                    <div class="template-card">
+                        <h3>Full-Stack Project</h3>
+                        <pre><code># Full-Stack Project Instructions
+- Separate frontend and backend concerns
+- Use consistent data models
+- Implement proper authentication
+- Follow security best practices</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <section id="setup" class="section">
+                <h2>⚙️ Setup</h2>
+                <ol>
+                    <li>Install your preferred AI coding assistant</li>
+                    <li>Place file in project root</li>
+                    <li>Done! AI will use your instructions</li>
+                </ol>
+            </section>
+
+            <section class="section">
+                <h2>🎯 Success Signs</h2>
+                <ul>
+                    <li>AI suggestions match your style</li>
+                    <li>Less time fixing code formatting</li>
+                    <li>Consistent patterns across team</li>
+                    <li>Faster development</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>📞 Need Help?</h2>
+                <ul>
+                    <li>Browse templates in this app</li>
+                    <li>Check existing examples</li>
+                    <li>Ask your team for feedback</li>
+                    <li>Update based on what works</li>
+                </ul>
+            </section>
+
+            <hr style="margin: 2rem 0;">
+            <p style="text-align: center; font-style: italic;"><strong>Remember:</strong> Start simple, customize as you go, and keep it updated!</p>
+        </div>
+    </div>
+
+    <a href="#" class="back-to-top" id="back-to-top">↑</a>
+
+    <script>
+        // Back to top functionality
+        window.addEventListener('scroll', function() {
+            const backToTop = document.getElementById('back-to-top');
+            if (window.scrollY > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        document.getElementById('back-to-top').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
