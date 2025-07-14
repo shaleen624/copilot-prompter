@@ -1823,6 +1823,10 @@ This is an Angular application following modern development practices with TypeS
 - Implement OnPush change detection strategy where possible
 - Use reactive forms over template-driven forms
 - Implement proper error handling and loading states
+- Use strict null checks and noImplicitAny
+- Follow consistent naming conventions (camelCase for variables, PascalCase for classes)
+- Use meaningful variable and function names
+- Implement proper JSDoc comments for public APIs
 
 ## Architecture Guidelines
 - Follow the single responsibility principle
@@ -1830,6 +1834,10 @@ This is an Angular application following modern development practices with TypeS
 - Implement proper separation of concerns between components, services, and models
 - Use Angular Material components consistently
 - Follow feature module structure for large applications
+- Implement lazy loading for feature modules
+- Use smart/dumb component patterns
+- Follow reactive programming principles with RxJS
+- Implement proper state management (NgRx for complex apps)
 
 ## Framework-Specific Rules
 - Use Angular's built-in validators and create custom validators when needed
@@ -1837,23 +1845,57 @@ This is an Angular application following modern development practices with TypeS
 - Use trackBy functions in *ngFor loops for performance
 - Prefer standalone components in Angular 14+
 - Use Angular's testing utilities (TestBed, ComponentFixture) for unit tests
+- Implement Angular guards for route protection
+- Use Angular interceptors for HTTP request/response handling
+- Leverage Angular CLI for code generation and consistency
+- Use Angular Signals for reactive state management (Angular 16+)
+- Implement proper change detection optimization strategies
 
 ## File Structure
 - Services go in \`/src/app/services/\`
 - Components go in \`/src/app/components/\`
 - Models/interfaces go in \`/src/app/models/\`
+- Guards go in \`/src/app/guards/\`
+- Interceptors go in \`/src/app/interceptors/\`
+- Pipes go in \`/src/app/pipes/\`
+- Directives go in \`/src/app/directives/\`
 - Use barrel exports (index.ts) for clean imports
 - Organize by feature modules for larger applications
+- Keep shared utilities in \`/src/app/shared/\`
+
+## Security Best Practices
+- Sanitize user inputs and use Angular's built-in sanitization
+- Implement Content Security Policy (CSP)
+- Use HTTPS and secure authentication mechanisms
+- Validate all inputs on both client and server side
+- Implement proper CORS configuration
+- Use Angular's built-in XSS protection features
+
+## Performance Optimization
+- Implement OnPush change detection strategy
+- Use lazy loading for routes and modules
+- Optimize bundle size with tree shaking
+- Use trackBy functions in loops
+- Implement virtual scrolling for large lists
+- Use Angular Service Worker for caching
+- Optimize images and assets
+- Implement code splitting and preloading strategies
 
 ## Testing Preferences
 - Write unit tests for all components and services
-- Use Jasmine and Karma for unit testing
-- Use Cypress or Protractor for e2e testing
+- Use Jest for unit testing (preferred over Jasmine/Karma)
+- Use Angular Testing Library with Jest for better component testing
+- Use Cypress for e2e testing
+- Configure Jest with @angular-builders/jest for Angular projects
 - Aim for 80%+ code coverage
-- Mock external dependencies in tests`,
-        tags: ['angular', 'typescript', 'frontend', 'best-practices', 'reactive-forms'],
+- Mock external dependencies with Jest mocking capabilities
+- Test user interactions and accessibility with jest-axe
+- Implement integration tests for critical workflows
+- Use Jest snapshots for component structure validation
+- Leverage Jest's built-in mocking and spying features`,
+        tags: ['angular', 'typescript', 'frontend', 'best-practices', 'reactive-forms', 'performance', 'security'],
         popularity: 95,
-        lastUpdated: new Date('2024-12-01'),
+        lastUpdated: new Date('2025-07-14'),
         author: 'angular_team'
       },
       {
@@ -1874,6 +1916,10 @@ This is a React application built with TypeScript, utilizing modern hooks, conte
 - Use meaningful component and variable names
 - Follow consistent file naming conventions (PascalCase for components)
 - Use ESLint and Prettier for code formatting
+- Enable strict TypeScript mode
+- Use const assertions where appropriate
+- Implement proper type guards for runtime type checking
+- Use discriminated unions for complex state types
 
 ## Architecture Guidelines
 - Use composition over inheritance
@@ -1881,6 +1927,10 @@ This is a React application built with TypeScript, utilizing modern hooks, conte
 - Use React Context for global state management
 - Keep components small and focused
 - Use custom hooks for reusable logic
+- Implement container/presentational component patterns
+- Use React.Suspense for code splitting and loading states
+- Implement proper error boundaries at component tree levels
+- Use state machines for complex component logic (XState)
 
 ## Framework-Specific Rules
 - Use useCallback and useMemo for performance optimization
@@ -1888,23 +1938,62 @@ This is a React application built with TypeScript, utilizing modern hooks, conte
 - Use React.memo for component memoization
 - Prefer controlled components over uncontrolled
 - Use proper key props in lists
+- Implement proper dependency arrays in useEffect
+- Use useRef for DOM manipulation and mutable values
+- Leverage useReducer for complex state logic
+- Use React.startTransition for non-urgent updates
+- Implement proper cleanup in useEffect hooks
 
 ## File Structure
 - Components in \`/src/components/\`
 - Hooks in \`/src/hooks/\`
 - Types in \`/src/types/\`
 - Utils in \`/src/utils/\`
+- Context providers in \`/src/context/\`
+- Constants in \`/src/constants/\`
+- Services/API calls in \`/src/services/\`
 - Use index.ts files for clean exports
+- Group related components in feature folders
+
+## State Management
+- Use React Context for simple global state
+- Consider Redux Toolkit for complex state management
+- Use Zustand for lightweight state management
+- Implement proper state normalization
+- Use React Query/TanStack Query for server state
+- Keep state as close to where it's needed as possible
+- Implement optimistic updates for better UX
+
+## Performance Optimization
+- Use React.memo judiciously
+- Implement proper key props in lists
+- Use React.lazy for code splitting
+- Optimize re-renders with useCallback and useMemo
+- Use React DevTools Profiler for performance analysis
+- Implement virtual scrolling for large lists
+- Use Web Workers for heavy computations
+- Optimize bundle size with tree shaking and code splitting
+
+## Security Best Practices
+- Sanitize user inputs and prevent XSS attacks
+- Use Content Security Policy (CSP)
+- Implement proper authentication and authorization
+- Validate inputs on both client and server
+- Use secure HTTP headers
+- Implement CSRF protection
 
 ## Testing Preferences
 - Use Jest and React Testing Library
 - Write unit tests for all components
 - Use mock functions for external dependencies
 - Test user interactions and edge cases
-- Aim for high test coverage`,
-        tags: ['react', 'typescript', 'hooks', 'frontend', 'performance'],
+- Aim for high test coverage
+- Use MSW (Mock Service Worker) for API mocking
+- Implement accessibility testing with jest-axe
+- Use Playwright or Cypress for e2e testing`,
+        tags: ['react', 'typescript', 'hooks', 'frontend', 'performance', 'state-management', 'security'],
         popularity: 92,
-        lastUpdated: new Date('2024-12-01'),
+        lastUpdated: new Date('2025-07-14'),
         author: 'react_team'
       },
       {
@@ -1925,6 +2014,10 @@ This is a Node.js backend application built with Express.js, focusing on RESTful
 - Use meaningful HTTP status codes
 - Follow RESTful naming conventions
 - Use environment variables for configuration
+- Use TypeScript for better type safety
+- Follow consistent naming conventions (camelCase for variables, PascalCase for classes)
+- Implement proper JSDoc comments
+- Use strict mode and enable ESLint rules
 
 ## Architecture Guidelines
 - Implement layered architecture (routes, controllers, services, models)
@@ -1932,13 +2025,21 @@ This is a Node.js backend application built with Express.js, focusing on RESTful
 - Implement proper logging and monitoring
 - Use middleware for cross-cutting concerns
 - Follow SOLID principles
+- Implement Clean Architecture or Hexagonal Architecture
+- Use design patterns appropriately (Repository, Factory, Strategy)
+- Separate business logic from presentation logic
+- Implement proper validation and sanitization layers
 
 ## Framework-Specific Rules
 - Use Express.js for routing and middleware
-- Implement proper validation using Joi or similar
+- Implement proper validation using Joi, Yup, or Zod
 - Use Helmet for security headers
 - Implement rate limiting and CORS
 - Use compression middleware for performance
+- Implement proper session management
+- Use middleware for authentication and authorization
+- Implement proper API versioning
+- Use OpenAPI/Swagger for API documentation
 
 ## File Structure
 - Routes in \`/src/routes/\`
@@ -1947,17 +2048,252 @@ This is a Node.js backend application built with Express.js, focusing on RESTful
 - Models in \`/src/models/\`
 - Middleware in \`/src/middleware/\`
 - Utilities in \`/src/utils/\`
+- Configuration in \`/src/config/\`
+- Database in \`/src/database/\`
+- Types in \`/src/types/\` (if using TypeScript)
+
+## Database Best Practices
+- Use connection pooling for database connections
+- Implement proper indexing strategies
+- Use migrations for database schema changes
+- Implement database transaction handling
+- Use ORMs/ODMs judiciously (Prisma, TypeORM, Mongoose)
+- Implement proper database error handling
+- Use database constraints and validations
+- Implement soft deletes where appropriate
+
+## Security Best Practices
+- Implement proper authentication (JWT, OAuth2)
+- Use HTTPS in production
+- Sanitize and validate all inputs
+- Implement proper CORS configuration
+- Use secure HTTP headers (Helmet)
+- Implement rate limiting and throttling
+- Use environment variables for secrets
+- Implement proper session management
+- Use security-focused linting rules
+
+## Performance Optimization
+- Implement caching strategies (Redis, Memcached)
+- Use clustering for multi-core utilization
+- Implement proper connection pooling
+- Use compression middleware
+- Optimize database queries
+- Implement request/response logging
+- Use APM tools for monitoring
+- Implement graceful shutdowns
+
+## Error Handling
+- Implement global error handling middleware
+- Use proper HTTP status codes
+- Log errors with context information
+- Implement proper error responses
+- Use custom error classes
+- Handle both synchronous and asynchronous errors
+- Implement circuit breaker patterns for external services
 
 ## Testing Preferences
 - Use Jest for unit testing
 - Use Supertest for API testing
 - Mock external dependencies
-- Test error scenarios
-- Aim for comprehensive test coverage`,
-        tags: ['nodejs', 'express', 'backend', 'api', 'rest'],
+- Test error scenarios and edge cases
+- Aim for comprehensive test coverage
+- Use test containers for integration tests
+- Implement contract testing
+- Use load testing for performance validation`,
+        tags: ['nodejs', 'express', 'backend', 'api', 'rest', 'security', 'performance', 'architecture'],
         popularity: 88,
-        lastUpdated: new Date('2024-12-01'),
+        lastUpdated: new Date('2025-07-14'),
         author: 'nodejs_team'
+      },
+      {
+        id: '4',
+        name: 'Java Spring Boot Microservices',
+        category: 'Backend Framework',
+        language: 'Java',
+        framework: 'Spring Boot',
+        description: 'Comprehensive guidelines for building enterprise-grade microservices with Spring Boot',
+        content: `# Java Spring Boot Microservices Guidelines
+
+## Project Context
+This is a Java-based microservices architecture using Spring Boot, Spring Cloud, and modern Java practices for building scalable, resilient, and maintainable enterprise applications.
+
+## Coding Standards
+- Use Java 17+ with modern language features (records, sealed classes, pattern matching)
+- Follow Oracle Java Code Conventions and Google Java Style Guide
+- Use meaningful variable and method names with clear intent
+- Implement proper exception handling with custom exceptions
+- Use builder patterns for complex object creation
+- Follow SOLID principles and clean code practices
+- Use Lombok judiciously to reduce boilerplate
+- Implement proper equals, hashCode, and toString methods
+- Use Optional for null safety
+- Follow package naming conventions (com.company.domain.subdomain)
+
+## Architecture Guidelines
+- Implement Domain-Driven Design (DDD) principles
+- Use hexagonal architecture (ports and adapters)
+- Follow microservices patterns (Circuit Breaker, Bulkhead, Timeout)
+- Implement event-driven architecture with message brokers
+- Use CQRS (Command Query Responsibility Segregation) where appropriate
+- Implement proper service boundaries and bounded contexts
+- Use API Gateway for external communication
+- Implement service mesh for inter-service communication
+- Follow 12-factor app methodology
+- Use containerization with Docker and orchestration with Kubernetes
+
+## Framework-Specific Rules
+- Use Spring Boot 3.x with Spring Framework 6.x
+- Leverage Spring Boot Auto-Configuration
+- Use Spring Data JPA for database operations
+- Implement Spring Security for authentication and authorization
+- Use Spring Cloud for microservices patterns
+- Implement Spring Boot Actuator for monitoring and health checks
+- Use Spring WebFlux for reactive programming when needed
+- Leverage Spring Boot Configuration Properties
+- Use Spring Profiles for environment-specific configurations
+- Implement Spring Boot Testing annotations and utilities
+
+## Microservices Patterns
+- Implement API Gateway pattern (Spring Cloud Gateway)
+- Use Service Discovery (Eureka, Consul)
+- Implement Circuit Breaker (Resilience4j, Hystrix)
+- Use Load Balancing (Ribbon, Spring Cloud LoadBalancer)
+- Implement Distributed Tracing (Zipkin, Jaeger)
+- Use Configuration Management (Spring Cloud Config)
+- Implement Event Sourcing and CQRS patterns
+- Use Saga pattern for distributed transactions
+- Implement Bulkhead pattern for resource isolation
+- Use Retry and Timeout patterns
+
+## File Structure
+\`\`\`
+src/main/java/
+├── com/company/service/
+│   ├── application/
+│   │   ├── service/           # Application services
+│   │   ├── dto/               # Data Transfer Objects
+│   │   └── usecase/           # Use case implementations
+│   ├── domain/
+│   │   ├── model/             # Domain entities
+│   │   ├── repository/        # Domain repository interfaces
+│   │   ├── service/           # Domain services
+│   │   └── event/             # Domain events
+│   ├── infrastructure/
+│   │   ├── config/            # Configuration classes
+│   │   ├── persistence/       # JPA repositories and entities
+│   │   ├── messaging/         # Message producers/consumers
+│   │   ├── external/          # External service clients
+│   │   └── security/          # Security configurations
+│   └── presentation/
+│       ├── controller/        # REST controllers
+│       ├── dto/               # Request/Response DTOs
+│       └── exception/         # Exception handlers
+\`\`\`
+
+## Database Best Practices
+- Use JPA/Hibernate with proper entity mappings
+- Implement database migrations with Flyway or Liquibase
+- Use connection pooling (HikariCP)
+- Implement proper transaction management
+- Use database per microservice pattern
+- Implement eventual consistency for cross-service data
+- Use read replicas for query optimization
+- Implement proper indexing strategies
+- Use database constraints and validations
+- Consider event sourcing for audit trails
+
+## Security Implementation
+- Implement OAuth2/OpenID Connect for authentication
+- Use JWT tokens with proper validation
+- Implement method-level security with @PreAuthorize
+- Use HTTPS/TLS for all communications
+- Implement proper CORS configuration
+- Use Spring Security for comprehensive security
+- Implement rate limiting and throttling
+- Use security headers and CSRF protection
+- Implement proper secrets management (Vault, AWS Secrets Manager)
+- Use mutual TLS (mTLS) for service-to-service communication
+
+## Monitoring and Observability
+- Implement structured logging with SLF4J and Logback
+- Use distributed tracing (Spring Cloud Sleuth + Zipkin/Jaeger)
+- Implement metrics collection (Micrometer + Prometheus)
+- Use Spring Boot Actuator for health checks and metrics
+- Implement centralized logging (ELK Stack, Fluentd)
+- Use Application Performance Monitoring (APM) tools
+- Implement business metrics and KPIs
+- Use alerting and notification systems
+- Implement log correlation with trace IDs
+
+## Performance Optimization
+- Use caching strategies (Redis, Caffeine, Hazelcast)
+- Implement connection pooling and resource management
+- Use reactive programming with WebFlux for high throughput
+- Implement database query optimization
+- Use CDN for static content delivery
+- Implement proper JVM tuning
+- Use asynchronous processing for non-blocking operations
+- Implement proper thread pool management
+- Use compression for API responses
+
+## Resilience Patterns
+- Implement Circuit Breaker pattern (Resilience4j)
+- Use Bulkhead pattern for resource isolation
+- Implement Retry with exponential backoff
+- Use Timeout patterns for external calls
+- Implement graceful degradation
+- Use health checks and readiness probes
+- Implement proper error handling and recovery
+- Use dead letter queues for failed messages
+- Implement idempotency for critical operations
+
+## Testing Strategy
+- Write unit tests with JUnit 5 and Mockito
+- Use Spring Boot Test for integration testing
+- Implement contract testing with Spring Cloud Contract
+- Use TestContainers for integration tests with real databases
+- Implement end-to-end testing with REST Assured
+- Use ArchUnit for architecture testing
+- Implement performance testing with JMeter or Gatling
+- Use mutation testing for test quality assessment
+- Aim for 80%+ code coverage with meaningful tests
+
+## DevOps and Deployment
+- Use Docker for containerization
+- Implement CI/CD pipelines (Jenkins, GitLab CI, GitHub Actions)
+- Use Kubernetes for orchestration
+- Implement Infrastructure as Code (Terraform, Ansible)
+- Use Helm charts for Kubernetes deployments
+- Implement blue-green or canary deployments
+- Use service mesh (Istio, Linkerd) for advanced traffic management
+- Implement proper secrets management
+- Use monitoring and alerting in production
+
+## API Design
+- Follow RESTful principles and HTTP semantics
+- Use OpenAPI 3.0 for API documentation
+- Implement proper versioning strategies
+- Use consistent error response formats
+- Implement proper pagination for list endpoints
+- Use HATEOAS for hypermedia APIs
+- Implement proper content negotiation
+- Use appropriate HTTP status codes
+- Implement API rate limiting and throttling
+
+## Message-Driven Architecture
+- Use Apache Kafka or RabbitMQ for messaging
+- Implement event-driven communication between services
+- Use proper message serialization (Avro, JSON)
+- Implement message deduplication and idempotency
+- Use dead letter topics for failed message processing
+- Implement proper message ordering when required
+- Use event sourcing for audit and replay capabilities
+- Implement saga patterns for distributed transactions`,
+        tags: ['java', 'spring-boot', 'microservices', 'backend', 'enterprise', 'distributed-systems', 'architecture', 'resilience'],
+        popularity: 89,
+        lastUpdated: new Date('2025-07-14'),
+        author: 'java_enterprise_team'
       }
     ];
 
