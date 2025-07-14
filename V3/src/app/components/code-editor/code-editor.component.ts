@@ -75,6 +75,11 @@ export class CodeEditorComponent implements OnInit, OnChanges {
     this._editableContent.set(this.content);
     this._isEditMode.set(true);
     this.editStart.emit();
+    
+    // Ensure textarea gets proper sizing after edit mode activation
+    setTimeout(() => {
+      this.ensureTextareaResize();
+    }, 30);
   }
 
   cancelEdit(): void {
@@ -100,6 +105,23 @@ export class CodeEditorComponent implements OnInit, OnChanges {
     }).catch(() => {
       this.snackBar.open('Failed to copy content', 'Close', { duration: 3000 });
     });
-    this.copyToClipboard.emit();
+  }
+
+  private ensureTextareaResize(): void {
+    // Find textarea in this component and ensure proper sizing
+    const textarea = document.querySelector('.edit-textarea') as HTMLTextAreaElement;
+    if (textarea) {
+      // Simply trigger autosize calculation by dispatching input event
+      const event = new Event('input', { bubbles: true });
+      textarea.dispatchEvent(event);
+      
+      // If textarea appears too small (less than min-height), just focus it
+      const computedStyle = window.getComputedStyle(textarea);
+      const currentHeight = parseInt(computedStyle.height);
+      if (currentHeight < 120) {
+        textarea.focus();
+        setTimeout(() => textarea.blur(), 10);
+      }
+    }
   }
 }

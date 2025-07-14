@@ -122,6 +122,8 @@
   transition: border-color 0.3s ease;
   margin: 0;
   caret-color: #ffffff;
+  min-height: 120px; /* Reduced from 300px to a more reasonable size */
+  max-height: 70vh; /* Limit maximum height to prevent oversizing */
 }
 
 .edit-textarea:focus {

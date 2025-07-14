@@ -89,7 +89,7 @@
       </mat-card-header>
       
       <mat-card-content>
-        <mat-tab-group [selectedIndex]="selectedTabIndex()" (selectedIndexChange)="selectedTabIndex.set($event)">
+        <mat-tab-group [selectedIndex]="selectedTabIndex()" (selectedIndexChange)="onTabChange($event)">
           <mat-tab label="Preview">
             <div class="preview-content markdown-preview">
               <div class="tab-header-actions">
@@ -109,8 +109,8 @@
               [showEditButton]="true"
               [showCopyButton]="true"
               [placeholder]="'Edit template content...'"
-              [minRows]="10"
-              [maxRows]="25"
+              [minRows]="6"
+              [maxRows]="15"
               [isEditMode]="isEditMode()"
               (contentChange)="onContentChange($event)"
               (editStart)="startInlineEdit()"

@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, inject, ChangeDetectorRef, signal } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject, ChangeDetectorRef, signal, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -139,8 +139,22 @@ export class TemplateDetailComponent implements OnInit {
     if (this.template) {
       this.editableContent.set(this.template.content);
       this.isEditMode.set(true);
-      this.selectedTabIndex.set(1); // Switch to Raw Markdown tab
-      this.cdr.markForCheck();
+      
+      // If we're on the preview tab, switch to raw markdown tab
+      if (this.selectedTabIndex() === 0) {
+        this.selectedTabIndex.set(1);
+        
+        // Use shorter timeout to ensure tab switch completes
+        setTimeout(() => {
+          this.cdr.markForCheck();
+          // Trigger gentle autosize recalculation after tab switch
+          this.triggerTextareaResize();
+        }, 50);
+      } else {
+        this.cdr.markForCheck();
+        // Trigger gentle autosize recalculation
+        setTimeout(() => this.triggerTextareaResize(), 20);
+      }
     }
   }
 
@@ -161,6 +175,28 @@ export class TemplateDetailComponent implements OnInit {
 
   onContentChange(newContent: string): void {
     this.editableContent.set(newContent);
+  }
+
+  onTabChange(index: number): void {
+    this.selectedTabIndex.set(index);
+    
+    // If switching to the raw markdown tab and we're in edit mode, 
+    // ensure textarea gets proper sizing
+    if (index === 1 && this.isEditMode()) {
+      setTimeout(() => {
+        this.triggerTextareaResize();
+      }, 50);
+    }
+  }
+
+  private triggerTextareaResize(): void {
+    // Find textarea elements and gently trigger resize
+    const textareas = document.querySelectorAll('textarea[cdkTextareaAutosize]');
+    textareas.forEach(textarea => {
+      // Just dispatch an input event to trigger autosize recalculation
+      const event = new Event('input', { bubbles: true });
+      textarea.dispatchEvent(event);
+    });
   }
 
   goBack(): void {
