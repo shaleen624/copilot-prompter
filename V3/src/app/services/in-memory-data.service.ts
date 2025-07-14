@@ -1805,268 +1805,9 @@ describe('API Integration', () => {
     ];
 
     const copilotTemplates: CopilotTemplate[] = [
+      // Comprehensive Templates
       {
         id: '1',
-        name: 'How to Use Copilot Instructions Effectively',
-        category: 'Documentation',
-        language: 'Markdown',
-        framework: 'Any',
-        description: 'Comprehensive guide on creating and using copilot-instructions.md for better AI assistance',
-        content: `# 📋 Copilot Instructions Best Practices
-
-## 🎯 What is copilot-instructions.md?
-
-A **copilot-instructions.md** file is your project's "AI context manual" - a structured document that helps AI assistants understand your:
-- **Project context** and tech stack
-- **Coding standards** and preferences  
-- **Architecture patterns** and rules
-- **Testing approaches** and requirements
-- **Security guidelines** and best practices
-
-## 🚀 Quick Start Guide
-
-### 1. **Create the File**
-\`\`\`bash
-# In your project root
-touch copilot-instructions.md
-\`\`\`
-
-### 2. **Use This Template Structure**
-\`\`\`markdown
-# [Project Name] Instructions
-
-## Project Context
-Brief description of your project, tech stack, and architecture
-
-## Coding Standards
-- Language-specific rules
-- Formatting preferences
-- Naming conventions
-
-## Architecture Guidelines
-- Design patterns to follow
-- File organization rules
-- Module structure
-
-## Framework-Specific Rules
-- Technology-specific best practices
-- Library usage guidelines
-- Performance considerations
-
-## Testing Preferences
-- Testing frameworks to use
-- Coverage requirements
-- Testing patterns
-
-## Security Guidelines
-- Authentication patterns
-- Data validation rules
-- Security best practices
-\`\`\`
-
-### 3. **Customize with Your Project's Templates**
-Use the templates from this Copilot Prompter application:
-- **Angular Development Guidelines** → Copy relevant sections
-- **React TypeScript Best Practices** → Adapt for your React projects
-- **Node.js API Development** → Use for backend projects
-- **Java Spring Boot Microservices** → Enterprise Java guidance
-
-## 💡 Pro Tips for Maximum Effectiveness
-
-### ✅ **Best Practices**
-- **Be specific**: "Use camelCase for variables" vs "Use proper naming"
-- **Include examples**: Show concrete code snippets
-- **Prioritize rules**: Most important guidelines first
-- **Update regularly**: Keep current with project evolution
-- **Use clear sections**: Organize by concern (testing, security, performance)
-
-### ❌ **Common Mistakes**
-- Being too verbose or generic
-- Including contradictory rules
-- Forgetting to update when project changes
-- Not explaining the "why" behind rules
-
-### 🔧 **Advanced Usage**
-\`\`\`markdown
-## Environment-Specific Rules
-### Development
-- Use relaxed linting rules
-- Enable debug logging
-
-### Production  
-- Strict error handling
-- Optimized performance
-
-## Role-Based Guidelines
-### Frontend Developers
-- Focus on UI/UX patterns
-- Component architecture
-
-### Backend Developers
-- API design principles
-- Database best practices
-\`\`\`
-
-## 📚 Template Examples for Different Frameworks
-
-### **Angular Project Instructions**
-\`\`\`markdown
-# Angular Project Instructions
-
-## Project Context
-Angular 17+ with standalone components, signals, and Material UI
-
-## Coding Standards
-- Use TypeScript strict mode
-- Follow Angular style guide conventions
-- Implement OnPush change detection strategy
-
-## Architecture Guidelines
-- Use standalone components over NgModules
-- Implement feature-based folder structure
-- Follow smart/dumb component pattern
-
-## Testing Preferences
-- Use Jest for unit testing
-- Implement Angular Testing Library
-- Aim for 80%+ code coverage
-\`\`\`
-
-### **React Project Instructions**
-\`\`\`markdown
-# React Project Instructions
-
-## Project Context
-React 18+ with TypeScript, hooks, and modern state management
-
-## Coding Standards
-- Use functional components with hooks
-- Implement proper TypeScript interfaces
-- Follow React best practices and ESLint rules
-
-## Architecture Guidelines
-- Use composition over inheritance
-- Implement custom hooks for reusable logic
-- Follow container/presentational component pattern
-
-## Testing Preferences
-- Use Jest and React Testing Library
-- Mock external dependencies with MSW
-- Test user interactions and accessibility
-\`\`\`
-
-### **Node.js API Instructions**
-\`\`\`markdown
-# Node.js API Instructions
-
-## Project Context
-Node.js backend with Express.js, TypeScript, and REST API design
-
-## Coding Standards
-- Use async/await over callbacks
-- Implement proper error handling middleware
-- Follow RESTful naming conventions
-
-## Architecture Guidelines
-- Implement layered architecture (routes, controllers, services)
-- Use dependency injection where appropriate
-- Follow SOLID principles
-
-## Testing Preferences
-- Use Jest for unit testing
-- Use Supertest for API testing
-- Implement contract testing
-\`\`\`
-
-## 🎯 Integration with Development Workflow
-
-### **VS Code Setup**
-1. Install GitHub Copilot extension
-2. Place copilot-instructions.md in project root
-3. Reference in workspace settings:
-\`\`\`json
-{
-  "github.copilot.enable": {
-    "*": true,
-    "plaintext": false,
-    "markdown": true
-  }
-}
-\`\`\`
-
-### **Team Collaboration**
-- Include instructions in code review process
-- Ensure all team members understand guidelines
-- Version control your instructions file
-- Create team-specific sections for different roles
-
-### **Continuous Improvement**
-- Review and update instructions monthly
-- Remove outdated or contradictory rules
-- Add new patterns as they emerge
-- Gather feedback from team members
-
-## 📈 Success Metrics
-
-### **How to Measure Effectiveness**
-- **Code Quality**: Fewer style/standards comments in reviews
-- **Consistency**: Similar patterns across different developers
-- **Productivity**: Faster development with better AI assistance
-- **Maintainability**: Easier onboarding for new team members
-
-### **Signs Your Instructions Are Working**
-- AI suggestions match your project standards
-- Less time spent on formatting and style issues
-- More consistent code patterns across the team
-- Faster development cycles
-
-## 🛠️ Maintenance and Updates
-
-### **Regular Review Schedule**
-- **Weekly**: Check for new patterns or issues
-- **Monthly**: Review and update major sections
-- **Quarterly**: Comprehensive review and restructuring
-- **Per Release**: Update for new features or deprecated patterns
-
-### **When to Update**
-- New team members join
-- Framework/library updates
-- Architecture changes
-- New security requirements
-- Performance optimizations discovered
-
-## 🎉 Getting Started Today
-
-1. **Copy a template** from this Copilot Prompter application
-2. **Customize** it for your specific project needs
-3. **Place** the file in your project root
-4. **Test** with your AI assistant
-5. **Iterate** based on results and team feedback
-
-## 📞 Resources and Support
-
-### **Using This Application**
-- Browse templates in the Template Gallery
-- Use the Template Builder to create custom instructions
-- Copy and modify existing templates
-- Share successful patterns with the community
-
-### **Further Reading**
-- Check the other templates in this application
-- Review framework-specific guidelines
-- Consult official documentation for your tech stack
-- Join community discussions on AI-assisted development
-
----
-
-**Remember**: The best copilot instructions are living documents that evolve with your project. Start with a template from this application, customize it for your needs, and keep it updated as your project grows!`,
-        tags: ['documentation', 'ai-assistance', 'copilot', 'best-practices', 'templates', 'instructions'],
-        popularity: 100,
-        lastUpdated: new Date('2025-07-14'),
-        author: 'copilot_team'
-      },
-      {
-        id: '2',
         name: 'Angular Development Guidelines',
         category: 'Frontend Framework',
         language: 'TypeScript',
@@ -2552,6 +2293,284 @@ src/main/java/
 - Implement saga patterns for distributed transactions`,
         tags: ['java', 'spring-boot', 'microservices', 'backend', 'enterprise', 'distributed-systems', 'architecture', 'resilience'],
         popularity: 89,
+        lastUpdated: new Date('2025-07-14'),
+        author: 'java_enterprise_team'
+      },
+
+      // Lighter Templates - Good Starting Points
+      {
+        id: '5',
+        name: 'Angular Development Guidelines - Starter',
+        category: 'Frontend Framework',
+        language: 'TypeScript',
+        framework: 'Angular',
+        description: 'Essential Angular development guidelines for getting started with modern best practices',
+        content: `# Angular Project Guidelines - Starter
+
+## Project Context
+Angular application with TypeScript, focusing on modern development practices and essential patterns.
+
+## Coding Standards
+- Use TypeScript strict mode with proper type definitions
+- Follow Angular style guide conventions
+- Use meaningful component and variable names
+- Implement reactive forms over template-driven forms
+- Use consistent naming conventions (camelCase for variables, PascalCase for classes)
+
+## Architecture Guidelines
+- Follow single responsibility principle
+- Use dependency injection for services
+- Implement proper separation of concerns (components, services, models)
+- Use Angular Material components consistently
+- Follow smart/dumb component patterns
+- Use reactive programming principles with RxJS
+
+## Framework-Specific Rules
+- Use standalone components (Angular 14+)
+- Implement proper unsubscription patterns (takeUntil, async pipe)
+- Use trackBy functions in *ngFor loops
+- Leverage Angular CLI for code generation
+- Use Angular guards for route protection
+- Implement OnPush change detection strategy where possible
+
+## File Structure
+- Services: \`/src/app/services/\`
+- Components: \`/src/app/components/\`
+- Models: \`/src/app/models/\`
+- Use barrel exports for clean imports
+
+## Security & Performance
+- Sanitize user inputs using Angular's built-in features
+- Implement lazy loading for feature modules
+- Use OnPush change detection for performance
+- Optimize bundle size with tree shaking
+
+## Testing Preferences
+- Use Jest for unit testing
+- Use Angular Testing Library for component testing
+- Mock external dependencies
+- Aim for 70%+ code coverage
+- Test user interactions and accessibility`,
+        tags: ['angular', 'typescript', 'frontend', 'starter', 'best-practices'],
+        popularity: 85,
+        lastUpdated: new Date('2025-07-14'),
+        author: 'angular_team'
+      },
+      {
+        id: '6',
+        name: 'React TypeScript Best Practices - Starter',
+        category: 'Frontend Framework',
+        language: 'TypeScript',
+        framework: 'React',
+        description: 'Essential React TypeScript practices for modern development',
+        content: `# React TypeScript Guidelines - Starter
+
+## Project Context
+React application with TypeScript, utilizing modern hooks and performance optimization techniques.
+
+## Coding Standards
+- Use functional components with hooks
+- Implement proper TypeScript interfaces for props and state
+- Use meaningful component and variable names
+- Follow consistent file naming (PascalCase for components)
+- Use ESLint and Prettier for code formatting
+- Enable strict TypeScript mode
+
+## Architecture Guidelines
+- Use composition over inheritance
+- Keep components small and focused
+- Use React Context for global state management
+- Use custom hooks for reusable logic
+- Implement container/presentational component patterns
+- Use React.Suspense for code splitting
+
+## Framework-Specific Rules
+- Use useCallback and useMemo for performance optimization
+- Implement proper error boundaries
+- Use React.memo for component memoization
+- Prefer controlled components over uncontrolled
+- Use proper key props in lists
+- Implement proper dependency arrays in useEffect
+
+## File Structure
+- Components: \`/src/components/\`
+- Hooks: \`/src/hooks/\`
+- Types: \`/src/types/\`
+- Utils: \`/src/utils/\`
+- Context: \`/src/context/\`
+
+## State Management
+- Use React Context for simple global state
+- Consider Redux Toolkit for complex state
+- Use React Query for server state
+- Keep state close to where it's needed
+
+## Security & Performance
+- Sanitize user inputs to prevent XSS
+- Use React.memo judiciously
+- Implement proper key props in lists
+- Use React.lazy for code splitting
+- Optimize re-renders with useCallback and useMemo
+
+## Testing Preferences
+- Use Jest and React Testing Library
+- Test user interactions and edge cases
+- Use MSW for API mocking
+- Implement accessibility testing
+- Aim for 70%+ test coverage`,
+        tags: ['react', 'typescript', 'hooks', 'frontend', 'starter'],
+        popularity: 82,
+        lastUpdated: new Date('2025-07-14'),
+        author: 'react_team'
+      },
+      {
+        id: '7',
+        name: 'Node.js API Development - Starter',
+        category: 'Backend Framework',
+        language: 'JavaScript',
+        framework: 'Node.js',
+        description: 'Essential practices for building RESTful APIs with Node.js and Express',
+        content: `# Node.js API Development Guidelines - Starter
+
+## Project Context
+Node.js backend application with Express.js, focusing on RESTful API design and scalable architecture.
+
+## Coding Standards
+- Use async/await over callbacks
+- Implement proper error handling middleware
+- Use meaningful HTTP status codes
+- Follow RESTful naming conventions
+- Use environment variables for configuration
+- Use TypeScript for better type safety
+- Follow consistent naming conventions
+
+## Architecture Guidelines
+- Implement layered architecture (routes, controllers, services)
+- Use dependency injection where appropriate
+- Implement proper logging and monitoring
+- Use middleware for cross-cutting concerns
+- Follow SOLID principles
+- Separate business logic from presentation logic
+
+## Framework-Specific Rules
+- Use Express.js for routing and middleware
+- Implement proper validation using Joi or Zod
+- Use Helmet for security headers
+- Implement rate limiting and CORS
+- Use compression middleware for performance
+- Implement proper session management
+- Use middleware for authentication and authorization
+
+## File Structure
+- Routes: \`/src/routes/\`
+- Controllers: \`/src/controllers/\`
+- Services: \`/src/services/\`
+- Models: \`/src/models/\`
+- Middleware: \`/src/middleware/\`
+- Config: \`/src/config/\`
+
+## Database Best Practices
+- Use connection pooling for database connections
+- Implement proper indexing strategies
+- Use migrations for schema changes
+- Implement transaction handling
+- Use ORMs/ODMs judiciously (Prisma, TypeORM)
+
+## Security & Performance
+- Implement proper authentication (JWT, OAuth2)
+- Use HTTPS in production
+- Sanitize and validate all inputs
+- Implement proper CORS configuration
+- Use caching strategies (Redis)
+- Implement graceful shutdowns
+
+## Testing Preferences
+- Use Jest for unit testing
+- Use Supertest for API testing
+- Mock external dependencies
+- Test error scenarios and edge cases
+- Aim for 70%+ test coverage`,
+        tags: ['nodejs', 'express', 'backend', 'api', 'starter'],
+        popularity: 78,
+        lastUpdated: new Date('2025-07-14'),
+        author: 'nodejs_team'
+      },
+      {
+        id: '8',
+        name: 'Java Spring Boot Microservices - Starter',
+        category: 'Backend Framework',
+        language: 'Java',
+        framework: 'Spring Boot',
+        description: 'Essential guidelines for building microservices with Spring Boot',
+        content: `# Java Spring Boot Microservices Guidelines - Starter
+
+## Project Context
+Java-based microservices using Spring Boot, focusing on scalable and maintainable enterprise applications.
+
+## Coding Standards
+- Use Java 17+ with modern language features
+- Follow Oracle Java Code Conventions
+- Use meaningful variable and method names
+- Implement proper exception handling
+- Use builder patterns for complex objects
+- Follow SOLID principles and clean code practices
+- Use Lombok to reduce boilerplate
+
+## Architecture Guidelines
+- Implement Domain-Driven Design (DDD) principles
+- Use hexagonal architecture (ports and adapters)
+- Follow microservices patterns (Circuit Breaker, Bulkhead)
+- Implement event-driven architecture
+- Use API Gateway for external communication
+- Follow 12-factor app methodology
+
+## Framework-Specific Rules
+- Use Spring Boot 3.x with Spring Framework 6.x
+- Leverage Spring Boot Auto-Configuration
+- Use Spring Data JPA for database operations
+- Implement Spring Security for authentication
+- Use Spring Cloud for microservices patterns
+- Implement Spring Boot Actuator for monitoring
+
+## File Structure
+\`\`\`
+src/main/java/com/company/service/
+├── application/service/     # Application services
+├── domain/model/           # Domain entities
+├── infrastructure/config/   # Configuration
+├── infrastructure/persistence/ # JPA repositories
+└── presentation/controller/ # REST controllers
+\`\`\`
+
+## Database Best Practices
+- Use JPA/Hibernate with proper mappings
+- Implement migrations with Flyway or Liquibase
+- Use connection pooling (HikariCP)
+- Implement proper transaction management
+- Use database per microservice pattern
+
+## Security & Performance
+- Implement OAuth2/OpenID Connect
+- Use JWT tokens with proper validation
+- Implement method-level security
+- Use HTTPS/TLS for communications
+- Use caching strategies (Redis, Caffeine)
+- Implement connection pooling
+
+## Monitoring & Observability
+- Implement structured logging with SLF4J
+- Use distributed tracing (Spring Cloud Sleuth)
+- Implement metrics collection (Micrometer)
+- Use Spring Boot Actuator for health checks
+
+## Testing Strategy
+- Write unit tests with JUnit 5 and Mockito
+- Use Spring Boot Test for integration testing
+- Use TestContainers for database testing
+- Implement contract testing
+- Aim for 70%+ code coverage`,
+        tags: ['java', 'spring-boot', 'microservices', 'backend', 'starter'],
+        popularity: 79,
         lastUpdated: new Date('2025-07-14'),
         author: 'java_enterprise_team'
       }
