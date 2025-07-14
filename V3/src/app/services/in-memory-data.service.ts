@@ -1805,10 +1805,68 @@ describe('API Integration', () => {
     ];
 
     const copilotTemplates: CopilotTemplate[] = [
-      // Comprehensive Templates
+      // Angular Templates
       {
         id: '1',
-        name: 'Angular Development Guidelines',
+        name: 'Angular Development Guidelines - Starter',
+        category: 'Frontend Framework',
+        language: 'TypeScript',
+        framework: 'Angular',
+        description: 'Essential Angular development guidelines for getting started with modern best practices',
+        content: `# Angular Project Guidelines - Starter
+
+## Project Context
+Angular application with TypeScript, focusing on modern development practices and essential patterns.
+
+## Coding Standards
+- Use TypeScript strict mode with proper type definitions
+- Follow Angular style guide conventions
+- Use meaningful component and variable names
+- Implement reactive forms over template-driven forms
+- Use consistent naming conventions (camelCase for variables, PascalCase for classes)
+
+## Architecture Guidelines
+- Follow single responsibility principle
+- Use dependency injection for services
+- Implement proper separation of concerns (components, services, models)
+- Use Angular Material components consistently
+- Follow smart/dumb component patterns
+- Use reactive programming principles with RxJS
+
+## Framework-Specific Rules
+- Use standalone components (Angular 14+)
+- Implement proper unsubscription patterns (takeUntil, async pipe)
+- Use trackBy functions in *ngFor loops
+- Leverage Angular CLI for code generation
+- Use Angular guards for route protection
+- Implement OnPush change detection strategy where possible
+
+## File Structure
+- Services: \`/src/app/services/\`
+- Components: \`/src/app/components/\`
+- Models: \`/src/app/models/\`
+- Use barrel exports for clean imports
+
+## Security & Performance
+- Sanitize user inputs using Angular's built-in features
+- Implement lazy loading for feature modules
+- Use OnPush change detection for performance
+- Optimize bundle size with tree shaking
+
+## Testing Preferences
+- Use Jest for unit testing
+- Use Angular Testing Library for component testing
+- Mock external dependencies
+- Aim for 70%+ code coverage
+- Test user interactions and accessibility`,
+        tags: ['angular', 'typescript', 'frontend', 'starter', 'best-practices'],
+        popularity: 85,
+        lastUpdated: new Date('2025-07-14'),
+        author: 'angular_team'
+      },
+      {
+        id: '2',
+        name: 'Angular Development Guidelines - Comprehensive',
         category: 'Frontend Framework',
         language: 'TypeScript',
         framework: 'Angular',
@@ -1899,9 +1957,78 @@ This is an Angular application following modern development practices with TypeS
         lastUpdated: new Date('2025-07-14'),
         author: 'angular_team'
       },
+
+      // React Templates
       {
         id: '3',
-        name: 'React TypeScript Best Practices',
+        name: 'React TypeScript Best Practices - Starter',
+        category: 'Frontend Framework',
+        language: 'TypeScript',
+        framework: 'React',
+        description: 'Essential React TypeScript practices for modern development',
+        content: `# React TypeScript Guidelines - Starter
+
+## Project Context
+React application with TypeScript, utilizing modern hooks and performance optimization techniques.
+
+## Coding Standards
+- Use functional components with hooks
+- Implement proper TypeScript interfaces for props and state
+- Use meaningful component and variable names
+- Follow consistent file naming (PascalCase for components)
+- Use ESLint and Prettier for code formatting
+- Enable strict TypeScript mode
+
+## Architecture Guidelines
+- Use composition over inheritance
+- Keep components small and focused
+- Use React Context for global state management
+- Use custom hooks for reusable logic
+- Implement container/presentational component patterns
+- Use React.Suspense for code splitting
+
+## Framework-Specific Rules
+- Use useCallback and useMemo for performance optimization
+- Implement proper error boundaries
+- Use React.memo for component memoization
+- Prefer controlled components over uncontrolled
+- Use proper key props in lists
+- Implement proper dependency arrays in useEffect
+
+## File Structure
+- Components: \`/src/components/\`
+- Hooks: \`/src/hooks/\`
+- Types: \`/src/types/\`
+- Utils: \`/src/utils/\`
+- Context: \`/src/context/\`
+
+## State Management
+- Use React Context for simple global state
+- Consider Redux Toolkit for complex state
+- Use React Query for server state
+- Keep state close to where it's needed
+
+## Security & Performance
+- Sanitize user inputs to prevent XSS
+- Use React.memo judiciously
+- Implement proper key props in lists
+- Use React.lazy for code splitting
+- Optimize re-renders with useCallback and useMemo
+
+## Testing Preferences
+- Use Jest and React Testing Library
+- Test user interactions and edge cases
+- Use MSW for API mocking
+- Implement accessibility testing
+- Aim for 70%+ test coverage`,
+        tags: ['react', 'typescript', 'hooks', 'frontend', 'starter'],
+        popularity: 82,
+        lastUpdated: new Date('2025-07-14'),
+        author: 'react_team'
+      },
+      {
+        id: '4',
+        name: 'React TypeScript Best Practices - Comprehensive',
         category: 'Frontend Framework',
         language: 'TypeScript',
         framework: 'React',
@@ -1997,9 +2124,83 @@ This is a React application built with TypeScript, utilizing modern hooks, conte
         lastUpdated: new Date('2025-07-14'),
         author: 'react_team'
       },
+
+      // Node.js Templates
       {
-        id: '4',
-        name: 'Node.js API Development',
+        id: '5',
+        name: 'Node.js API Development - Starter',
+        category: 'Backend Framework',
+        language: 'JavaScript',
+        framework: 'Node.js',
+        description: 'Essential practices for building RESTful APIs with Node.js and Express',
+        content: `# Node.js API Development Guidelines - Starter
+
+## Project Context
+Node.js backend application with Express.js, focusing on RESTful API design and scalable architecture.
+
+## Coding Standards
+- Use async/await over callbacks
+- Implement proper error handling middleware
+- Use meaningful HTTP status codes
+- Follow RESTful naming conventions
+- Use environment variables for configuration
+- Use TypeScript for better type safety
+- Follow consistent naming conventions
+
+## Architecture Guidelines
+- Implement layered architecture (routes, controllers, services)
+- Use dependency injection where appropriate
+- Implement proper logging and monitoring
+- Use middleware for cross-cutting concerns
+- Follow SOLID principles
+- Separate business logic from presentation logic
+
+## Framework-Specific Rules
+- Use Express.js for routing and middleware
+- Implement proper validation using Joi or Zod
+- Use Helmet for security headers
+- Implement rate limiting and CORS
+- Use compression middleware for performance
+- Implement proper session management
+- Use middleware for authentication and authorization
+
+## File Structure
+- Routes: \`/src/routes/\`
+- Controllers: \`/src/controllers/\`
+- Services: \`/src/services/\`
+- Models: \`/src/models/\`
+- Middleware: \`/src/middleware/\`
+- Config: \`/src/config/\`
+
+## Database Best Practices
+- Use connection pooling for database connections
+- Implement proper indexing strategies
+- Use migrations for schema changes
+- Implement transaction handling
+- Use ORMs/ODMs judiciously (Prisma, TypeORM)
+
+## Security & Performance
+- Implement proper authentication (JWT, OAuth2)
+- Use HTTPS in production
+- Sanitize and validate all inputs
+- Implement proper CORS configuration
+- Use caching strategies (Redis)
+- Implement graceful shutdowns
+
+## Testing Preferences
+- Use Jest for unit testing
+- Use Supertest for API testing
+- Mock external dependencies
+- Test error scenarios and edge cases
+- Aim for 70%+ test coverage`,
+        tags: ['nodejs', 'express', 'backend', 'api', 'starter'],
+        popularity: 78,
+        lastUpdated: new Date('2025-07-14'),
+        author: 'nodejs_team'
+      },
+      {
+        id: '6',
+        name: 'Node.js API Development - Comprehensive',
         category: 'Backend Framework',
         language: 'JavaScript',
         framework: 'Node.js',
@@ -2107,9 +2308,90 @@ This is a Node.js backend application built with Express.js, focusing on RESTful
         lastUpdated: new Date('2025-07-14'),
         author: 'nodejs_team'
       },
+
+      // Java Spring Boot Templates
       {
-        id: '5',
-        name: 'Java Spring Boot Microservices',
+        id: '7',
+        name: 'Java Spring Boot Microservices - Starter',
+        category: 'Backend Framework',
+        language: 'Java',
+        framework: 'Spring Boot',
+        description: 'Essential guidelines for building microservices with Spring Boot',
+        content: `# Java Spring Boot Microservices Guidelines - Starter
+
+## Project Context
+Java-based microservices using Spring Boot, focusing on scalable and maintainable enterprise applications.
+
+## Coding Standards
+- Use Java 17+ with modern language features
+- Follow Oracle Java Code Conventions
+- Use meaningful variable and method names
+- Implement proper exception handling
+- Use builder patterns for complex objects
+- Follow SOLID principles and clean code practices
+- Use Lombok to reduce boilerplate
+
+## Architecture Guidelines
+- Implement Domain-Driven Design (DDD) principles
+- Use hexagonal architecture (ports and adapters)
+- Follow microservices patterns (Circuit Breaker, Bulkhead)
+- Implement event-driven architecture
+- Use API Gateway for external communication
+- Follow 12-factor app methodology
+
+## Framework-Specific Rules
+- Use Spring Boot 3.x with Spring Framework 6.x
+- Leverage Spring Boot Auto-Configuration
+- Use Spring Data JPA for database operations
+- Implement Spring Security for authentication
+- Use Spring Cloud for microservices patterns
+- Implement Spring Boot Actuator for monitoring
+
+## File Structure
+\`\`\`
+src/main/java/com/company/service/
+├── application/service/     # Application services
+├── domain/model/           # Domain entities
+├── infrastructure/config/   # Configuration
+├── infrastructure/persistence/ # JPA repositories
+└── presentation/controller/ # REST controllers
+\`\`\`
+
+## Database Best Practices
+- Use JPA/Hibernate with proper mappings
+- Implement migrations with Flyway or Liquibase
+- Use connection pooling (HikariCP)
+- Implement proper transaction management
+- Use database per microservice pattern
+
+## Security & Performance
+- Implement OAuth2/OpenID Connect
+- Use JWT tokens with proper validation
+- Implement method-level security
+- Use HTTPS/TLS for communications
+- Use caching strategies (Redis, Caffeine)
+- Implement connection pooling
+
+## Monitoring & Observability
+- Implement structured logging with SLF4J
+- Use distributed tracing (Spring Cloud Sleuth)
+- Implement metrics collection (Micrometer)
+- Use Spring Boot Actuator for health checks
+
+## Testing Strategy
+- Write unit tests with JUnit 5 and Mockito
+- Use Spring Boot Test for integration testing
+- Use TestContainers for database testing
+- Implement contract testing
+- Aim for 70%+ code coverage`,
+        tags: ['java', 'spring-boot', 'microservices', 'backend', 'starter'],
+        popularity: 79,
+        lastUpdated: new Date('2025-07-14'),
+        author: 'java_enterprise_team'
+      },
+      {
+        id: '8',
+        name: 'Java Spring Boot Microservices - Comprehensive',
         category: 'Backend Framework',
         language: 'Java',
         framework: 'Spring Boot',
@@ -2293,284 +2575,6 @@ src/main/java/
 - Implement saga patterns for distributed transactions`,
         tags: ['java', 'spring-boot', 'microservices', 'backend', 'enterprise', 'distributed-systems', 'architecture', 'resilience'],
         popularity: 89,
-        lastUpdated: new Date('2025-07-14'),
-        author: 'java_enterprise_team'
-      },
-
-      // Lighter Templates - Good Starting Points
-      {
-        id: '5',
-        name: 'Angular Development Guidelines - Starter',
-        category: 'Frontend Framework',
-        language: 'TypeScript',
-        framework: 'Angular',
-        description: 'Essential Angular development guidelines for getting started with modern best practices',
-        content: `# Angular Project Guidelines - Starter
-
-## Project Context
-Angular application with TypeScript, focusing on modern development practices and essential patterns.
-
-## Coding Standards
-- Use TypeScript strict mode with proper type definitions
-- Follow Angular style guide conventions
-- Use meaningful component and variable names
-- Implement reactive forms over template-driven forms
-- Use consistent naming conventions (camelCase for variables, PascalCase for classes)
-
-## Architecture Guidelines
-- Follow single responsibility principle
-- Use dependency injection for services
-- Implement proper separation of concerns (components, services, models)
-- Use Angular Material components consistently
-- Follow smart/dumb component patterns
-- Use reactive programming principles with RxJS
-
-## Framework-Specific Rules
-- Use standalone components (Angular 14+)
-- Implement proper unsubscription patterns (takeUntil, async pipe)
-- Use trackBy functions in *ngFor loops
-- Leverage Angular CLI for code generation
-- Use Angular guards for route protection
-- Implement OnPush change detection strategy where possible
-
-## File Structure
-- Services: \`/src/app/services/\`
-- Components: \`/src/app/components/\`
-- Models: \`/src/app/models/\`
-- Use barrel exports for clean imports
-
-## Security & Performance
-- Sanitize user inputs using Angular's built-in features
-- Implement lazy loading for feature modules
-- Use OnPush change detection for performance
-- Optimize bundle size with tree shaking
-
-## Testing Preferences
-- Use Jest for unit testing
-- Use Angular Testing Library for component testing
-- Mock external dependencies
-- Aim for 70%+ code coverage
-- Test user interactions and accessibility`,
-        tags: ['angular', 'typescript', 'frontend', 'starter', 'best-practices'],
-        popularity: 85,
-        lastUpdated: new Date('2025-07-14'),
-        author: 'angular_team'
-      },
-      {
-        id: '6',
-        name: 'React TypeScript Best Practices - Starter',
-        category: 'Frontend Framework',
-        language: 'TypeScript',
-        framework: 'React',
-        description: 'Essential React TypeScript practices for modern development',
-        content: `# React TypeScript Guidelines - Starter
-
-## Project Context
-React application with TypeScript, utilizing modern hooks and performance optimization techniques.
-
-## Coding Standards
-- Use functional components with hooks
-- Implement proper TypeScript interfaces for props and state
-- Use meaningful component and variable names
-- Follow consistent file naming (PascalCase for components)
-- Use ESLint and Prettier for code formatting
-- Enable strict TypeScript mode
-
-## Architecture Guidelines
-- Use composition over inheritance
-- Keep components small and focused
-- Use React Context for global state management
-- Use custom hooks for reusable logic
-- Implement container/presentational component patterns
-- Use React.Suspense for code splitting
-
-## Framework-Specific Rules
-- Use useCallback and useMemo for performance optimization
-- Implement proper error boundaries
-- Use React.memo for component memoization
-- Prefer controlled components over uncontrolled
-- Use proper key props in lists
-- Implement proper dependency arrays in useEffect
-
-## File Structure
-- Components: \`/src/components/\`
-- Hooks: \`/src/hooks/\`
-- Types: \`/src/types/\`
-- Utils: \`/src/utils/\`
-- Context: \`/src/context/\`
-
-## State Management
-- Use React Context for simple global state
-- Consider Redux Toolkit for complex state
-- Use React Query for server state
-- Keep state close to where it's needed
-
-## Security & Performance
-- Sanitize user inputs to prevent XSS
-- Use React.memo judiciously
-- Implement proper key props in lists
-- Use React.lazy for code splitting
-- Optimize re-renders with useCallback and useMemo
-
-## Testing Preferences
-- Use Jest and React Testing Library
-- Test user interactions and edge cases
-- Use MSW for API mocking
-- Implement accessibility testing
-- Aim for 70%+ test coverage`,
-        tags: ['react', 'typescript', 'hooks', 'frontend', 'starter'],
-        popularity: 82,
-        lastUpdated: new Date('2025-07-14'),
-        author: 'react_team'
-      },
-      {
-        id: '7',
-        name: 'Node.js API Development - Starter',
-        category: 'Backend Framework',
-        language: 'JavaScript',
-        framework: 'Node.js',
-        description: 'Essential practices for building RESTful APIs with Node.js and Express',
-        content: `# Node.js API Development Guidelines - Starter
-
-## Project Context
-Node.js backend application with Express.js, focusing on RESTful API design and scalable architecture.
-
-## Coding Standards
-- Use async/await over callbacks
-- Implement proper error handling middleware
-- Use meaningful HTTP status codes
-- Follow RESTful naming conventions
-- Use environment variables for configuration
-- Use TypeScript for better type safety
-- Follow consistent naming conventions
-
-## Architecture Guidelines
-- Implement layered architecture (routes, controllers, services)
-- Use dependency injection where appropriate
-- Implement proper logging and monitoring
-- Use middleware for cross-cutting concerns
-- Follow SOLID principles
-- Separate business logic from presentation logic
-
-## Framework-Specific Rules
-- Use Express.js for routing and middleware
-- Implement proper validation using Joi or Zod
-- Use Helmet for security headers
-- Implement rate limiting and CORS
-- Use compression middleware for performance
-- Implement proper session management
-- Use middleware for authentication and authorization
-
-## File Structure
-- Routes: \`/src/routes/\`
-- Controllers: \`/src/controllers/\`
-- Services: \`/src/services/\`
-- Models: \`/src/models/\`
-- Middleware: \`/src/middleware/\`
-- Config: \`/src/config/\`
-
-## Database Best Practices
-- Use connection pooling for database connections
-- Implement proper indexing strategies
-- Use migrations for schema changes
-- Implement transaction handling
-- Use ORMs/ODMs judiciously (Prisma, TypeORM)
-
-## Security & Performance
-- Implement proper authentication (JWT, OAuth2)
-- Use HTTPS in production
-- Sanitize and validate all inputs
-- Implement proper CORS configuration
-- Use caching strategies (Redis)
-- Implement graceful shutdowns
-
-## Testing Preferences
-- Use Jest for unit testing
-- Use Supertest for API testing
-- Mock external dependencies
-- Test error scenarios and edge cases
-- Aim for 70%+ test coverage`,
-        tags: ['nodejs', 'express', 'backend', 'api', 'starter'],
-        popularity: 78,
-        lastUpdated: new Date('2025-07-14'),
-        author: 'nodejs_team'
-      },
-      {
-        id: '8',
-        name: 'Java Spring Boot Microservices - Starter',
-        category: 'Backend Framework',
-        language: 'Java',
-        framework: 'Spring Boot',
-        description: 'Essential guidelines for building microservices with Spring Boot',
-        content: `# Java Spring Boot Microservices Guidelines - Starter
-
-## Project Context
-Java-based microservices using Spring Boot, focusing on scalable and maintainable enterprise applications.
-
-## Coding Standards
-- Use Java 17+ with modern language features
-- Follow Oracle Java Code Conventions
-- Use meaningful variable and method names
-- Implement proper exception handling
-- Use builder patterns for complex objects
-- Follow SOLID principles and clean code practices
-- Use Lombok to reduce boilerplate
-
-## Architecture Guidelines
-- Implement Domain-Driven Design (DDD) principles
-- Use hexagonal architecture (ports and adapters)
-- Follow microservices patterns (Circuit Breaker, Bulkhead)
-- Implement event-driven architecture
-- Use API Gateway for external communication
-- Follow 12-factor app methodology
-
-## Framework-Specific Rules
-- Use Spring Boot 3.x with Spring Framework 6.x
-- Leverage Spring Boot Auto-Configuration
-- Use Spring Data JPA for database operations
-- Implement Spring Security for authentication
-- Use Spring Cloud for microservices patterns
-- Implement Spring Boot Actuator for monitoring
-
-## File Structure
-\`\`\`
-src/main/java/com/company/service/
-├── application/service/     # Application services
-├── domain/model/           # Domain entities
-├── infrastructure/config/   # Configuration
-├── infrastructure/persistence/ # JPA repositories
-└── presentation/controller/ # REST controllers
-\`\`\`
-
-## Database Best Practices
-- Use JPA/Hibernate with proper mappings
-- Implement migrations with Flyway or Liquibase
-- Use connection pooling (HikariCP)
-- Implement proper transaction management
-- Use database per microservice pattern
-
-## Security & Performance
-- Implement OAuth2/OpenID Connect
-- Use JWT tokens with proper validation
-- Implement method-level security
-- Use HTTPS/TLS for communications
-- Use caching strategies (Redis, Caffeine)
-- Implement connection pooling
-
-## Monitoring & Observability
-- Implement structured logging with SLF4J
-- Use distributed tracing (Spring Cloud Sleuth)
-- Implement metrics collection (Micrometer)
-- Use Spring Boot Actuator for health checks
-
-## Testing Strategy
-- Write unit tests with JUnit 5 and Mockito
-- Use Spring Boot Test for integration testing
-- Use TestContainers for database testing
-- Implement contract testing
-- Aim for 70%+ code coverage`,
-        tags: ['java', 'spring-boot', 'microservices', 'backend', 'starter'],
-        popularity: 79,
         lastUpdated: new Date('2025-07-14'),
         author: 'java_enterprise_team'
       }
