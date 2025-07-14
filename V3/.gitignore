@@ -10,6 +10,9 @@
 /node_modules
 npm-debug.log
 yarn-error.log
+# Temp service files
+/backend
+copilot_prompter.db
 
 # IDEs and editors
 .idea/
