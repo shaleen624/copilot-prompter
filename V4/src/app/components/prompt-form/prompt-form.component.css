@@ -1,0 +1,71 @@
+.back-button {
+    margin-bottom: 16px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.form-row mat-form-field {
+  flex: 1 1 200px;
+}
+
+.form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px 48px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 1200px) {
+  .form-container {
+    padding: 24px 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .form-container {
+    padding: 24px 16px;
+  }
+}
+
+mat-form-field {
+  margin-bottom: 16px;
+}
+
+mat-card-content {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+}
+
+mat-card-actions {
+  padding: 16px;
+  margin: 0;
+}
+
+mat-card-actions button {
+  margin-left: 8px;
+}
+
+.mat-mdc-form-field {
+  margin-bottom: 16px;
+}
+
+textarea {
+  min-height: 100px;
+}

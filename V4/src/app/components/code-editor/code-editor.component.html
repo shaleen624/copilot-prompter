@@ -1,0 +1,51 @@
+<div class="code-editor-container">
+  <!-- Display Mode -->
+  @if (!isEditModeActive()) {
+    <div class="code-display-container">
+      <div class="code-header">
+        <span>{{ fileName || 'Code' }}</span>
+        <div class="code-header-actions">
+          @if (showEditButton) {
+            <button mat-icon-button (click)="startEdit()" [title]="editButtonLabel">
+              <mat-icon>edit</mat-icon>
+            </button>
+          }
+          @if (showCopyButton) {
+            <button mat-icon-button (click)="copyContent()" title="Copy to clipboard">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+          }
+        </div>
+      </div>
+      <pre class="code-content" [attr.data-language]="language"><code>{{ content }}</code></pre>
+    </div>
+  }
+
+  <!-- Edit Mode -->
+  @if (isEditModeActive()) {
+    <div class="edit-container">
+      <mat-form-field appearance="outline" class="full-width">
+        <textarea 
+          matInput 
+          [ngModel]="editableContent()"
+          (ngModelChange)="onContentChange($event)"
+          [placeholder]="placeholder"
+          class="edit-textarea"
+          cdkTextareaAutosize
+          [cdkAutosizeMinRows]="minRows"
+          [cdkAutosizeMaxRows]="maxRows">
+        </textarea>
+      </mat-form-field>
+      <div class="edit-actions">
+        <button mat-button (click)="cancelEdit()">
+          <mat-icon>cancel</mat-icon>
+          Cancel
+        </button>
+        <button mat-button color="primary" (click)="saveEdit()">
+          <mat-icon>save</mat-icon>
+          Apply Changes
+        </button>
+      </div>
+    </div>
+  }
+</div>

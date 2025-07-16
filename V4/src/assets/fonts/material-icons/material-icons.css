@@ -1,0 +1,33 @@
+/* Material Icons Font Face */
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./material-icons.woff2') format('woff2');
+}
+
+/* Material Icons CSS Classes */
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  direction: ltr;
+  font-feature-settings: 'liga';
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Individual Icon Classes */
+.material-icons.search::before { content: '\e8b6'; }
+.material-icons.add::before { content: '\e145'; }
+.material-icons.arrow_back::before { content: '\e5c4'; }
+.material-icons.cancel::before { content: '\e5c9'; }
+.material-icons.edit::before { content: '\e3c9'; }
+.material-icons.content_copy::before { content: '\e14d'; }

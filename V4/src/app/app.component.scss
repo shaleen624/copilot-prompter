@@ -1,0 +1,142 @@
+.brand-right {
+  align-items: flex-end;
+  text-align: right;
+}
+
+// Brand styles for toolbar title and subtitle
+.brand {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.brand-title {
+  font-size: 1.25em;
+  font-weight: 500;
+}
+
+.brand-subtitle {
+  font-size: 0.85em;
+  color: #e0e0e0;
+  line-height: 1.1;
+}
+
+.nav-links {
+  display: flex;
+  gap: 8px;
+  margin-left: 32px;
+}
+
+.nav-links button {
+  margin: 0;
+}
+
+.active-nav {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: #fff !important;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.admin-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+}
+
+.admin-label {
+  font-size: 0.875rem;
+  color: #e0e0e0;
+  font-weight: 500;
+}
+
+.main-content {
+  padding: 0;
+  max-width: none;
+  margin: 0;
+  min-height: calc(100vh - 64px); // Subtract toolbar height
+  background: transparent;
+  
+  // Full-screen pages without padding or max-width
+  &.full-screen {
+    padding: 0;
+    max-width: none;
+    margin: 0;
+    min-height: 100vh;
+  }
+}
+
+mat-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .nav-links {
+    margin-left: 16px;
+    gap: 4px;
+  }
+  
+  .nav-links button {
+    padding: 0 8px;
+    font-size: 0.875rem;
+  }
+  
+  .nav-links mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+  
+  .action-buttons {
+    gap: 12px;
+  }
+  
+  .action-buttons button {
+    padding: 0 12px;
+    font-size: 0.875rem;
+  }
+  
+  .admin-toggle {
+    gap: 6px;
+  }
+  
+  .admin-label {
+    font-size: 0.8rem;
+  }
+  
+  .brand-title {
+    font-size: 1.1em;
+  }
+}
+
+@media (max-width: 600px) {
+  .nav-links {
+    margin-left: 8px;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-end;
+  }
+  
+  .admin-toggle {
+    order: -1;
+  }
+  
+  .brand-title {
+    font-size: 1em;
+  }
+}

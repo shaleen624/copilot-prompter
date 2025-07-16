@@ -1,0 +1,383 @@
+.prompt-detail-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 48px;
+  background: linear-gradient(135deg, #f7fafc 0%, #e2e8f0 50%, #ffffff 100%);
+  min-height: 100vh;
+}
+
+@media (max-width: 1200px) {
+  .prompt-detail-container {
+    padding: 24px 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .prompt-detail-container {
+    padding: 24px 16px;
+  }
+}
+
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  gap: 16px;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.prompt-info-card {
+  margin-bottom: 24px;
+}
+
+/* Main content spacing */
+.mat-card-header {
+  margin-bottom: 16px;
+}
+
+.mat-card-content {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.mat-card-content h4 {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  color: #1976d2;
+  font-weight: 500;
+}
+
+.mat-card-content h4:first-of-type {
+  margin-top: 16px;
+}
+
+.description {
+  font-size: 1.1em;
+  line-height: 1.6;
+  color: #424242;
+  margin-bottom: 24px;
+}
+
+.tags-section {
+  margin-bottom: 24px;
+}
+
+.tags-section h4 {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.mat-chip-listbox {
+  margin-bottom: 0;
+}
+
+.prompt-text-section {
+  margin-bottom: 0;
+}
+
+.prompt-text-section h4 {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+/* Card actions spacing */
+mat-card-actions {
+  display: flex;
+  gap: 16px;
+  padding: 16px !important;
+}
+
+mat-card-actions button {
+  min-width: 120px;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .prompt-detail-container {
+    padding: 16px;
+  }
+  
+  .header-actions {
+    margin-bottom: 16px;
+  }
+  
+  .prompt-info-card {
+    margin-bottom: 16px;
+  }
+  
+  .description {
+    margin-bottom: 16px;
+  }
+  
+  .tags-section {
+    margin-bottom: 16px;
+  }
+  
+  mat-card-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  mat-card-actions button {
+    margin-bottom: 8px;
+    min-width: auto;
+  }
+  
+  mat-card-actions button:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.prompt-text-container {
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.prompt-display-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.prompt-code {
+    background-color: #282c34;
+    color: #abb2bf;
+    padding: 16px;
+    border-radius: 8px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.inline-edit-btn {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 10;
+    min-width: 40px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    overflow: visible;
+}
+
+.inline-edit-btn .mat-icon {
+    overflow: visible;
+}
+
+.prompt-display-wrapper:hover .inline-edit-btn {
+    opacity: 1;
+}
+
+.inline-edit-btn:hover {
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.edit-mode {
+    margin-top: 8px;
+    padding: 0;
+    background-color: #2d3748;
+    border: 2px solid #4caf50;
+    border-radius: 8px;
+    position: relative;
+    margin: 16px 0;
+    overflow: hidden;
+}
+
+.edit-mode::before {
+    content: "✏️ EDIT MODE";
+    position: absolute;
+    top: 8px;
+    left: 16px;
+    background: #4caf50;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    z-index: 2;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.edit-mode::after {
+    content: "Edit your prompt text and click 'Apply Changes' to save";
+    position: absolute;
+    top: 8px;
+    left: 140px;
+    background: rgba(76, 175, 80, 0.2);
+    color: #81c784;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-style: italic;
+    z-index: 2;
+    border: 1px solid rgba(76, 175, 80, 0.4);
+}
+
+/* Responsive design for edit mode instructions */
+@media (max-width: 768px) {
+  .edit-mode::after {
+    display: none;
+  }
+  
+  .edit-mode::before {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.edit-mode .full-width {
+    width: 100%;
+    padding: 16px;
+    padding-top: 48px; /* Make room for the edit mode indicator */
+}
+
+.edit-mode .full-width .mat-mdc-form-field-wrapper {
+    width: 100%;
+    padding: 0;
+}
+
+.edit-mode .full-width .mat-mdc-text-field-wrapper {
+    width: 100%;
+}
+
+.inline-edit-actions {
+    display: flex;
+    gap: 12px;
+    margin: 0 16px 16px 16px;
+    padding-top: 16px;
+    border-top: 1px solid #4a5568;
+    background-color: #2d3748;
+    justify-content: flex-end;
+}
+
+.inline-edit-actions button {
+    background-color: #4a5568;
+    color: #e2e8f0;
+    border: 1px solid #718096;
+    transition: all 0.3s ease;
+}
+
+.inline-edit-actions button:hover {
+    background-color: #718096;
+    color: #ffffff;
+}
+
+.inline-edit-actions button[color="primary"] {
+    background-color: #4caf50;
+    color: white;
+    border: 1px solid #4caf50;
+}
+
+.inline-edit-actions button[color="primary"]:hover {
+    background-color: #388e3c;
+    border-color: #388e3c;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.dark-textarea {
+    background-color: #2d3748 !important;
+    color: #e2e8f0 !important;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    border-radius: 4px;
+    padding: 16px;
+    border: 1px solid #4a5568;
+    transition: border-color 0.3s ease;
+    margin: 0;
+    width: 100%;
+    caret-color: #ffffff;
+}
+
+.dark-textarea:focus {
+    border-color: #4caf50 !important;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+    caret-color: #ffffff;
+}
+
+.full-width .mat-mdc-form-field-input-control {
+    background-color: #2d3748 !important;
+    color: #e2e8f0 !important;
+}
+
+.full-width .mat-mdc-form-field {
+    width: 100%;
+    margin: 0;
+}
+
+.full-width .mat-mdc-form-field .mat-mdc-form-field-infix {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+.full-width .mat-mdc-text-field-wrapper {
+    background-color: #2d3748 !important;
+}
+
+/* Remove any white outlines or borders */
+.full-width .mat-mdc-form-field-outline {
+    display: none;
+}
+
+.full-width .mat-mdc-form-field-outline-start,
+.full-width .mat-mdc-form-field-outline-end,
+.full-width .mat-mdc-form-field-outline-notch {
+    display: none;
+}
+
+.full-width .mat-mdc-form-field-wrapper {
+    background-color: #2d3748 !important;
+    padding: 0;
+}
+
+.edit-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.display-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+mat-card-actions {
+    padding: 16px !important;
+}
+
+h4 {
+    margin-top: 24px;
+    margin-bottom: 8px;
+    color: #616161;
+}

@@ -1,0 +1,42 @@
+/* Ensure the Angular app root spans full height */
+app-root {
+  display: block;
+  min-height: 100vh;
+  background: transparent;
+}
+
+/* Remove default margins and ensure full coverage */
+* {
+  box-sizing: border-box;
+}
+
+/* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+//@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+//@import '@angular/material/prebuilt-themes/pink-bluegrey.css';
+//@import '@angular/material/prebuilt-themes/purple-green.css';
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: linear-gradient(135deg, #f7fafc 0%, #e2e8f0 50%, #ffffff 100%);
+  background-attachment: fixed;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 20px;
+}
+
+.mat-card {
+  margin: 16px 0;
+}
+
+.mat-card-actions {
+  padding: 16px !important;
+  margin: 0 !important;
+}

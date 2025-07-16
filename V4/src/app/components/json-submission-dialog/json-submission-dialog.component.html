@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>📤 Submit Your Prompt</h2>
+<mat-dialog-content>
+  <p class="submission-message">
+    <strong>Thank you for contributing to our Copilot Prompter community!</strong>
+  </p>
+  <p class="submission-instructions">
+    Please copy the JSON below and submit it to our 
+    <a href="https://sharepoint.company.com/prompts" target="_blank" class="sharepoint-link">
+      SharePoint submission portal
+    </a>
+    . Our team will review your prompt for usability and quality before adding it to the collection.
+  </p>
+  
+  <mat-form-field class="json-field" appearance="outline">
+    <mat-label>Prompt JSON</mat-label>
+    <textarea 
+      matInput 
+      readonly 
+      rows="12" 
+      class="json-textarea"
+      [value]="jsonString">
+    </textarea>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-flat-button color="primary" (click)="copyJson()">
+    <mat-icon>content_copy</mat-icon>
+    Copy JSON
+  </button>
+  <button mat-flat-button color="accent" (click)="onSubmit()">
+    <mat-icon>open_in_new</mat-icon>
+    Go to SharePoint
+  </button>
+</mat-dialog-actions>

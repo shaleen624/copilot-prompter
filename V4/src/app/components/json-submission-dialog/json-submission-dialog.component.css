@@ -1,0 +1,37 @@
+.submission-message {
+  margin-bottom: 16px;
+  color: #2e7d32;
+  font-size: 16px;
+}
+
+.submission-instructions {
+  margin-bottom: 20px;
+  line-height: 1.6;
+  color: #424242;
+}
+
+.sharepoint-link {
+  color: #1976d2;
+  text-decoration: none;
+}
+
+.sharepoint-link:hover {
+  text-decoration: underline;
+}
+
+.json-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.json-textarea {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  line-height: 1.4;
+  background-color: #f8f9fa;
+}
+
+mat-dialog-content {
+  max-height: 500px;
+  overflow-y: auto;
+}
