@@ -1,0 +1,308 @@
+{
+  "info": {
+    "name": "Copilot Prompter API",
+    "description": "Complete API collection for Copilot Prompter backend testing",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/api",
+      "type": "string"
+    },
+    {
+      "key": "accessToken",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "test",
+      "script": {
+        "exec": [
+          "// Auto-extract access token from login response",
+          "if (pm.response.json() && pm.response.json().accessToken) {",
+          "    pm.collectionVariables.set('accessToken', pm.response.json().accessToken);",
+          "}"
+        ],
+        "type": "text/javascript"
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/refresh",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "refresh"]
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/auth/logout",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "logout"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Prompts",
+      "item": [
+        {
+          "name": "Get All Prompts",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/prompts?page=0&size=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["prompts"],
+              "query": [
+                {"key": "page", "value": "0"},
+                {"key": "size", "value": "20"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Prompt by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/prompts/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["prompts", "1"]
+            }
+          }
+        },
+        {
+          "name": "Search Prompts",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/prompts/search?q=angular&category=Frontend",
+              "host": ["{{baseUrl}}"],
+              "path": ["prompts", "search"],
+              "query": [
+                {"key": "q", "value": "angular"},
+                {"key": "category", "value": "Frontend"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Prompt Categories",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/prompts/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["prompts", "categories"]
+            }
+          }
+        },
+        {
+          "name": "Get Popular Prompts",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/prompts/popular",
+              "host": ["{{baseUrl}}"],
+              "path": ["prompts", "popular"]
+            }
+          }
+        },
+        {
+          "name": "Create Prompt",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Test Prompt\",\n  \"prompt\": \"This is a test prompt content for API testing.\",\n  \"description\": \"A test prompt created via API\",\n  \"tags\": [\"test\", \"api\", \"demo\"],\n  \"category\": \"General\",\n  \"language\": \"JavaScript\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/prompts",
+              "host": ["{{baseUrl}}"],
+              "path": ["prompts"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Templates",
+      "item": [
+        {
+          "name": "Get All Templates",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/templates?page=0&size=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["templates"],
+              "query": [
+                {"key": "page", "value": "0"},
+                {"key": "size", "value": "20"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Template by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/templates/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["templates", "1"]
+            }
+          }
+        },
+        {
+          "name": "Search Templates",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/templates/search?q=angular&framework=Angular",
+              "host": ["{{baseUrl}}"],
+              "path": ["templates", "search"],
+              "query": [
+                {"key": "q", "value": "angular"},
+                {"key": "framework", "value": "Angular"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Template Categories",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/templates/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["templates", "categories"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/admin/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "users"]
+            }
+          }
+        },
+        {
+          "name": "Get User by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/admin/users/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "users", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"testuser\",\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\",\n  \"firstName\": \"Test\",\n  \"lastName\": \"User\",\n  \"role\": \"USER\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "users"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/actuator/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["actuator", "health"]
+        }
+      }
+    }
+  ]
+}
