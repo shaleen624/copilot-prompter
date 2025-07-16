@@ -11,8 +11,64 @@
 			"group": "build",
 			"isBackground": false,
 			"problemMatcher": [
-				"$maven-compile-java"
+				"$gradle"
 			]
+		},
+		{
+			"label": "Build and Run Node.js Backend",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"run",
+				"dev"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/backend/node-service"
+			},
+			"group": "build",
+			"isBackground": true,
+			"problemMatcher": [
+				"$tsc-watch"
+			],
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			}
+		},
+		{
+			"label": "Build Node.js Backend",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"run",
+				"build"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/backend/node-service"
+			},
+			"group": "build",
+			"isBackground": false,
+			"problemMatcher": [
+				"$tsc"
+			]
+		},
+		{
+			"label": "Test Node.js Backend",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"test"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/backend/node-service"
+			},
+			"group": "test",
+			"isBackground": false,
+			"problemMatcher": []
 		}
 	]
 }
