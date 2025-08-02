@@ -54,19 +54,19 @@ public class Prompt {
     private String author;
 
     @CreatedDate
-    @Column(nullable = false, updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column(nullable = false)
+    @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
     @Column(nullable = false)
     private Boolean active = true;
 
-    @Column(nullable = false)
+    @Column(name = "view_count", nullable = false)
     private Long viewCount = 0L;
 
-    @Column(nullable = false)
+    @Column(name = "copy_count", nullable = false)
     private Long copyCount = 0L;
 }

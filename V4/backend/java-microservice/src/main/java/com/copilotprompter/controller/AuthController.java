@@ -2,6 +2,7 @@ package com.copilotprompter.controller;
 
 import com.copilotprompter.dto.AuthResponse;
 import com.copilotprompter.dto.LoginRequest;
+import com.copilotprompter.dto.RegisterRequest;
 import com.copilotprompter.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -25,6 +26,42 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
+
+    @PostMapping("/register")
+    @Operation(
+        summary = "User Registration",
+        description = "Register a new user account and return JWT access and refresh tokens."
+    )
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "201",
+            description = "Registration successful",
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(implementation = AuthResponse.class)
+            )
+        ),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Validation error or user already exists",
+            content = @Content(
+                mediaType = "application/json",
+                examples = @ExampleObject(
+                    value = """
+                        {
+                          "error": "Bad Request",
+                          "message": "Username already exists"
+                        }
+                        """
+                )
+            )
+        )
+    })
+    public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
+        log.info("Registration request for user: {}", request.getUsername());
+        AuthResponse response = authService.register(request);
+        return ResponseEntity.status(201).body(response);
+    }
 
     @PostMapping("/login")
     @Operation(

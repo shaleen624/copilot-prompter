@@ -56,23 +56,23 @@ public class CopilotTemplate {
     private Long popularity = 0L;
 
     @NotBlank(message = "Author is required")
-    @Column(nullable = false, length = 100)
+    @Column(name = "author", nullable = false, length = 100)
     private String author;
 
     @CreatedDate
-    @Column(nullable = false, updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column(nullable = false)
+    @Column(name = "last_updated", nullable = false)
     private LocalDateTime lastUpdated;
 
     @Column(nullable = false)
     private Boolean active = true;
 
-    @Column(nullable = false)
+    @Column(name = "view_count", nullable = false)
     private Long viewCount = 0L;
 
-    @Column(nullable = false)
+    @Column(name = "download_count", nullable = false)
     private Long downloadCount = 0L;
 }
