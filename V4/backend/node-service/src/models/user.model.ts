@@ -13,32 +13,105 @@ export interface UserAttributes {
   accountNonExpired: boolean;
   accountNonLocked: boolean;
   credentialsNonExpired: boolean;
-  createdAt: Date;
-  updatedAt: Date;
   lastLoginAt?: Date;
 }
 
-export interface UserCreationAttributes extends Omit<UserAttributes, 'id' | 'createdAt' | 'updatedAt'> {
+export interface UserCreationAttributes extends Omit<UserAttributes, 'id'> {
   id?: number;
-  createdAt?: Date;
-  updatedAt?: Date;
 }
 
 export class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
-  public id!: number;
-  public username!: string;
-  public email!: string;
-  public password!: string;
-  public firstName?: string;
-  public lastName?: string;
-  public role!: UserRole;
-  public enabled!: boolean;
-  public accountNonExpired!: boolean;
-  public accountNonLocked!: boolean;
-  public credentialsNonExpired!: boolean;
-  public createdAt!: Date;
-  public updatedAt!: Date;
   public lastLoginAt?: Date;
+
+  // Getters and setters for all fields to ensure consistent access
+  public get id(): number {
+    return this.getDataValue('id');
+  }
+
+  public set id(value: number) {
+    this.setDataValue('id', value);
+  }
+
+  public get username(): string {
+    return this.getDataValue('username');
+  }
+
+  public set username(value: string) {
+    this.setDataValue('username', value);
+  }
+
+  public get email(): string {
+    return this.getDataValue('email');
+  }
+
+  public set email(value: string) {
+    this.setDataValue('email', value);
+  }
+
+  public get password(): string {
+    return this.getDataValue('password');
+  }
+
+  public set password(value: string) {
+    this.setDataValue('password', value);
+  }
+
+  public get role(): UserRole {
+    return this.getDataValue('role');
+  }
+
+  public set role(value: UserRole) {
+    this.setDataValue('role', value);
+  }
+
+  // Getters and setters for mapped fields
+  public get firstName(): string | undefined {
+    return this.getDataValue('firstName');
+  }
+
+  public set firstName(value: string | undefined) {
+    this.setDataValue('firstName', value);
+  }
+
+  public get lastName(): string | undefined {
+    return this.getDataValue('lastName');
+  }
+
+  public set lastName(value: string | undefined) {
+    this.setDataValue('lastName', value);
+  }
+
+  public get enabled(): boolean {
+    return this.getDataValue('enabled');
+  }
+
+  public set enabled(value: boolean) {
+    this.setDataValue('enabled', value);
+  }
+
+  public get accountNonExpired(): boolean {
+    return this.getDataValue('accountNonExpired');
+  }
+
+  public set accountNonExpired(value: boolean) {
+    this.setDataValue('accountNonExpired', value);
+  }
+
+  public get accountNonLocked(): boolean {
+    return this.getDataValue('accountNonLocked');
+  }
+
+  public set accountNonLocked(value: boolean) {
+    this.setDataValue('accountNonLocked', value);
+  }
+
+  public get credentialsNonExpired(): boolean {
+    return this.getDataValue('credentialsNonExpired');
+  }
+
+  public set credentialsNonExpired(value: boolean) {
+    this.setDataValue('credentialsNonExpired', value);
+  }
 
   static initModel(sequelize: Sequelize): typeof User {
     User.init({
@@ -67,10 +140,12 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
       firstName: {
         type: DataTypes.STRING(100),
         allowNull: true,
+        field: 'first_name',
       },
       lastName: {
         type: DataTypes.STRING(100),
         allowNull: true,
+        field: 'last_name',
       },
       role: {
         type: DataTypes.ENUM(...Object.values(UserRole)),
@@ -86,26 +161,19 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: true,
+        field: 'account_non_expired',
       },
       accountNonLocked: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: true,
+        field: 'account_non_locked',
       },
       credentialsNonExpired: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: true,
-      },
-      createdAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        field: 'created_at',
-      },
-      updatedAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        field: 'updated_at',
+        field: 'credentials_non_expired',
       },
       lastLoginAt: {
         type: DataTypes.DATE,

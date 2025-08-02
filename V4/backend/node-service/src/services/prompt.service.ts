@@ -7,7 +7,6 @@ import { Op } from 'sequelize';
 interface PromptFilters {
   category?: string;
   language?: string;
-  tags?: string[];
 }
 
 interface PromptCreateData {
@@ -16,8 +15,7 @@ interface PromptCreateData {
   description?: string;
   category: string;
   language?: string;
-  tags?: string[];
-  userId: number;
+  author: string;  // Username, not user ID
 }
 
 interface PromptUpdateData {
@@ -26,7 +24,6 @@ interface PromptUpdateData {
   description?: string;
   category?: string;
   language?: string;
-  tags?: string[];
 }
 
 export class PromptService {
@@ -43,24 +40,11 @@ export class PromptService {
         whereClause.language = filters.language;
       }
 
-      if (filters.tags && filters.tags.length > 0) {
-        whereClause.tags = {
-          [Op.overlap]: filters.tags
-        };
-      }
-
       const { rows: prompts, count: total } = await Prompt.findAndCountAll({
         where: whereClause,
-        include: [
-          {
-            model: User,
-            as: 'user',
-            attributes: ['id', 'username', 'firstName', 'lastName']
-          }
-        ],
         limit,
         offset,
-        order: [['createdAt', 'DESC']]
+        order: [['created_at', 'DESC']]  // Use database column name
       });
 
       return { prompts, total };
@@ -72,20 +56,43 @@ export class PromptService {
 
   async findById(id: number) {
     try {
-      const prompt = await Prompt.findByPk(id, {
-        include: [
-          {
-            model: User,
-            as: 'user',
-            attributes: ['id', 'username', 'firstName', 'lastName']
-          }
-        ]
-      });
+      const prompt = await Prompt.findByPk(id);
 
       return prompt;
     } catch (error) {
       logger.error('Find prompt by ID failed:', error);
       throw new CustomError('Failed to retrieve prompt', 500);
+    }
+  }
+
+  async findByUserId(userId: number, page: number = 1, limit: number = 10) {
+    try {
+      // First get the username from user ID
+      const user = await User.findByPk(userId, { attributes: ['username'] });
+      if (!user) {
+        throw new CustomError('User not found', 404);
+      }
+
+      const offset = (page - 1) * limit;
+      
+      const { count, rows } = await Prompt.findAndCountAll({
+        where: { author: user.username },
+        limit,
+        offset,
+        order: [['created_at', 'DESC']]  // Use database column name
+      });
+
+      return {
+        prompts: rows,
+        totalCount: count,
+        totalPages: Math.ceil(count / limit),
+        currentPage: page,
+        hasNextPage: page < Math.ceil(count / limit),
+        hasPrevPage: page > 1
+      };
+    } catch (error) {
+      logger.error('Find prompts by user ID failed:', error);
+      throw new CustomError('Failed to retrieve user prompts', 500);
     }
   }
 
@@ -97,8 +104,7 @@ export class PromptService {
         description: data.description,
         category: data.category,
         language: data.language || '',
-        tags: data.tags || [],
-        userId: data.userId,
+        author: data.author,
         active: true,
         viewCount: 0,
         copyCount: 0
@@ -158,9 +164,9 @@ export class PromptService {
 
       if (query) {
         whereClause[Op.or] = [
-          { title: { [Op.iLike]: `%${query}%` } },
-          { description: { [Op.iLike]: `%${query}%` } },
-          { prompt: { [Op.iLike]: `%${query}%` } }
+          { title: { [Op.like]: `%${query}%` } },
+          { description: { [Op.like]: `%${query}%` } },
+          { prompt: { [Op.like]: `%${query}%` } }
         ];
       }
 
@@ -172,27 +178,23 @@ export class PromptService {
         whereClause.language = filters.language;
       }
 
-      if (filters.tags && filters.tags.length > 0) {
-        whereClause.tags = {
-          [Op.overlap]: filters.tags
-        };
-      }
-
-      const validSortFields = ['title', 'createdAt', 'updatedAt', 'category'];
+      const validSortFields = ['title', 'created_at', 'updated_at', 'category'];
       const validSortOrders = ['asc', 'desc'];
 
-      const orderField = validSortFields.includes(sortBy) ? sortBy : 'createdAt';
+      // Map camelCase to snake_case for database columns
+      const fieldMapping: { [key: string]: string } = {
+        'createdAt': 'created_at',
+        'updatedAt': 'updated_at',
+        'title': 'title',
+        'category': 'category'
+      };
+
+      const dbOrderField = fieldMapping[sortBy] || 'created_at';
+      const orderField = validSortFields.includes(dbOrderField) ? dbOrderField : 'created_at';
       const orderDirection = validSortOrders.includes(sortOrder.toLowerCase()) ? sortOrder.toUpperCase() : 'DESC';
 
       const { rows: prompts, count: total } = await Prompt.findAndCountAll({
         where: whereClause,
-        include: [
-          {
-            model: User,
-            as: 'user',
-            attributes: ['id', 'username', 'firstName', 'lastName']
-          }
-        ],
         limit,
         offset,
         order: [[orderField, orderDirection]]

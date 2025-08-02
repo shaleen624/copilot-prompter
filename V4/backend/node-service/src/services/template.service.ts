@@ -2,7 +2,7 @@ import { CopilotTemplate } from '@/models/template.model';
 // import { User } from '@/models/user.model'; // TODO: Re-enable when associations are fixed
 import { CustomError } from '@/middleware/errorHandler';
 import { logger } from '@/utils/logger';
-import { Op } from 'sequelize';
+import { Op, col } from 'sequelize';
 
 interface TemplateFilters {
   category?: string;
@@ -68,7 +68,7 @@ export class TemplateService {
         // ],
         limit,
         offset,
-        order: [['createdAt', 'DESC']]
+        order: [[col('created_at'), 'DESC']]
       });
 
       return { templates, total };
@@ -95,6 +95,39 @@ export class TemplateService {
     } catch (error) {
       logger.error('Find template by ID failed:', error);
       throw new CustomError('Failed to retrieve template', 500);
+    }
+  }
+
+  async findByUserId(userId: string, page: number = 1, limit: number = 10) {
+    try {
+      const offset = (page - 1) * limit;
+      
+      const { count, rows } = await CopilotTemplate.findAndCountAll({
+        where: { userId },
+        // TODO: Re-enable user association when userId is converted to integer
+        // include: [
+        //   {
+        //     model: User,
+        //     as: 'user',
+        //     attributes: ['id', 'username', 'firstName', 'lastName']
+        //   }
+        // ],
+        limit,
+        offset,
+        order: [[col('created_at'), 'DESC']]
+      });
+
+      return {
+        templates: rows,
+        totalCount: count,
+        totalPages: Math.ceil(count / limit),
+        currentPage: page,
+        hasNextPage: page < Math.ceil(count / limit),
+        hasPrevPage: page > 1
+      };
+    } catch (error) {
+      logger.error('Find templates by user ID failed:', error);
+      throw new CustomError('Failed to retrieve user templates', 500);
     }
   }
 
@@ -193,10 +226,17 @@ export class TemplateService {
         };
       }
 
-      const validSortFields = ['name', 'createdAt', 'updatedAt', 'category', 'popularity'];
+      const validSortFields = ['name', 'created_at', 'last_updated', 'category', 'popularity'];
       const validSortOrders = ['asc', 'desc'];
 
-      const orderField = validSortFields.includes(sortBy) ? sortBy : 'createdAt';
+      let orderField = col('created_at'); // default
+      if (sortBy === 'createdAt') {
+        orderField = col('created_at');
+      } else if (sortBy === 'updatedAt') {
+        orderField = col('last_updated');
+      } else if (['name', 'category', 'popularity'].includes(sortBy)) {
+        orderField = col(sortBy);
+      }
       const orderDirection = validSortOrders.includes(sortOrder.toLowerCase()) ? sortOrder.toUpperCase() : 'DESC';
 
       const { rows: templates, count: total } = await CopilotTemplate.findAndCountAll({

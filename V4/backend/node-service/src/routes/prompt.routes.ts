@@ -93,6 +93,39 @@ router.get('/search', authenticate, requireUser, promptController.search);
 
 /**
  * @swagger
+ * /api/prompts/user/{userId}:
+ *   get:
+ *     summary: Get prompts by user
+ *     tags: [Prompts]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: User ID
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *         description: Number of items per page
+ *     responses:
+ *       200:
+ *         description: User prompts retrieved successfully
+ *       401:
+ *         description: Unauthorized
+ */
+router.get('/user/:userId', authenticate, requireUser, promptController.getByUserId);
+
+/**
+ * @swagger
  * /api/prompts/{id}:
  *   get:
  *     summary: Get prompt by ID

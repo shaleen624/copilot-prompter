@@ -70,6 +70,30 @@ export class TemplateController {
     }
   };
 
+  getByUserId = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const userId = req.params.userId;
+      
+      if (!userId) {
+        throw new CustomError('Invalid user ID', 400);
+      }
+
+      const page = parseInt(req.query.page as string) || 1;
+      const limit = parseInt(req.query.limit as string) || 10;
+
+      const result = await this.templateService.findByUserId(userId, page, limit);
+
+      res.status(200).json({
+        success: true,
+        message: 'User templates retrieved successfully',
+        data: result
+      });
+    } catch (error) {
+      logger.error('Get templates by user ID failed:', error);
+      next(error);
+    }
+  };
+
   create = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const templateData = {
@@ -105,7 +129,8 @@ export class TemplateController {
       }
 
       // Check if user owns the template or is admin
-      if (existingTemplate.userId !== req.user?.id.toString() && req.user?.role !== 'ADMIN') {
+      const templateUserId = existingTemplate.userId || existingTemplate.getDataValue('userId');
+      if (templateUserId !== req.user?.id.toString() && req.user?.role !== 'ADMIN') {
         throw new CustomError('Not authorized to update this template', 403);
       }
 
@@ -137,7 +162,8 @@ export class TemplateController {
       }
 
       // Check if user owns the template or is admin
-      if (existingTemplate.userId !== req.user?.id.toString() && req.user?.role !== 'ADMIN') {
+      const templateUserId = existingTemplate.userId || existingTemplate.getDataValue('userId');
+      if (templateUserId !== req.user?.id.toString() && req.user?.role !== 'ADMIN') {
         throw new CustomError('Not authorized to delete this template', 403);
       }
 

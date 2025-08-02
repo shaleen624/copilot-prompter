@@ -22,8 +22,8 @@ class App {
     this.app = express();
     this.databaseManager = new DatabaseManager();
     this.initializeMiddleware();
-    this.initializeRoutes();
     this.initializeSwagger();
+    this.initializeRoutes();
     this.initializeErrorHandling();
   }
 
@@ -87,8 +87,12 @@ class App {
   }
 
   private initializeSwagger(): void {
+    console.log('🔍 Checking swagger setup - docsEnabled:', config.api.docsEnabled);
     if (config.api.docsEnabled) {
+      console.log('🚀 Initializing Swagger...');
       setupSwagger(this.app);
+    } else {
+      console.log('⏭️ Swagger disabled');
     }
   }
 

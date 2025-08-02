@@ -14,8 +14,8 @@ export interface CopilotTemplateAttributes {
   popularity: number;
   viewCount: number;
   downloadCount: number;
-  createdAt: Date;
-  lastUpdated: Date;
+  createdAt?: Date;
+  lastUpdated?: Date;
 }
 
 export interface CopilotTemplateCreationAttributes extends Omit<CopilotTemplateAttributes, 'id' | 'createdAt' | 'lastUpdated'> {
@@ -40,6 +40,47 @@ export class CopilotTemplate extends Model<CopilotTemplateAttributes, CopilotTem
   public downloadCount!: number;
   public createdAt!: Date;
   public lastUpdated!: Date;
+
+  // Custom getters/setters for database field mappings
+  get user_id(): string {
+    return this.getDataValue('userId');
+  }
+
+  set user_id(value: string) {
+    this.setDataValue('userId', value);
+  }
+
+  get view_count(): number {
+    return this.getDataValue('viewCount');
+  }
+
+  set view_count(value: number) {
+    this.setDataValue('viewCount', value);
+  }
+
+  get download_count(): number {
+    return this.getDataValue('downloadCount');
+  }
+
+  set download_count(value: number) {
+    this.setDataValue('downloadCount', value);
+  }
+
+  get created_at(): Date {
+    return this.getDataValue('createdAt') || new Date();
+  }
+
+  set created_at(value: Date) {
+    this.setDataValue('createdAt', value);
+  }
+
+  get last_updated(): Date {
+    return this.getDataValue('lastUpdated') || new Date();
+  }
+
+  set last_updated(value: Date) {
+    this.setDataValue('lastUpdated', value);
+  }
 
   static initModel(sequelize: Sequelize): typeof CopilotTemplate {
     CopilotTemplate.init({
@@ -103,16 +144,6 @@ export class CopilotTemplate extends Model<CopilotTemplateAttributes, CopilotTem
         allowNull: false,
         defaultValue: 0,
         field: 'download_count',
-      },
-      createdAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        field: 'created_at',
-      },
-      lastUpdated: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        field: 'last_updated',
       },
     }, {
       sequelize,

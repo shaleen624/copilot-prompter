@@ -10,6 +10,7 @@ const templateController = new TemplateController();
 // Public routes
 router.get('/', templateController.getAll);
 router.get('/search', templateController.search);
+router.get('/user/:userId', templateController.getByUserId);
 router.get('/:id', templateController.getById);
 
 // Protected routes (require authentication)

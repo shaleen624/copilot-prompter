@@ -68,11 +68,35 @@ export class PromptController {
     }
   };
 
+  getByUserId = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const userId = parseInt(req.params.userId);
+      
+      if (isNaN(userId)) {
+        throw new CustomError('Invalid user ID', 400);
+      }
+
+      const page = parseInt(req.query.page as string) || 1;
+      const limit = parseInt(req.query.limit as string) || 10;
+
+      const result = await this.promptService.findByUserId(userId, page, limit);
+
+      res.status(200).json({
+        success: true,
+        message: 'User prompts retrieved successfully',
+        data: result
+      });
+    } catch (error) {
+      logger.error('Get prompts by user ID failed:', error);
+      next(error);
+    }
+  };
+
   create = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const promptData = {
         ...req.body,
-        userId: req.user?.id
+        author: req.user?.username  // Use username instead of ID
       };
 
       const prompt = await this.promptService.create(promptData);
@@ -103,7 +127,8 @@ export class PromptController {
       }
 
       // Check if user owns the prompt or is admin
-      if (existingPrompt.userId !== req.user?.id && req.user?.role !== 'ADMIN') {
+      const promptAuthor = existingPrompt.author || existingPrompt.getDataValue('author');
+      if (promptAuthor !== req.user?.username && req.user?.role !== 'ADMIN') {
         throw new CustomError('Not authorized to update this prompt', 403);
       }
 
@@ -135,7 +160,8 @@ export class PromptController {
       }
 
       // Check if user owns the prompt or is admin
-      if (existingPrompt.userId !== req.user?.id && req.user?.role !== 'ADMIN') {
+      const promptAuthor = existingPrompt.author || existingPrompt.getDataValue('author');
+      if (promptAuthor !== req.user?.username && req.user?.role !== 'ADMIN') {
         throw new CustomError('Not authorized to delete this prompt', 403);
       }
 

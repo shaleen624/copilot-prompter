@@ -5,15 +5,14 @@ export interface PromptAttributes {
   title: string;
   prompt: string;
   description?: string;
-  tags: string[];
   category: string;
   language: string;
-  userId: number;
+  author: string;  // Database uses 'author' field instead of userId
   active: boolean;
   viewCount: number;
   copyCount: number;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface PromptCreationAttributes extends Omit<PromptAttributes, 'id' | 'createdAt' | 'updatedAt'> {
@@ -27,15 +26,46 @@ export class Prompt extends Model<PromptAttributes, PromptCreationAttributes> im
   public title!: string;
   public prompt!: string;
   public description?: string;
-  public tags!: string[];
   public category!: string;
   public language!: string;
-  public userId!: number;
+  public author!: string;  // Database uses 'author' field
   public active!: boolean;
   public viewCount!: number;
   public copyCount!: number;
   public createdAt!: Date;
   public updatedAt!: Date;
+
+  get view_count(): number {
+    return this.getDataValue('viewCount');
+  }
+
+  set view_count(value: number) {
+    this.setDataValue('viewCount', value);
+  }
+
+  get copy_count(): number {
+    return this.getDataValue('copyCount');
+  }
+
+  set copy_count(value: number) {
+    this.setDataValue('copyCount', value);
+  }
+
+  get created_at(): Date {
+    return this.getDataValue('createdAt') || new Date();
+  }
+
+  set created_at(value: Date) {
+    this.setDataValue('createdAt', value);
+  }
+
+  get updated_at(): Date {
+    return this.getDataValue('updatedAt') || new Date();
+  }
+
+  set updated_at(value: Date) {
+    this.setDataValue('updatedAt', value);
+  }
 
   static initModel(sequelize: Sequelize): typeof Prompt {
     Prompt.init({
@@ -56,11 +86,6 @@ export class Prompt extends Model<PromptAttributes, PromptCreationAttributes> im
         type: DataTypes.TEXT,
         allowNull: true,
       },
-      tags: {
-        type: DataTypes.JSON,
-        allowNull: false,
-        defaultValue: [],
-      },
       category: {
         type: DataTypes.STRING(100),
         allowNull: false,
@@ -69,14 +94,9 @@ export class Prompt extends Model<PromptAttributes, PromptCreationAttributes> im
         type: DataTypes.STRING(100),
         allowNull: false,
       },
-      userId: {
-        type: DataTypes.INTEGER,
+      author: {
+        type: DataTypes.STRING(100),
         allowNull: false,
-        references: {
-          model: 'users',
-          key: 'id'
-        },
-        field: 'user_id',
       },
       active: {
         type: DataTypes.BOOLEAN,
@@ -94,16 +114,6 @@ export class Prompt extends Model<PromptAttributes, PromptCreationAttributes> im
         allowNull: false,
         defaultValue: 0,
         field: 'copy_count',
-      },
-      createdAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        field: 'created_at',
-      },
-      updatedAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        field: 'updated_at',
       },
     }, {
       sequelize,
