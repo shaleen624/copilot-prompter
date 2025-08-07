@@ -75,6 +75,8 @@ export interface BitbucketCommitResponse {
   };
 }
 
+export type BitbucketAuthMethod = 'app-password' | 'personal-token';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -83,19 +85,30 @@ export class BitbucketIntegrationService {
   private readonly BITBUCKET_API_BASE = 'https://api.bitbucket.org/2.0';
   private readonly STORAGE_KEY = 'bitbucket_access_token';
   private readonly USERNAME_KEY = 'bitbucket_username';
+  private readonly AUTH_METHOD_KEY = 'bitbucket_auth_method';
 
   private get headers(): HttpHeaders {
     const token = this.getAccessToken();
     const username = this.getUsername();
+    const authMethod = this.getAuthMethod();
     
-    if (token && username) {
-      // Bitbucket uses Basic Auth with username:app_password
-      const credentials = btoa(`${username}:${token}`);
-      return new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': `Basic ${credentials}`
-      });
+    if (token) {
+      if (authMethod === 'personal-token') {
+        // Use Bearer token for personal access tokens
+        return new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${token}`
+        });
+      } else if (username) {
+        // Use Basic Auth with username:app_password for app passwords
+        const credentials = btoa(`${username}:${token}`);
+        return new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': `Basic ${credentials}`
+        });
+      }
     }
     
     return new HttpHeaders({
@@ -110,20 +123,38 @@ export class BitbucketIntegrationService {
   setCredentials(username: string, appPassword: string): void {
     localStorage.setItem(this.USERNAME_KEY, username);
     localStorage.setItem(this.STORAGE_KEY, appPassword);
+    localStorage.setItem(this.AUTH_METHOD_KEY, 'app-password');
   }
 
   /**
-   * Get stored Bitbucket app password
+   * Store Bitbucket personal access token
+   */
+  setPersonalAccessToken(token: string): void {
+    localStorage.setItem(this.STORAGE_KEY, token);
+    localStorage.setItem(this.AUTH_METHOD_KEY, 'personal-token');
+    localStorage.removeItem(this.USERNAME_KEY); // Username not needed for personal tokens
+  }
+
+  /**
+   * Get stored Bitbucket access token (app password or personal token)
    */
   getAccessToken(): string | null {
     return localStorage.getItem(this.STORAGE_KEY);
   }
 
   /**
-   * Get stored Bitbucket username
+   * Get stored Bitbucket username (only for app password method)
    */
   getUsername(): string | null {
     return localStorage.getItem(this.USERNAME_KEY);
+  }
+
+  /**
+   * Get the authentication method being used
+   */
+  getAuthMethod(): BitbucketAuthMethod {
+    const method = localStorage.getItem(this.AUTH_METHOD_KEY) as BitbucketAuthMethod;
+    return method || 'app-password';
   }
 
   /**
@@ -132,24 +163,56 @@ export class BitbucketIntegrationService {
   clearCredentials(): void {
     localStorage.removeItem(this.STORAGE_KEY);
     localStorage.removeItem(this.USERNAME_KEY);
+    localStorage.removeItem(this.AUTH_METHOD_KEY);
   }
 
   /**
    * Check if user is authenticated with Bitbucket
    */
   isAuthenticated(): boolean {
-    return !!(this.getAccessToken() && this.getUsername());
+    const token = this.getAccessToken();
+    const authMethod = this.getAuthMethod();
+    
+    if (!token) return false;
+    
+    if (authMethod === 'personal-token') {
+      return true; // Only token needed for personal access tokens
+    } else {
+      return !!(token && this.getUsername()); // Both username and app password needed
+    }
   }
 
   /**
    * Get user's repositories
    */
   getUserRepositories(): Observable<BitbucketRepository[]> {
+    const authMethod = this.getAuthMethod();
     const username = this.getUsername();
-    if (!username) {
-      return throwError(() => new Error('Username not found'));
+    
+    if (authMethod === 'app-password' && !username) {
+      return throwError(() => new Error('Username not found for app password authentication'));
     }
 
+    // For personal access tokens, we can get user info first to get the username
+    if (authMethod === 'personal-token') {
+      return this.getUserInfo().pipe(
+        switchMap(userInfo => {
+          const userLogin = userInfo.username || userInfo.nickname;
+          return this.http.get<{ values: BitbucketRepository[] }>(`${this.BITBUCKET_API_BASE}/repositories/${userLogin}`, {
+            headers: this.headers,
+            params: {
+              sort: '-updated_on',
+              pagelen: '100'
+            }
+          });
+        }),
+        map(response => response.values),
+        tap(repos => console.log('Fetched Bitbucket repositories:', repos.length)),
+        catchError(this.handleError<BitbucketRepository[]>('getUserRepositories', []))
+      );
+    }
+
+    // For app password method, use the stored username
     return this.http.get<{ values: BitbucketRepository[] }>(`${this.BITBUCKET_API_BASE}/repositories/${username}`, {
       headers: this.headers,
       params: {

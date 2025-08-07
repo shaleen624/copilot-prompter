@@ -70,37 +70,75 @@
           <mat-tab label="Bitbucket">
             <div class="auth-form">
               @if (!sourceControlService.getAuthService('bitbucket').isAuthenticated()) {
-                <form [formGroup]="bitbucketAuthForm" (ngSubmit)="authenticateBitbucket()">
-                  <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>Bitbucket Username</mat-label>
-                    <input matInput 
-                           formControlName="username"
-                           placeholder="your-username">
-                    <mat-icon matSuffix>person</mat-icon>
-                  </mat-form-field>
+                <mat-tab-group>
+                  <!-- App Password Method -->
+                  <mat-tab label="App Password">
+                    <div class="auth-method">
+                      <p>Use your Bitbucket username and app password</p>
+                      <form [formGroup]="bitbucketAuthForm" (ngSubmit)="authenticateBitbucket()">
+                        <mat-form-field appearance="outline" class="full-width">
+                          <mat-label>Bitbucket Username</mat-label>
+                          <input matInput 
+                                 formControlName="username"
+                                 placeholder="your-username">
+                          <mat-icon matSuffix>person</mat-icon>
+                        </mat-form-field>
+                        
+                        <mat-form-field appearance="outline" class="full-width">
+                          <mat-label>App Password</mat-label>
+                          <input matInput 
+                                 type="password" 
+                                 formControlName="appPassword"
+                                 placeholder="App password">
+                          <mat-icon matSuffix>vpn_key</mat-icon>
+                          <mat-hint>
+                            <a href="https://bitbucket.org/account/settings/app-passwords/" target="_blank">
+                              Create an app password
+                            </a>
+                          </mat-hint>
+                        </mat-form-field>
+                        
+                        <button mat-raised-button 
+                                color="primary" 
+                                type="submit" 
+                                [disabled]="!bitbucketAuthForm.valid">
+                          <mat-icon>source</mat-icon>
+                          Connect with App Password
+                        </button>
+                      </form>
+                    </div>
+                  </mat-tab>
                   
-                  <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>App Password</mat-label>
-                    <input matInput 
-                           type="password" 
-                           formControlName="appPassword"
-                           placeholder="App password">
-                    <mat-icon matSuffix>vpn_key</mat-icon>
-                    <mat-hint>
-                      <a href="https://bitbucket.org/account/settings/app-passwords/" target="_blank">
-                        Create an app password
-                      </a>
-                    </mat-hint>
-                  </mat-form-field>
-                  
-                  <button mat-raised-button 
-                          color="primary" 
-                          type="submit" 
-                          [disabled]="!bitbucketAuthForm.valid">
-                    <mat-icon>source</mat-icon>
-                    Connect Bitbucket
-                  </button>
-                </form>
+                  <!-- Personal Access Token Method -->
+                  <mat-tab label="Personal Token">
+                    <div class="auth-method">
+                      <p>Use your Bitbucket personal access token (recommended)</p>
+                      <form [formGroup]="bitbucketTokenForm" (ngSubmit)="authenticateBitbucketWithToken()">
+                        <mat-form-field appearance="outline" class="full-width">
+                          <mat-label>Personal Access Token</mat-label>
+                          <input matInput 
+                                 type="password" 
+                                 formControlName="token"
+                                 placeholder="Your personal access token">
+                          <mat-icon matSuffix>vpn_key</mat-icon>
+                          <mat-hint>
+                            <a href="https://bitbucket.org/account/settings/app-passwords/" target="_blank">
+                              Generate a personal access token
+                            </a>
+                          </mat-hint>
+                        </mat-form-field>
+                        
+                        <button mat-raised-button 
+                                color="primary" 
+                                type="submit" 
+                                [disabled]="!bitbucketTokenForm.valid">
+                          <mat-icon>source</mat-icon>
+                          Connect with Token
+                        </button>
+                      </form>
+                    </div>
+                  </mat-tab>
+                </mat-tab-group>
               } @else {
                 <div class="auth-success">
                   <mat-icon color="primary">check_circle</mat-icon>

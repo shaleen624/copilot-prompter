@@ -48,6 +48,17 @@
   margin-top: 16px;
 }
 
+.auth-method {
+  padding: 20px;
+  margin-top: 16px;
+}
+
+.auth-method p {
+  color: #666;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
 .auth-success {
   text-align: center;
   padding: 24px;

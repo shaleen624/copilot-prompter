@@ -59,6 +59,7 @@ export class MultiProviderIntegrationComponent implements OnInit {
   // Authentication forms
   githubAuthForm: FormGroup;
   bitbucketAuthForm: FormGroup;
+  bitbucketTokenForm: FormGroup;
 
   // Signals for reactive state management
   availableProviders = signal<SourceControlProvider[]>([]);
@@ -89,6 +90,10 @@ export class MultiProviderIntegrationComponent implements OnInit {
     this.bitbucketAuthForm = this.fb.group({
       username: ['', [Validators.required]],
       appPassword: ['', [Validators.required]]
+    });
+
+    this.bitbucketTokenForm = this.fb.group({
+      token: ['', [Validators.required, Validators.minLength(20)]]
     });
   }
 
@@ -140,6 +145,27 @@ export class MultiProviderIntegrationComponent implements OnInit {
         bitbucketService.setCredentials(username, appPassword);
         this.updateAvailableProviders();
         this.snackBar.open('Bitbucket authentication successful!', 'Close', { duration: 3000 });
+        
+        // Auto-select Bitbucket if it's the only provider
+        if (this.availableProviders().length === 1) {
+          this.selectedProvider.set('bitbucket');
+        }
+      }
+    }
+  }
+
+  /**
+   * Authenticate with Bitbucket using Personal Access Token
+   */
+  authenticateBitbucketWithToken() {
+    if (this.bitbucketTokenForm.valid) {
+      const token = this.bitbucketTokenForm.value.token;
+      const bitbucketService = this.sourceControlService.getAuthService('bitbucket');
+      
+      if ('setPersonalAccessToken' in bitbucketService) {
+        bitbucketService.setPersonalAccessToken(token);
+        this.updateAvailableProviders();
+        this.snackBar.open('Bitbucket token authentication successful!', 'Close', { duration: 3000 });
         
         // Auto-select Bitbucket if it's the only provider
         if (this.availableProviders().length === 1) {
