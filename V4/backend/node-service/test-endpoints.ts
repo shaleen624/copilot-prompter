@@ -114,9 +114,8 @@ const runAuthTests = async () => {
   const registerResult = await makeRequest('POST', '/api/auth/register', registerData);
   logTest(registerResult);
   
-  if (registerResult.status === 'PASS' && registerResult.data?.data?.accessToken) {
-    // For testing purposes, use admin user ID since registration doesn't return user ID
-    userId = '1'; // Admin user ID for testing
+  if (registerResult.status === 'PASS' && registerResult.data?.data?.id) {
+    userId = registerResult.data.data.id;
   }
   
   // Test user login

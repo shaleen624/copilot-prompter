@@ -129,8 +129,7 @@ export class TemplateController {
       }
 
       // Check if user owns the template or is admin
-      const templateUserId = existingTemplate.userId || existingTemplate.getDataValue('userId');
-      if (templateUserId !== req.user?.id.toString() && req.user?.role !== 'ADMIN') {
+      if (existingTemplate.userId !== req.user?.id.toString() && req.user?.role !== 'ADMIN') {
         throw new CustomError('Not authorized to update this template', 403);
       }
 
@@ -162,8 +161,7 @@ export class TemplateController {
       }
 
       // Check if user owns the template or is admin
-      const templateUserId = existingTemplate.userId || existingTemplate.getDataValue('userId');
-      if (templateUserId !== req.user?.id.toString() && req.user?.role !== 'ADMIN') {
+      if (existingTemplate.userId !== req.user?.id.toString() && req.user?.role !== 'ADMIN') {
         throw new CustomError('Not authorized to delete this template', 403);
       }
 

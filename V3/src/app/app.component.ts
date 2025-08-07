@@ -78,6 +78,10 @@ export class AppComponent implements OnInit {
     return this.currentRoute().includes('/templates');
   }
 
+  isGitHubIntegrationActive(): boolean {
+    return this.currentRoute().includes('/github-integration');
+  }
+
   isLandingOrLogin(): boolean {
     const route = this.currentRoute();
     return route === '/' || route === '/login';

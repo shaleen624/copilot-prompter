@@ -144,21 +144,4 @@ public class UserService implements UserDetailsService {
                 })
                 .orElse(false);
     }
-
-    // Convenience methods for AuthService
-    public boolean existsByUsername(String username) {
-        return userRepository.existsByUsername(username);
-    }
-    
-    public boolean existsByEmail(String email) {
-        return userRepository.existsByEmail(email);
-    }
-    
-    public User createUser(User user) {
-        return userRepository.save(user);
-    }
-    
-    public UserDTO convertToDTO(User user) {
-        return mappingService.toUserDTO(user);
-    }
 }

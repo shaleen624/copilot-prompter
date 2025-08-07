@@ -9,7 +9,7 @@ export interface CopilotTemplateAttributes {
   description?: string;
   content: string;
   tags: string[];
-  author: string;
+  userId: string;
   active: boolean;
   popularity: number;
   viewCount: number;
@@ -33,7 +33,7 @@ export class CopilotTemplate extends Model<CopilotTemplateAttributes, CopilotTem
   public description?: string;
   public content!: string;
   public tags!: string[];
-  public author!: string;
+  public userId!: string;
   public active!: boolean;
   public popularity!: number;
   public viewCount!: number;
@@ -41,13 +41,13 @@ export class CopilotTemplate extends Model<CopilotTemplateAttributes, CopilotTem
   public createdAt!: Date;
   public lastUpdated!: Date;
 
-  // Custom getters/setters for database field mappings - keeping for backward compatibility
+  // Custom getters/setters for database field mappings
   get user_id(): string {
-    return this.getDataValue('author');
+    return this.getDataValue('userId');
   }
 
   set user_id(value: string) {
-    this.setDataValue('author', value);
+    this.setDataValue('userId', value);
   }
 
   get view_count(): number {
@@ -118,10 +118,10 @@ export class CopilotTemplate extends Model<CopilotTemplateAttributes, CopilotTem
         allowNull: false,
         defaultValue: [],
       },
-      author: {
+      userId: {
         type: DataTypes.STRING(100),
         allowNull: false,
-        field: 'author'
+        field: 'user_id'
       },
       active: {
         type: DataTypes.BOOLEAN,

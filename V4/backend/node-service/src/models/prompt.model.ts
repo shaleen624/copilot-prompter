@@ -5,9 +5,10 @@ export interface PromptAttributes {
   title: string;
   prompt: string;
   description?: string;
+  tags: string[];
   category: string;
   language: string;
-  author: string;  // Database uses 'author' field instead of userId
+  userId: number;
   active: boolean;
   viewCount: number;
   copyCount: number;
@@ -26,14 +27,24 @@ export class Prompt extends Model<PromptAttributes, PromptCreationAttributes> im
   public title!: string;
   public prompt!: string;
   public description?: string;
+  public tags!: string[];
   public category!: string;
   public language!: string;
-  public author!: string;  // Database uses 'author' field
+  public userId!: number;
   public active!: boolean;
   public viewCount!: number;
   public copyCount!: number;
   public createdAt!: Date;
   public updatedAt!: Date;
+
+  // Custom getters/setters for database field mappings
+  get user_id(): number {
+    return this.getDataValue('userId');
+  }
+
+  set user_id(value: number) {
+    this.setDataValue('userId', value);
+  }
 
   get view_count(): number {
     return this.getDataValue('viewCount');
@@ -86,6 +97,11 @@ export class Prompt extends Model<PromptAttributes, PromptCreationAttributes> im
         type: DataTypes.TEXT,
         allowNull: true,
       },
+      tags: {
+        type: DataTypes.JSON,
+        allowNull: false,
+        defaultValue: [],
+      },
       category: {
         type: DataTypes.STRING(100),
         allowNull: false,
@@ -94,9 +110,14 @@ export class Prompt extends Model<PromptAttributes, PromptCreationAttributes> im
         type: DataTypes.STRING(100),
         allowNull: false,
       },
-      author: {
-        type: DataTypes.STRING(100),
+      userId: {
+        type: DataTypes.INTEGER,
         allowNull: false,
+        references: {
+          model: 'users',
+          key: 'id'
+        },
+        field: 'user_id',
       },
       active: {
         type: DataTypes.BOOLEAN,

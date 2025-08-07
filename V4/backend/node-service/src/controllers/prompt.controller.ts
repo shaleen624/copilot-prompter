@@ -96,7 +96,7 @@ export class PromptController {
     try {
       const promptData = {
         ...req.body,
-        author: req.user?.username  // Use username instead of ID
+        userId: req.user?.id
       };
 
       const prompt = await this.promptService.create(promptData);
@@ -127,8 +127,7 @@ export class PromptController {
       }
 
       // Check if user owns the prompt or is admin
-      const promptAuthor = existingPrompt.author || existingPrompt.getDataValue('author');
-      if (promptAuthor !== req.user?.username && req.user?.role !== 'ADMIN') {
+      if (existingPrompt.userId !== req.user?.id && req.user?.role !== 'ADMIN') {
         throw new CustomError('Not authorized to update this prompt', 403);
       }
 
@@ -160,8 +159,7 @@ export class PromptController {
       }
 
       // Check if user owns the prompt or is admin
-      const promptAuthor = existingPrompt.author || existingPrompt.getDataValue('author');
-      if (promptAuthor !== req.user?.username && req.user?.role !== 'ADMIN') {
+      if (existingPrompt.userId !== req.user?.id && req.user?.role !== 'ADMIN') {
         throw new CustomError('Not authorized to delete this prompt', 403);
       }
 

@@ -1,0 +1,455 @@
+.github-integration-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+}
+
+.header-section {
+  text-align: center;
+  margin-bottom: 2rem;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.header-section h1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 0 0 1rem 0;
+  color: #2c3e50;
+  font-size: 2.5rem;
+  font-weight: 300;
+}
+
+.header-icon {
+  font-size: 3rem !important;
+  width: 3rem !important;
+  height: 3rem !important;
+  color: #667eea;
+}
+
+.header-description {
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Steps Progress */
+.steps-card {
+  margin-bottom: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.steps-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+  padding: 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.step-item.completed {
+  background: #e8f5e8;
+  border: 2px solid #4caf50;
+}
+
+.step-item.current {
+  background: #e3f2fd;
+  border: 2px solid #2196f3;
+  transform: scale(1.05);
+}
+
+.step-indicator {
+  margin-bottom: 0.5rem;
+}
+
+.step-icon {
+  font-size: 2rem !important;
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.step-icon.completed {
+  color: #4caf50;
+}
+
+.step-icon.current {
+  color: #2196f3;
+}
+
+.step-icon.pending {
+  color: #bbb;
+}
+
+.step-content h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.step-content p {
+  margin: 0.25rem 0 0 0;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+/* Authentication Card */
+.auth-card {
+  margin-bottom: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.full-width {
+  width: 100%;
+}
+
+.auth-actions {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.auth-actions button {
+  min-width: 200px;
+  height: 48px;
+  font-size: 1rem;
+}
+
+.auth-info {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.auth-info h4 {
+  margin: 0 0 1rem 0;
+  color: #2c3e50;
+}
+
+.auth-info ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.auth-info li {
+  margin-bottom: 0.5rem;
+  color: #666;
+}
+
+/* User Info */
+.user-info-card {
+  margin-bottom: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-info span {
+  flex: 1;
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+/* Repository Selection */
+.repository-card {
+  margin-bottom: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.loading-repos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  gap: 1rem;
+}
+
+.repositories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.repo-card {
+  padding: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.repo-card:hover {
+  border-color: #667eea;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+}
+
+.repo-card.selected {
+  border-color: #667eea;
+  background: #f8f9ff;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.repo-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.repo-header h4 {
+  margin: 0;
+  color: #2c3e50;
+}
+
+.repo-description {
+  margin: 0.5rem 0;
+  color: #666;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  min-height: 2.8rem;
+}
+
+.repo-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #999;
+  margin-top: 1rem;
+}
+
+/* Tech Stack */
+.techstack-card {
+  margin-bottom: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Templates */
+.templates-card {
+  margin-bottom: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.templates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.template-card {
+  padding: 1.5rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.template-card:hover {
+  border-color: #667eea;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+}
+
+.template-card.selected {
+  border-color: #667eea;
+  background: #f8f9ff;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.template-header {
+  margin-bottom: 1rem;
+}
+
+.template-header h4 {
+  margin: 0 0 0.5rem 0;
+  color: #2c3e50;
+}
+
+.template-description {
+  margin: 0.5rem 0;
+  color: #666;
+  line-height: 1.4;
+  min-height: 3rem;
+}
+
+.template-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  color: #999;
+}
+
+.template-popularity {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Deploy Card */
+.deploy-card {
+  margin-bottom: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.deploy-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.branch-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.branch-field {
+  width: 100%;
+}
+
+.deploy-actions {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.deploy-actions button {
+  min-width: 200px;
+  height: 48px;
+  font-size: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .github-integration-container {
+    padding: 1rem;
+  }
+  
+  .header-section h1 {
+    font-size: 2rem;
+  }
+  
+  .steps-container {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .step-item {
+    flex-direction: row;
+    text-align: left;
+    padding: 0.75rem;
+  }
+  
+  .step-content {
+    margin-left: 1rem;
+  }
+  
+  .repositories-grid,
+  .templates-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .repo-meta,
+  .template-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* Material Design Overrides */
+.mat-mdc-card {
+  border-radius: 12px !important;
+}
+
+.mat-mdc-chip-set {
+  margin: 0.5rem 0;
+}
+
+.mat-mdc-chip {
+  margin: 0.25rem;
+}
+
+.mat-mdc-slide-toggle {
+  margin: 0.5rem 0;
+}
+
+/* Loading States */
+.mat-mdc-progress-spinner {
+  margin: 0 auto;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.auth-card,
+.repository-card,
+.techstack-card,
+.templates-card,
+.deploy-card {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Success States */
+.success-message {
+  background: #e8f5e8;
+  color: #2e7d32;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  border-left: 4px solid #4caf50;
+}
+
+.error-message {
+  background: #ffebee;
+  color: #c62828;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  border-left: 4px solid #f44336;
+}

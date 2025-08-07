@@ -1,0 +1,278 @@
+<div class="ai-recommendations-container">
+  <div class="header-section">
+    <h1>
+      <mat-icon class="header-icon">psychology</mat-icon>
+      AI-Powered Template Recommendations
+    </h1>
+    <p class="header-description">
+      Get personalized copilot-instructions.md templates based on intelligent analysis of your repository 
+      or project requirements. Our AI analyzes your tech stack, complexity, and patterns to recommend 
+      the most effective templates.
+    </p>
+  </div>
+
+  <!-- Repository Analysis Form -->
+  <mat-card class="analysis-card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>analytics</mat-icon>
+      <mat-card-title>Project Analysis</mat-card-title>
+      <mat-card-subtitle>Analyze your repository or describe your project</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="repoForm">
+        <mat-tab-group>
+          <!-- Repository Analysis Tab -->
+          <mat-tab label="GitHub Repository">
+            <div class="tab-content">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Repository URL</mat-label>
+                <input matInput formControlName="repositoryUrl" 
+                       placeholder="https://github.com/username/repository">
+                <mat-icon matSuffix>link</mat-icon>
+                <mat-hint>Enter your GitHub repository URL for automatic analysis</mat-hint>
+              </mat-form-field>
+              
+              <div class="action-buttons">
+                <button mat-raised-button color="primary" 
+                        (click)="analyzeRepository()" 
+                        [disabled]="!repoForm.value.repositoryUrl || isLoading()">
+                  @if (isLoading()) {
+                    <mat-spinner diameter="20"></mat-spinner>
+                    Analyzing...
+                  } @else {
+                    <mat-icon>search</mat-icon>
+                    Analyze Repository
+                  }
+                </button>
+              </div>
+            </div>
+          </mat-tab>
+
+          <!-- Manual Input Tab -->
+          <mat-tab label="Manual Input">
+            <div class="tab-content">
+              <div class="form-grid">
+                <mat-form-field appearance="outline">
+                  <mat-label>Technology Stack</mat-label>
+                  <input matInput formControlName="techStack" 
+                         placeholder="TypeScript, Angular, Node.js">
+                  <mat-hint>Comma-separated list of technologies</mat-hint>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Project Type</mat-label>
+                  <mat-select formControlName="projectType">
+                    <mat-option value="web-app">Web Application</mat-option>
+                    <mat-option value="mobile-app">Mobile Application</mat-option>
+                    <mat-option value="api">API/Backend Service</mat-option>
+                    <mat-option value="library">Library/Package</mat-option>
+                    <mat-option value="full-stack">Full-Stack Application</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Team Size</mat-label>
+                  <mat-select formControlName="teamSize">
+                    <mat-option value="solo">Solo Developer</mat-option>
+                    <mat-option value="small">Small Team (2-5)</mat-option>
+                    <mat-option value="medium">Medium Team (6-15)</mat-option>
+                    <mat-option value="large">Large Team (15+)</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Complexity Level</mat-label>
+                  <mat-select formControlName="complexityLevel">
+                    <mat-option value="simple">Simple</mat-option>
+                    <mat-option value="medium">Medium</mat-option>
+                    <mat-option value="complex">Complex/Enterprise</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              
+              <div class="action-buttons">
+                <button mat-raised-button color="primary" 
+                        (click)="analyzeManualInput()" 
+                        [disabled]="!repoForm.value.techStack || isLoading()">
+                  @if (isLoading()) {
+                    <mat-spinner diameter="20"></mat-spinner>
+                    Analyzing...
+                  } @else {
+                    <mat-icon>auto_awesome</mat-icon>
+                    Generate Recommendations
+                  }
+                </button>
+              </div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Analysis Results -->
+  @if (repositoryAnalysis()) {
+    <mat-card class="results-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>assessment</mat-icon>
+        <mat-card-title>Analysis Results</mat-card-title>
+        <mat-card-subtitle>Detected project characteristics</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="analysis-results">
+          <div class="analysis-item">
+            <h4>Technology Stack</h4>
+            <mat-chip-set>
+              @for (tech of repositoryAnalysis()!.techStack; track tech) {
+                <mat-chip>{{ tech }}</mat-chip>
+              }
+            </mat-chip-set>
+          </div>
+
+          <div class="analysis-item">
+            <h4>Complexity Level</h4>
+            <mat-chip [color]="getComplexityColor(repositoryAnalysis()!.complexity)" selected>
+              {{ repositoryAnalysis()!.complexity | titlecase }}
+            </mat-chip>
+          </div>
+
+          @if (repositoryAnalysis()!.codeQualityScore > 0) {
+            <div class="analysis-item">
+              <h4>Code Quality Score</h4>
+              <div class="quality-score">
+                <span class="score-value">{{ repositoryAnalysis()!.codeQualityScore }}/100</span>
+                <mat-progress-bar 
+                  mode="determinate" 
+                  [value]="repositoryAnalysis()!.codeQualityScore"
+                  [color]="getQualityColor(repositoryAnalysis()!.codeQualityScore)">
+                </mat-progress-bar>
+              </div>
+            </div>
+          }
+        </div>
+      </mat-card-content>
+    </mat-card>
+  }
+
+  <!-- AI Recommendations -->
+  @if (recommendations().length > 0) {
+    <mat-card class="recommendations-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>recommend</mat-icon>
+        <mat-card-title>AI Template Recommendations</mat-card-title>
+        <mat-card-subtitle>Ranked by compatibility with your project</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="recommendations-list">
+          @for (recommendation of recommendations(); track recommendation.template.id; let i = $index) {
+            <div class="recommendation-item" 
+                 [class.selected]="selectedRecommendation()?.template.id === recommendation.template.id"
+                 (click)="selectRecommendation(recommendation)">
+              
+              <div class="recommendation-header">
+                <div class="template-info">
+                  <h3>{{ recommendation.template.name }}</h3>
+                  <p class="template-description">{{ recommendation.template.description }}</p>
+                </div>
+                
+                <div class="match-score">
+                  <div class="score-circle" [style.background]="getScoreColor(recommendation.matchScore)">
+                    {{ (recommendation.matchScore * 100) | number:'1.0-0' }}%
+                  </div>
+                  <span class="score-label">Match</span>
+                </div>
+              </div>
+
+              <div class="template-details">
+                <mat-chip-set>
+                  <mat-chip color="primary">{{ recommendation.template.language }}</mat-chip>
+                  @if (recommendation.template.framework) {
+                    <mat-chip color="accent">{{ recommendation.template.framework }}</mat-chip>
+                  }
+                  <mat-chip>{{ recommendation.template.category }}</mat-chip>
+                </mat-chip-set>
+              </div>
+
+              <div class="reasoning-section">
+                <h4>Why this template?</h4>
+                <ul class="reasoning-list">
+                  @for (reason of recommendation.reasoning; track reason) {
+                    <li>{{ reason }}</li>
+                  }
+                </ul>
+              </div>
+
+              @if (recommendation.customizations.length > 0) {
+                <div class="customizations-section">
+                  <h4>Suggested customizations:</h4>
+                  <ul class="customizations-list">
+                    @for (customization of recommendation.customizations; track customization) {
+                      <li>{{ customization }}</li>
+                    }
+                  </ul>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </mat-card-content>
+    </mat-card>
+  }
+
+  <!-- Generated Instructions Preview -->
+  @if (selectedRecommendation() && generatedInstructions()) {
+    <mat-card class="instructions-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>description</mat-icon>
+        <mat-card-title>Personalized Instructions</mat-card-title>
+        <mat-card-subtitle>
+          Based on {{ selectedRecommendation()!.template.name }} + AI analysis
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="instructions-preview">
+          <pre class="instructions-text">{{ generatedInstructions() }}</pre>
+        </div>
+        
+        <div class="instructions-actions">
+          <button mat-raised-button color="primary" (click)="useRecommendation()">
+            <mat-icon>upload</mat-icon>
+            Deploy to GitHub
+          </button>
+          
+          <button mat-raised-button color="accent" (click)="createCustomTemplate()">
+            <mat-icon>build</mat-icon>
+            Create Custom Template
+          </button>
+          
+          <button mat-button (click)="copyInstructions()">
+            <mat-icon>content_copy</mat-icon>
+            Copy Instructions
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  }
+
+  <!-- Empty State -->
+  @if (!isLoading() && recommendations().length === 0 && !repositoryAnalysis()) {
+    <mat-card class="empty-state-card">
+      <mat-card-content>
+        <div class="empty-state">
+          <mat-icon class="empty-icon">auto_awesome</mat-icon>
+          <h2>Ready to Get Smart Recommendations?</h2>
+          <p>
+            Analyze your repository or describe your project to get AI-powered template recommendations 
+            tailored specifically for your needs.
+          </p>
+          <ul class="features-list">
+            <li>🔍 Automatic tech stack detection</li>
+            <li>🎯 Intelligent template matching</li>
+            <li>⚙️ Personalized customizations</li>
+            <li>🚀 One-click GitHub deployment</li>
+          </ul>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  }
+</div>

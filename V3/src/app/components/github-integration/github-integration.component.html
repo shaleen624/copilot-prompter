@@ -1,0 +1,272 @@
+<div class="github-integration-container">
+  <div class="header-section">
+    <h1>
+      <mat-icon class="header-icon">integration_instructions</mat-icon>
+      GitHub Copilot Integration
+    </h1>
+    <p class="header-description">
+      Connect your Copilot Prompter templates directly to your GitHub repositories. 
+      Deploy custom copilot-instructions.md files to enhance GitHub Copilot's understanding of your projects.
+    </p>
+  </div>
+
+  <!-- Integration Steps Progress -->
+  <mat-card class="steps-card">
+    <mat-card-header>
+      <mat-card-title>Integration Progress</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="steps-container">
+        @for (step of integrationSteps(); track step.id) {
+          <div class="step-item" [class.completed]="step.completed" [class.current]="step.current">
+            <div class="step-indicator">
+              @if (step.completed) {
+                <mat-icon class="step-icon completed">check_circle</mat-icon>
+              } @else if (step.current) {
+                <mat-icon class="step-icon current">radio_button_checked</mat-icon>
+              } @else {
+                <mat-icon class="step-icon pending">radio_button_unchecked</mat-icon>
+              }
+            </div>
+            <div class="step-content">
+              <h3>{{ step.title }}</h3>
+              <p>{{ step.description }}</p>
+            </div>
+          </div>
+        }
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Step 1: Authentication -->
+  @if (!isAuthenticated()) {
+    <mat-card class="auth-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>vpn_key</mat-icon>
+        <mat-card-title>Connect to GitHub</mat-card-title>
+        <mat-card-subtitle>Authenticate with your GitHub personal access token</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="authForm" (ngSubmit)="authenticate()">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>GitHub Personal Access Token</mat-label>
+            <input matInput formControlName="accessToken" type="password" 
+                   placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+            <mat-icon matSuffix>security</mat-icon>
+            <mat-hint>
+              <a href="https://github.com/settings/tokens" target="_blank" rel="noopener">
+                Create a new token
+              </a> with 'repo' and 'workflow' permissions
+            </mat-hint>
+          </mat-form-field>
+          
+          <div class="auth-actions">
+            <button mat-raised-button color="primary" type="submit" 
+                    [disabled]="!authForm.valid || isLoading()">
+              @if (isLoading()) {
+                <mat-spinner diameter="20"></mat-spinner>
+                Connecting...
+              } @else {
+                <mat-icon>link</mat-icon>
+                Connect to GitHub
+              }
+            </button>
+          </div>
+        </form>
+
+        <div class="auth-info">
+          <h4>Why do we need your access token?</h4>
+          <ul>
+            <li>Read your repositories to detect tech stack</li>
+            <li>Create or update copilot-instructions.md files</li>
+            <li>Create branches and pull requests (optional)</li>
+            <li>Your token is stored locally and never sent to our servers</li>
+          </ul>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  }
+
+  <!-- Authenticated Content -->
+  @if (isAuthenticated()) {
+    <div class="authenticated-content">
+      <!-- User Info & Disconnect -->
+      <mat-card class="user-info-card">
+        <mat-card-content>
+          <div class="user-info">
+            <mat-icon color="primary">check_circle</mat-icon>
+            <span>Connected to GitHub</span>
+            <button mat-button color="warn" (click)="disconnect()">
+              <mat-icon>logout</mat-icon>
+              Disconnect
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Step 2: Repository Selection -->
+      @if (integrationSteps()[1].current || integrationSteps()[1].completed) {
+        <mat-card class="repository-card">
+          <mat-card-header>
+            <mat-icon mat-card-avatar>folder</mat-icon>
+            <mat-card-title>Select Repository</mat-card-title>
+            <mat-card-subtitle>Choose a repository to add copilot instructions</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            @if (isLoading()) {
+              <div class="loading-repos">
+                <mat-spinner></mat-spinner>
+                <p>Loading your repositories...</p>
+              </div>
+            } @else {
+              <div class="repositories-grid">
+                @for (repo of repositories(); track repo.id) {
+                  <div class="repo-card" (click)="selectRepository(repo)" 
+                       [class.selected]="selectedRepo()?.id === repo.id">
+                    <div class="repo-header">
+                      <mat-icon [color]="repo.private ? 'warn' : 'primary'">
+                        {{ repo.private ? 'lock' : 'public' }}
+                      </mat-icon>
+                      <h4>{{ repo.name }}</h4>
+                    </div>
+                    <p class="repo-description">{{ repo.description || 'No description available' }}</p>
+                    <div class="repo-meta">
+                      <span class="repo-owner">{{ repo.owner.login }}</span>
+                      <span class="repo-branch">{{ repo.default_branch }}</span>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+          </mat-card-content>
+        </mat-card>
+      }
+
+      <!-- Step 3: Tech Stack Analysis -->
+      @if (selectedRepo() && detectedTechStack().length > 0) {
+        <mat-card class="techstack-card">
+          <mat-card-header>
+            <mat-icon mat-card-avatar>analytics</mat-icon>
+            <mat-card-title>Detected Technology Stack</mat-card-title>
+            <mat-card-subtitle>{{ selectedRepo()!.name }} - Analyzed languages and frameworks</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <mat-chip-set>
+              @for (tech of detectedTechStack(); track tech) {
+                <mat-chip>
+                  <mat-icon matChipAvatar>code</mat-icon>
+                  {{ tech }}
+                </mat-chip>
+              }
+            </mat-chip-set>
+          </mat-card-content>
+        </mat-card>
+      }
+
+      <!-- Step 4: Template Selection -->
+      @if (recommendedTemplates().length > 0) {
+        <mat-card class="templates-card">
+          <mat-card-header>
+            <mat-icon mat-card-avatar>description</mat-icon>
+            <mat-card-title>Recommended Templates</mat-card-title>
+            <mat-card-subtitle>Based on your detected technology stack</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="templates-grid">
+              @for (template of recommendedTemplates(); track template.id) {
+                <div class="template-card" (click)="selectTemplate(template)"
+                     [class.selected]="selectedTemplate()?.id === template.id">
+                  <div class="template-header">
+                    <h4>{{ template.name }}</h4>
+                    <mat-chip-set>
+                      <mat-chip color="primary">{{ template.language }}</mat-chip>
+                      @if (template.framework) {
+                        <mat-chip color="accent">{{ template.framework }}</mat-chip>
+                      }
+                    </mat-chip-set>
+                  </div>
+                  <p class="template-description">{{ template.description }}</p>
+                  <div class="template-meta">
+                    <span class="template-category">{{ template.category }}</span>
+                    <span class="template-popularity">
+                      <mat-icon>star</mat-icon>
+                      {{ template.popularity }}
+                    </span>
+                  </div>
+                </div>
+              }
+            </div>
+          </mat-card-content>
+        </mat-card>
+      }
+
+      <!-- Step 5: Deployment Options -->
+      @if (selectedTemplate()) {
+        <mat-card class="deploy-card">
+          <mat-card-header>
+            <mat-icon mat-card-avatar>rocket_launch</mat-icon>
+            <mat-card-title>Deploy to GitHub</mat-card-title>
+            <mat-card-subtitle>Configure how to add copilot-instructions.md to your repository</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <form [formGroup]="deployForm" (ngSubmit)="deployToGitHub()">
+              <div class="deploy-options">
+                <!-- Commit Message -->
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Commit Message</mat-label>
+                  <input matInput formControlName="commitMessage">
+                  <mat-icon matSuffix>message</mat-icon>
+                </mat-form-field>
+
+                <!-- Branch Options -->
+                <div class="branch-options">
+                  <mat-slide-toggle formControlName="createBranch">
+                    Create new branch (recommended)
+                  </mat-slide-toggle>
+                  
+                  @if (deployForm.get('createBranch')?.value) {
+                    <mat-form-field appearance="outline" class="branch-field">
+                      <mat-label>Branch Name</mat-label>
+                      <input matInput formControlName="branchName">
+                      <mat-icon matSuffix>account_tree</mat-icon>
+                    </mat-form-field>
+
+                    <mat-slide-toggle formControlName="createPR">
+                      Create Pull Request
+                    </mat-slide-toggle>
+
+                    @if (deployForm.get('createPR')?.value) {
+                      <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Pull Request Title</mat-label>
+                        <input matInput formControlName="prTitle">
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Pull Request Description</mat-label>
+                        <textarea matInput formControlName="prDescription" rows="4"></textarea>
+                      </mat-form-field>
+                    }
+                  }
+                </div>
+
+                <!-- Deploy Actions -->
+                <div class="deploy-actions">
+                  <button mat-raised-button color="primary" type="submit" 
+                          [disabled]="!deployForm.valid || isLoading()">
+                    @if (isLoading()) {
+                      <mat-spinner diameter="20"></mat-spinner>
+                      Deploying...
+                    } @else {
+                      <mat-icon>upload</mat-icon>
+                      Deploy to GitHub
+                    }
+                  </button>
+                </div>
+              </div>
+            </form>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  }
+</div>

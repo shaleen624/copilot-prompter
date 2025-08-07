@@ -7,6 +7,7 @@ import { Op } from 'sequelize';
 interface PromptFilters {
   category?: string;
   language?: string;
+  tags?: string[];
 }
 
 interface PromptCreateData {
@@ -15,7 +16,8 @@ interface PromptCreateData {
   description?: string;
   category: string;
   language?: string;
-  author: string;  // Username, not user ID
+  tags?: string[];
+  userId: number;
 }
 
 interface PromptUpdateData {
@@ -24,6 +26,7 @@ interface PromptUpdateData {
   description?: string;
   category?: string;
   language?: string;
+  tags?: string[];
 }
 
 export class PromptService {
@@ -40,11 +43,24 @@ export class PromptService {
         whereClause.language = filters.language;
       }
 
+      if (filters.tags && filters.tags.length > 0) {
+        whereClause.tags = {
+          [Op.overlap]: filters.tags
+        };
+      }
+
       const { rows: prompts, count: total } = await Prompt.findAndCountAll({
         where: whereClause,
+        include: [
+          {
+            model: User,
+            as: 'user',
+            attributes: ['id', 'username', 'firstName', 'lastName']
+          }
+        ],
         limit,
         offset,
-        order: [['created_at', 'DESC']]  // Use database column name
+        order: [['createdAt', 'DESC']]
       });
 
       return { prompts, total };
@@ -56,7 +72,15 @@ export class PromptService {
 
   async findById(id: number) {
     try {
-      const prompt = await Prompt.findByPk(id);
+      const prompt = await Prompt.findByPk(id, {
+        include: [
+          {
+            model: User,
+            as: 'user',
+            attributes: ['id', 'username', 'firstName', 'lastName']
+          }
+        ]
+      });
 
       return prompt;
     } catch (error) {
@@ -67,19 +91,20 @@ export class PromptService {
 
   async findByUserId(userId: number, page: number = 1, limit: number = 10) {
     try {
-      // First get the username from user ID
-      const user = await User.findByPk(userId, { attributes: ['username'] });
-      if (!user) {
-        throw new CustomError('User not found', 404);
-      }
-
       const offset = (page - 1) * limit;
       
       const { count, rows } = await Prompt.findAndCountAll({
-        where: { author: user.username },
+        where: { userId },
+        include: [
+          {
+            model: User,
+            as: 'user',
+            attributes: ['id', 'username', 'firstName', 'lastName']
+          }
+        ],
         limit,
         offset,
-        order: [['created_at', 'DESC']]  // Use database column name
+        order: [['createdAt', 'DESC']]
       });
 
       return {
@@ -104,7 +129,8 @@ export class PromptService {
         description: data.description,
         category: data.category,
         language: data.language || '',
-        author: data.author,
+        tags: data.tags || [],
+        userId: data.userId,
         active: true,
         viewCount: 0,
         copyCount: 0
@@ -178,23 +204,27 @@ export class PromptService {
         whereClause.language = filters.language;
       }
 
-      const validSortFields = ['title', 'created_at', 'updated_at', 'category'];
+      if (filters.tags && filters.tags.length > 0) {
+        whereClause.tags = {
+          [Op.overlap]: filters.tags
+        };
+      }
+
+      const validSortFields = ['title', 'createdAt', 'updatedAt', 'category'];
       const validSortOrders = ['asc', 'desc'];
 
-      // Map camelCase to snake_case for database columns
-      const fieldMapping: { [key: string]: string } = {
-        'createdAt': 'created_at',
-        'updatedAt': 'updated_at',
-        'title': 'title',
-        'category': 'category'
-      };
-
-      const dbOrderField = fieldMapping[sortBy] || 'created_at';
-      const orderField = validSortFields.includes(dbOrderField) ? dbOrderField : 'created_at';
+      const orderField = validSortFields.includes(sortBy) ? sortBy : 'createdAt';
       const orderDirection = validSortOrders.includes(sortOrder.toLowerCase()) ? sortOrder.toUpperCase() : 'DESC';
 
       const { rows: prompts, count: total } = await Prompt.findAndCountAll({
         where: whereClause,
+        include: [
+          {
+            model: User,
+            as: 'user',
+            attributes: ['id', 'username', 'firstName', 'lastName']
+          }
+        ],
         limit,
         offset,
         order: [[orderField, orderDirection]]

@@ -2,7 +2,7 @@ import { CopilotTemplate } from '@/models/template.model';
 // import { User } from '@/models/user.model'; // TODO: Re-enable when associations are fixed
 import { CustomError } from '@/middleware/errorHandler';
 import { logger } from '@/utils/logger';
-import { Op, col } from 'sequelize';
+import { Op } from 'sequelize';
 
 interface TemplateFilters {
   category?: string;
@@ -68,7 +68,7 @@ export class TemplateService {
         // ],
         limit,
         offset,
-        order: [[col('created_at'), 'DESC']]
+        order: [['createdAt', 'DESC']]
       });
 
       return { templates, total };
@@ -114,7 +114,7 @@ export class TemplateService {
         // ],
         limit,
         offset,
-        order: [[col('created_at'), 'DESC']]
+        order: [['createdAt', 'DESC']]
       });
 
       return {
@@ -226,17 +226,10 @@ export class TemplateService {
         };
       }
 
-      const validSortFields = ['name', 'created_at', 'last_updated', 'category', 'popularity'];
+      const validSortFields = ['name', 'createdAt', 'updatedAt', 'category', 'popularity'];
       const validSortOrders = ['asc', 'desc'];
 
-      let orderField = col('created_at'); // default
-      if (sortBy === 'createdAt') {
-        orderField = col('created_at');
-      } else if (sortBy === 'updatedAt') {
-        orderField = col('last_updated');
-      } else if (['name', 'category', 'popularity'].includes(sortBy)) {
-        orderField = col(sortBy);
-      }
+      const orderField = validSortFields.includes(sortBy) ? sortBy : 'createdAt';
       const orderDirection = validSortOrders.includes(sortOrder.toLowerCase()) ? sortOrder.toUpperCase() : 'DESC';
 
       const { rows: templates, count: total } = await CopilotTemplate.findAndCountAll({

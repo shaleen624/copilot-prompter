@@ -97,9 +97,10 @@ export class DatabaseManager {
     Prompt.initModel(this.sequelize);
     CopilotTemplate.initModel(this.sequelize);
 
-    // Note: Prompt model uses 'author' field (username string) instead of userId foreign key
-    // So no direct associations are set up for prompts
-    
+    // Set up associations for prompts (userId is integer)
+    User.hasMany(Prompt, { foreignKey: 'userId', as: 'prompts' });
+    Prompt.belongsTo(User, { foreignKey: 'userId', as: 'user' });
+
     // TODO: Fix template associations when userId is converted to integer
     // User.hasMany(CopilotTemplate, { foreignKey: 'userId', as: 'templates' });
     // CopilotTemplate.belongsTo(User, { foreignKey: 'userId', as: 'user' });

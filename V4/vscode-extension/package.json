@@ -1,0 +1,145 @@
+{
+  "name": "copilot-prompter",
+  "displayName": "Copilot Prompter",
+  "description": "AI-powered prompt and template management for GitHub Copilot integration",
+  "version": "1.0.0",
+  "publisher": "shaleen624",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "AI",
+    "Chat",
+    "Other"
+  ],
+  "keywords": [
+    "copilot",
+    "ai",
+    "prompts",
+    "templates",
+    "chat",
+    "productivity"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "chatParticipants": [
+      {
+        "id": "copilot-prompter.chat",
+        "name": "copilot-prompter",
+        "description": "AI prompt and template management assistant",
+        "isSticky": true
+      }
+    ],
+    "commands": [
+      {
+        "command": "copilot-prompter.openPrompts",
+        "title": "Open Prompts Gallery",
+        "category": "Copilot Prompter"
+      },
+      {
+        "command": "copilot-prompter.openTemplates",
+        "title": "Open Templates Gallery",
+        "category": "Copilot Prompter"
+      },
+      {
+        "command": "copilot-prompter.switchBackend",
+        "title": "Switch Backend (Node.js/Java)",
+        "category": "Copilot Prompter"
+      },
+      {
+        "command": "copilot-prompter.authenticate",
+        "title": "Authenticate",
+        "category": "Copilot Prompter"
+      },
+      {
+        "command": "copilot-prompter.searchPrompts",
+        "title": "Search Prompts",
+        "category": "Copilot Prompter"
+      }
+    ],
+    "configuration": {
+      "title": "Copilot Prompter",
+      "properties": {
+        "copilot-prompter.backend": {
+          "type": "string",
+          "enum": ["node", "java"],
+          "default": "node",
+          "description": "Choose the backend service (Node.js or Java)"
+        },
+        "copilot-prompter.nodeUrl": {
+          "type": "string",
+          "default": "http://localhost:8181",
+          "description": "Node.js backend URL"
+        },
+        "copilot-prompter.javaUrl": {
+          "type": "string",
+          "default": "http://localhost:8080",
+          "description": "Java backend URL"
+        },
+        "copilot-prompter.autoAuth": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically authenticate on startup"
+        }
+      }
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "copilot-prompter",
+          "title": "Copilot Prompter",
+          "icon": "$(comment-discussion)"
+        }
+      ]
+    },
+    "views": {
+      "copilot-prompter": [
+        {
+          "id": "copilot-prompter.prompts",
+          "name": "Prompts",
+          "when": "copilot-prompter.authenticated"
+        },
+        {
+          "id": "copilot-prompter.templates",
+          "name": "Templates",
+          "when": "copilot-prompter.authenticated"
+        },
+        {
+          "id": "copilot-prompter.settings",
+          "name": "Settings"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.90.0",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^7.14.1",
+    "@typescript-eslint/parser": "^7.11.0",
+    "eslint": "^8.57.0",
+    "typescript": "^5.4.5",
+    "webpack": "^5.92.1",
+    "webpack-cli": "^5.1.4",
+    "ts-loader": "^9.5.1",
+    "@vscode/test-cli": "^0.0.9",
+    "@vscode/test-electron": "^2.4.0"
+  },
+  "dependencies": {
+    "axios": "^1.7.2",
+    "ws": "^8.17.1"
+  }
+}

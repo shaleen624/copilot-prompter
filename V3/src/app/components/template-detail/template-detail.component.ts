@@ -5,6 +5,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CopilotTemplate } from '../../models/copilot-template.model';
 import { CopilotTemplateService } from '../../services/copilot-template.service';
+import { GitHubIntegrationService } from '../../services/github-integration.service';
 import { AdminService } from '../../services/admin.service';
 import { MarkdownComponent } from 'ngx-markdown';
 import { CodeEditorComponent } from '../code-editor';
@@ -49,6 +50,7 @@ export class TemplateDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private templateService = inject(CopilotTemplateService);
+  private githubService = inject(GitHubIntegrationService);
   private location = inject(Location);
   private snackBar = inject(MatSnackBar);
   private cdr = inject(ChangeDetectorRef);
@@ -121,11 +123,25 @@ export class TemplateDetailComponent implements OnInit {
 
   createGitHubFile(): void {
     if (this.template) {
-      // This would typically integrate with GitHub API
-      // For now, just copy to clipboard and show instructions
-      navigator.clipboard.writeText(this.template.content).then(() => {
-        this.snackBar.open('Template copied! Create .github/copilot-instructions.md in your repo', 'Close', { duration: 5000 });
-      });
+      if (this.githubService.isAuthenticated()) {
+        // Navigate to GitHub integration with this template pre-selected
+        this.router.navigate(['/github-integration'], { 
+          state: { selectedTemplate: this.template }
+        });
+      } else {
+        // Fallback to copy to clipboard
+        navigator.clipboard.writeText(this.template.content).then(() => {
+          const snackBarRef = this.snackBar.open(
+            'Template copied! Create .github/copilot-instructions.md in your repo or connect via GitHub Integration', 
+            'GitHub Integration', 
+            { duration: 8000 }
+          );
+          
+          snackBarRef.onAction().subscribe(() => {
+            this.router.navigate(['/github-integration']);
+          });
+        });
+      }
     }
   }
 

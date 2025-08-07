@@ -51,5 +51,11 @@ export const routes: Routes = [
     path: 'templates/:id', 
     loadComponent: () => import('./components/template-detail/template-detail.component').then(m => m.TemplateDetailComponent),
     title: 'Template Details - Copilot Prompter'
+  },
+  // GitHub Integration route
+  { 
+    path: 'github-integration', 
+    loadComponent: () => import('./components/github-integration/github-integration.component').then(m => m.GitHubIntegrationComponent),
+    title: 'GitHub Integration - Copilot Prompter'
   }
 ];
