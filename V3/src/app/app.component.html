@@ -16,6 +16,10 @@
           <mat-icon>settings</mat-icon>
           Templates
         </button>
+        <button mat-button routerLink="/source-control" [class.active-nav]="isSourceControlActive()">
+          <mat-icon>cloud</mat-icon>
+          Source Control
+        </button>
         <button mat-button routerLink="/github-integration" [class.active-nav]="isGitHubIntegrationActive()">
           <mat-icon>integration_instructions</mat-icon>
           GitHub

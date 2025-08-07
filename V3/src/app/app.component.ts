@@ -78,6 +78,10 @@ export class AppComponent implements OnInit {
     return this.currentRoute().includes('/templates');
   }
 
+  isSourceControlActive(): boolean {
+    return this.currentRoute().includes('/source-control');
+  }
+
   isGitHubIntegrationActive(): boolean {
     return this.currentRoute().includes('/github-integration');
   }

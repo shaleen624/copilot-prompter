@@ -91,11 +91,30 @@
             <mat-card-header>
               <mat-icon mat-card-avatar class="feature-avatar">category</mat-icon>
               <mat-card-title>Smart Organization</mat-card-title>
-              <mat-card-subtitle>Efficient serarches</mat-card-subtitle>
+              <mat-card-subtitle>Efficient searches</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
-              <p>Prompts and templates  organized by categories, programming languages, and tags. Find what you need quickly with our fast , intuitive search.</p>
+              <p>Prompts and templates organized by categories, programming languages, and tags. Find what you need quickly with our fast, intuitive search.</p>
             </mat-card-content>
+          </mat-card>
+        </div>
+
+        <div class="feature-item">
+          <mat-card class="feature-card-full">
+            <mat-card-header>
+              <mat-icon mat-card-avatar class="feature-avatar">integration_instructions</mat-icon>
+              <mat-card-title>Multi-Provider Integration</mat-card-title>
+              <mat-card-subtitle>GitHub & Bitbucket Support</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <p>Seamlessly deploy copilot-instructions.md files to both GitHub and Bitbucket repositories. AI-powered analysis recommends the best templates for your tech stack.</p>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-button color="primary" (click)="navigateToSourceControl()">
+                <mat-icon>cloud</mat-icon>
+                Try Integration
+              </button>
+            </mat-card-actions>
           </mat-card>
         </div>
 

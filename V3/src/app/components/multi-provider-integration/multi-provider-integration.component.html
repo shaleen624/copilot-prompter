@@ -1,0 +1,469 @@
+<div class="multi-provider-integration">
+  <mat-card class="header-card">
+    <mat-card-header>
+      <mat-card-title>Multi-Provider Source Control Integration</mat-card-title>
+      <mat-card-subtitle>Connect your GitHub and Bitbucket repositories</mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+
+  <!-- Debug Info -->
+  <mat-card style="margin: 16px 0; padding: 16px; background: #f5f5f5;">
+    <h4>Debug Info:</h4>
+    <p>Is Authenticated: {{ isAuthenticated() }}</p>
+    <p>Available Providers: {{ availableProviders().length }}</p>
+    <p>Selected Provider: {{ selectedProvider() || 'None' }}</p>
+  </mat-card>
+
+  <mat-stepper linear #stepper class="integration-stepper">
+    
+    <!-- Step 1: Authentication -->
+    <mat-step [completed]="isAuthenticated()">
+      <ng-template matStepLabel>Authentication</ng-template>
+      
+      <div class="auth-section">
+        <h3>Connect Your Source Control Providers</h3>
+        <p>Authenticate with your preferred source control providers to get started.</p>
+        
+        <mat-tab-group>
+          <!-- GitHub Authentication -->
+          <mat-tab label="GitHub">
+            <div class="auth-form">
+              @if (!sourceControlService.getAuthService('github').isAuthenticated()) {
+                <form [formGroup]="githubAuthForm" (ngSubmit)="authenticateGitHub()">
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>GitHub Personal Access Token</mat-label>
+                    <input matInput 
+                           type="password" 
+                           formControlName="token"
+                           placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+                    <mat-icon matSuffix>vpn_key</mat-icon>
+                    <mat-hint>
+                      <a href="https://github.com/settings/tokens" target="_blank">
+                        Generate a new token
+                      </a>
+                    </mat-hint>
+                  </mat-form-field>
+                  
+                  <button mat-raised-button 
+                          color="primary" 
+                          type="submit" 
+                          [disabled]="!githubAuthForm.valid">
+                    <mat-icon>code</mat-icon>
+                    Connect GitHub
+                  </button>
+                </form>
+              } @else {
+                <div class="auth-success">
+                  <mat-icon color="primary">check_circle</mat-icon>
+                  <h4>GitHub Connected!</h4>
+                  <p>You're successfully connected to GitHub.</p>
+                  <button mat-button color="warn" (click)="logout('github')">
+                    <mat-icon>logout</mat-icon>
+                    Disconnect
+                  </button>
+                </div>
+              }
+            </div>
+          </mat-tab>
+          
+          <!-- Bitbucket Authentication -->
+          <mat-tab label="Bitbucket">
+            <div class="auth-form">
+              @if (!sourceControlService.getAuthService('bitbucket').isAuthenticated()) {
+                <form [formGroup]="bitbucketAuthForm" (ngSubmit)="authenticateBitbucket()">
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Bitbucket Username</mat-label>
+                    <input matInput 
+                           formControlName="username"
+                           placeholder="your-username">
+                    <mat-icon matSuffix>person</mat-icon>
+                  </mat-form-field>
+                  
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>App Password</mat-label>
+                    <input matInput 
+                           type="password" 
+                           formControlName="appPassword"
+                           placeholder="App password">
+                    <mat-icon matSuffix>vpn_key</mat-icon>
+                    <mat-hint>
+                      <a href="https://bitbucket.org/account/settings/app-passwords/" target="_blank">
+                        Create an app password
+                      </a>
+                    </mat-hint>
+                  </mat-form-field>
+                  
+                  <button mat-raised-button 
+                          color="primary" 
+                          type="submit" 
+                          [disabled]="!bitbucketAuthForm.valid">
+                    <mat-icon>source</mat-icon>
+                    Connect Bitbucket
+                  </button>
+                </form>
+              } @else {
+                <div class="auth-success">
+                  <mat-icon color="primary">check_circle</mat-icon>
+                  <h4>Bitbucket Connected!</h4>
+                  <p>You're successfully connected to Bitbucket.</p>
+                  <button mat-button color="warn" (click)="logout('bitbucket')">
+                    <mat-icon>logout</mat-icon>
+                    Disconnect
+                  </button>
+                </div>
+              }
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+        
+        @if (isAuthenticated()) {
+          <div class="step-actions">
+            <button mat-raised-button 
+                    color="primary" 
+                    matStepperNext>
+              <mat-icon>arrow_forward</mat-icon>
+              Continue to Repository Selection
+            </button>
+          </div>
+        }
+      </div>
+    </mat-step>
+
+    <!-- Step 2: Provider Selection (if multiple providers) -->
+    @if (hasMultipleProviders()) {
+      <mat-step [completed]="selectedProvider() !== null">
+        <ng-template matStepLabel>Select Provider</ng-template>
+        
+        <div class="provider-selection">
+          <h3>Choose Source Control Provider</h3>
+          <p>Select which provider you'd like to work with for this session.</p>
+          
+          <div class="provider-grid">
+            @for (provider of availableProviders(); track provider) {
+              <mat-card class="provider-card" 
+                        [class.selected]="selectedProvider() === provider"
+                        (click)="selectProvider(provider)">
+                <mat-card-content>
+                  <mat-icon class="provider-icon">{{ getProviderIcon(provider) }}</mat-icon>
+                  <h4>{{ getProviderDisplayName(provider) }}</h4>
+                  @if (selectedProvider() === provider) {
+                    <mat-icon class="check-icon">check_circle</mat-icon>
+                  }
+                </mat-card-content>
+              </mat-card>
+            }
+          </div>
+          
+          @if (selectedProvider()) {
+            <button mat-raised-button 
+                    color="primary" 
+                    matStepperNext>
+              <mat-icon>arrow_forward</mat-icon>
+              Continue with {{ getProviderDisplayName(selectedProvider()!) }}
+            </button>
+          }
+        </div>
+      </mat-step>
+    }
+
+    <!-- Step 3: Repository Selection -->
+    <mat-step [completed]="selectedRepository() !== null">
+      <ng-template matStepLabel>Select Repository</ng-template>
+      
+      <div class="repository-selection">
+        <h3>Choose Repository</h3>
+        <p>Select a repository to enhance with Copilot instructions.</p>
+        
+        @if (isLoadingRepos()) {
+          <div class="loading-section">
+            <mat-spinner diameter="40"></mat-spinner>
+            <p>Loading repositories...</p>
+          </div>
+        } @else if (repositories().length === 0) {
+          <div class="empty-state">
+            <mat-icon class="empty-icon">folder_open</mat-icon>
+            <h4>No repositories found</h4>
+            @if (selectedProvider()) {
+              <p>Make sure you have repositories in your {{ getProviderDisplayName(selectedProvider()!) }} account.</p>
+            } @else {
+              <p>Make sure you have repositories in your account.</p>
+            }
+            <button mat-button (click)="loadRepositories()">
+              <mat-icon>refresh</mat-icon>
+              Refresh
+            </button>
+          </div>
+        } @else {
+          <div class="repository-grid">
+            @for (repo of repositories(); track repo.id) {
+              <mat-card class="repository-card"
+                        [class.selected]="selectedRepository()?.id === repo.id"
+                        (click)="selectRepository(repo)">
+                <mat-card-header>
+                  <div mat-card-avatar>
+                    <mat-icon>{{ getProviderIcon(repo.provider) }}</mat-icon>
+                  </div>
+                  <mat-card-title>{{ repo.name }}</mat-card-title>
+                  <mat-card-subtitle>{{ repo.owner.name }}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                  <p class="repo-description">{{ repo.description || 'No description' }}</p>
+                  <div class="repo-meta">
+                    <mat-chip-set>
+                      @if (repo.isPrivate) {
+                        <mat-chip>
+                          <mat-icon>lock</mat-icon>
+                          Private
+                        </mat-chip>
+                      } @else {
+                        <mat-chip>
+                          <mat-icon>public</mat-icon>
+                          Public
+                        </mat-chip>
+                      }
+                      <mat-chip>
+                        <mat-icon>code_blocks</mat-icon>
+                        {{ repo.defaultBranch }}
+                      </mat-chip>
+                    </mat-chip-set>
+                  </div>
+                </mat-card-content>
+                @if (selectedRepository()?.id === repo.id) {
+                  <mat-card-actions>
+                    <mat-icon class="selected-icon">check_circle</mat-icon>
+                    <span>Selected</span>
+                  </mat-card-actions>
+                }
+              </mat-card>
+            }
+          </div>
+          
+          @if (selectedRepository()) {
+            <div class="step-actions">
+              <button mat-raised-button 
+                      color="primary" 
+                      matStepperNext>
+                <mat-icon>arrow_forward</mat-icon>
+                Analyze Repository
+              </button>
+            </div>
+          }
+        }
+      </div>
+    </mat-step>
+
+    <!-- Step 4: Repository Analysis -->
+    <mat-step [completed]="canSelectTemplate()">
+      <ng-template matStepLabel>Analysis Results</ng-template>
+      
+      <div class="analysis-section">
+        @if (isAnalyzing()) {
+          <div class="loading-section">
+            <mat-spinner diameter="40"></mat-spinner>
+            <p>Analyzing repository...</p>
+          </div>
+        } @else if (repositoryAnalysis()) {
+          <div class="analysis-results">
+            <h3>Repository Analysis Complete</h3>
+            
+            <div class="analysis-cards">
+              <!-- Technology Stack -->
+              <mat-card class="analysis-card">
+                <mat-card-header>
+                  <mat-card-title>
+                    <mat-icon>code</mat-icon>
+                    Technology Stack
+                  </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <mat-chip-set>
+                    @for (language of (repositoryAnalysis()?.languages || []); track language) {
+                      <mat-chip>{{ language }}</mat-chip>
+                    }
+                  </mat-chip-set>
+                </mat-card-content>
+              </mat-card>
+
+              <!-- Complexity -->
+              <mat-card class="analysis-card">
+                <mat-card-header>
+                  <mat-card-title>
+                    <mat-icon>assessment</mat-icon>
+                    Complexity
+                  </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <div class="complexity-indicator">
+                    <mat-chip [color]="getComplexityColor(repositoryAnalysis()?.complexity || 'simple')" selected>
+                      {{ (repositoryAnalysis()?.complexity || 'simple') | titlecase }}
+                    </mat-chip>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+
+              <!-- Quality Score -->
+              <mat-card class="analysis-card">
+                <mat-card-header>
+                  <mat-card-title>
+                    <mat-icon>star</mat-icon>
+                    Quality Score
+                  </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <div class="quality-score">
+                    <span class="score">{{ repositoryAnalysis()?.qualityScore || 0 }}%</span>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </div>
+
+            <!-- Recommendations -->
+            @if (repositoryAnalysis()?.recommendations && repositoryAnalysis()?.recommendations?.length && repositoryAnalysis()!.recommendations.length > 0) {
+              <mat-card class="recommendations-card">
+                <mat-card-header>
+                  <mat-card-title>
+                    <mat-icon>lightbulb</mat-icon>
+                    Recommendations
+                  </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <ul class="recommendations-list">
+                    @for (recommendation of (repositoryAnalysis()?.recommendations || []); track recommendation) {
+                      <li>{{ recommendation }}</li>
+                    }
+                  </ul>
+                </mat-card-content>
+              </mat-card>
+            }
+
+            <div class="step-actions">
+              <button mat-raised-button 
+                      color="primary" 
+                      matStepperNext>
+                <mat-icon>arrow_forward</mat-icon>
+                Choose Template
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    </mat-step>
+
+    <!-- Step 5: Template Selection -->
+    <mat-step [completed]="canDeploy()">
+      <ng-template matStepLabel>Select Template</ng-template>
+      
+      <div class="template-selection">
+        <h3>Recommended Templates</h3>
+        <p>Based on your repository analysis, here are the best matching templates:</p>
+        
+        @if (repositoryAnalysis()?.suggestedTemplates && repositoryAnalysis()?.suggestedTemplates?.length === 0) {
+          <div class="no-templates">
+            <mat-icon class="empty-icon">description</mat-icon>
+            <h4>No specific templates found</h4>
+            <p>Consider creating a custom template for your technology stack.</p>
+            <button mat-button routerLink="/template-builder">
+              <mat-icon>add</mat-icon>
+              Create Custom Template
+            </button>
+          </div>
+        } @else {
+          <div class="template-grid">
+            @for (template of (repositoryAnalysis()?.suggestedTemplates || []); track template.id) {
+              <mat-card class="template-card"
+                        [class.selected]="selectedTemplate()?.id === template.id"
+                        (click)="selectTemplate(template)">
+                <mat-card-header>
+                  <mat-card-title>{{ template.name }}</mat-card-title>
+                  <mat-card-subtitle>{{ template.category }}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                  <p class="template-description">{{ template.description }}</p>
+                  <div class="template-meta">
+                    <small>{{ template.author }} • {{ template.lastUpdated | date:'short' }}</small>
+                  </div>
+                </mat-card-content>
+                @if (selectedTemplate()?.id === template.id) {
+                  <mat-card-actions>
+                    <mat-icon class="selected-icon">check_circle</mat-icon>
+                    <span>Selected</span>
+                  </mat-card-actions>
+                }
+              </mat-card>
+            }
+          </div>
+          
+          @if (selectedTemplate()) {
+            <div class="step-actions">
+              <button mat-raised-button 
+                      color="primary" 
+                      matStepperNext>
+                <mat-icon>arrow_forward</mat-icon>
+                Deploy Template
+              </button>
+            </div>
+          }
+        }
+      </div>
+    </mat-step>
+
+    <!-- Step 6: Deployment -->
+    <mat-step>
+      <ng-template matStepLabel>Deploy</ng-template>
+      
+      <div class="deployment-section">
+        @if (isDeploying()) {
+          <div class="loading-section">
+            <mat-spinner diameter="40"></mat-spinner>
+            <p>Deploying template to {{ selectedRepository()?.name }}...</p>
+          </div>
+        } @else {
+          <div class="deployment-summary">
+            <h3>Ready to Deploy</h3>
+            <p>Review the deployment details before proceeding:</p>
+            
+            <mat-card class="summary-card">
+              <mat-card-content>
+                <div class="summary-item">
+                  <strong>Repository:</strong>
+                  <span>{{ selectedRepository()?.fullName }}</span>
+                  @if (selectedRepository()?.provider) {
+                    <mat-chip>{{ getProviderDisplayName(selectedRepository()!.provider) }}</mat-chip>
+                  }
+                </div>
+                <div class="summary-item">
+                  <strong>Template:</strong>
+                  <span>{{ selectedTemplate()?.name }}</span>
+                </div>
+                <div class="summary-item">
+                  <strong>Target File:</strong>
+                  <span>.github/copilot-instructions.md</span>
+                </div>
+              </mat-card-content>
+            </mat-card>
+            
+            <div class="deployment-actions">
+              <button mat-raised-button 
+                      color="primary" 
+                      (click)="deployTemplate()"
+                      [disabled]="!canDeploy()">
+                <mat-icon>upload</mat-icon>
+                @if (selectedRepository()?.provider) {
+                  Deploy to {{ getProviderDisplayName(selectedRepository()!.provider) }}
+                } @else {
+                  Deploy Template
+                }
+              </button>
+              
+              <button mat-button (click)="reset()">
+                <mat-icon>refresh</mat-icon>
+                Start Over
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    </mat-step>
+
+  </mat-stepper>
+</div>

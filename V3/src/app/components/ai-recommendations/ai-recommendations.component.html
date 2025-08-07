@@ -166,7 +166,7 @@
         <div class="recommendations-list">
           @for (recommendation of recommendations(); track recommendation.template.id; let i = $index) {
             <div class="recommendation-item" 
-                 [class.selected]="selectedRecommendation()?.template.id === recommendation.template.id"
+                 [class.selected]="selectedRecommendation()?.template?.id === recommendation.template.id"
                  (click)="selectRecommendation(recommendation)">
               
               <div class="recommendation-header">

@@ -57,5 +57,17 @@ export const routes: Routes = [
     path: 'github-integration', 
     loadComponent: () => import('./components/github-integration/github-integration.component').then(m => m.GitHubIntegrationComponent),
     title: 'GitHub Integration - Copilot Prompter'
+  },
+  // Multi-Provider Integration route
+  { 
+    path: 'source-control', 
+    loadComponent: () => import('./components/multi-provider-integration/multi-provider-integration.component').then(m => m.MultiProviderIntegrationComponent),
+    title: 'Source Control Integration - Copilot Prompter'
+  },
+  // AI Recommendations route
+  { 
+    path: 'ai-recommendations', 
+    loadComponent: () => import('./components/ai-recommendations/ai-recommendations.component').then(m => m.AIRecommendationsComponent),
+    title: 'AI Recommendations - Copilot Prompter'
   }
 ];

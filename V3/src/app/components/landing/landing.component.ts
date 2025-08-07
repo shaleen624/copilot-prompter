@@ -24,4 +24,8 @@ export class LandingComponent {
   navigateToTemplates(): void {
     this.router.navigate(['/templates']);
   }
+
+  navigateToSourceControl(): void {
+    this.router.navigate(['/source-control']);
+  }
 }
