@@ -10,6 +10,18 @@ export const routes: Routes = [
     title: 'Copilot Prompter - Your AI Assistant Toolkit'
   },
   {
+    path: 'logout',
+    loadComponent: () => 
+      import('./components/logout/logout.component').then(m => m.LogoutComponent),
+    title: 'Logged Out - Copilot Prompter'
+  },
+  {
+    path: 'unauthorized',
+    loadComponent: () => 
+      import('./components/unauthorized/unauthorized.component').then(m => m.UnauthorizedComponent),
+    title: 'Unauthorized Access - Copilot Prompter'
+  },
+  {
     path: 'dashboard',
     loadComponent: () => 
       import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent),
@@ -73,6 +85,8 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: ''
+    loadComponent: () => 
+      import('./components/not-found/not-found.component').then(m => m.NotFoundComponent),
+    title: '404 Not Found - Copilot Prompter'
   }
 ];

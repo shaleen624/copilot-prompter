@@ -1,0 +1,28 @@
+<div class="unauthorized-container mat-app-background">
+  <mat-card class="content">
+    <mat-card-header>
+      <div mat-card-avatar class="header-icon">
+        <mat-icon>lock</mat-icon>
+      </div>
+      <mat-card-title>Access Restricted</mat-card-title>
+      <mat-card-subtitle>Authorization Required</mat-card-subtitle>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <p class="message">
+        You don't have sufficient permissions to access this area. Please ensure you have the proper authorization or try signing in with an account that has the required access level.
+      </p>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-stroked-button color="primary" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        Go Back
+      </button>
+      <button mat-flat-button color="primary" routerLink="/">
+        <mat-icon>home</mat-icon>
+        Return Home
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

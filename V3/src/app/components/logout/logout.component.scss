@@ -1,0 +1,87 @@
+.logout-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+  color: white;
+  padding: 2rem;
+  text-align: center;
+
+  .logout-icon {
+    font-size: 5rem;
+    height: 5rem;
+    width: 5rem;
+    margin-bottom: 2rem;
+    animation: fadeInDown 1s ease-out;
+  }
+
+  .logout-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    animation: fadeInUp 1s ease-out 0.3s both;
+  }
+
+  .logout-message {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+    animation: fadeInUp 1s ease-out 0.6s both;
+    max-width: 600px;
+  }
+
+  .countdown {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    animation: fadeIn 1s ease-out 0.9s both;
+  }
+
+  .return-button {
+    font-size: 1.1rem;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid white;
+    transition: all 0.3s ease;
+    animation: fadeInUp 1s ease-out 1.2s both;
+
+    &:hover {
+      background-color: white;
+      color: #2c3e50;
+      transform: translateY(-2px);
+    }
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
