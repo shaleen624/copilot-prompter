@@ -4,9 +4,9 @@ import { Injectable, signal } from '@angular/core';
   providedIn: 'root'
 })
 export class AdminService {
-  private _isAdmin = signal(false);
-  private _isLoggedIn = signal(false);
-  private _enableLogin = signal(false); // Set to false to bypass login
+  private _isAdmin = signal(true);
+  private _isLoggedIn = signal(true);
+  private _enableLogin = signal(true); // Set to false to bypass login
 
   get isAdmin() {
     return this._isAdmin.asReadonly();

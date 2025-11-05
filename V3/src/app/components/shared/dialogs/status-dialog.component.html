@@ -1,0 +1,44 @@
+<![CDATA[<h2 mat-dialog-title>
+  @switch (data.action) {
+    @case ('approve') {
+      Approve Submission
+    }
+    @case ('reject') {
+      Reject Submission
+    }
+    @case ('request-changes') {
+      Request Changes
+    }
+  }
+</h2>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mat-dialog-content>
+    <p>{{getActionMessage()}}</p>
+    
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Comments</mat-label>
+      <textarea 
+        matInput 
+        formControlName="comments" 
+        [placeholder]="getPlaceholder()"
+        [required]="data.action !== 'approve'"
+        rows="4">
+      </textarea>
+      @if (form.get('comments')?.hasError('required') && form.get('comments')?.touched) {
+        <mat-error>Comments are required</mat-error>
+      }
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button 
+      mat-raised-button 
+      [color]="getActionColor()" 
+      type="submit"
+      [disabled]="!form.valid">
+      {{getActionButton()}}
+    </button>
+  </mat-dialog-actions>
+</form>]]>

@@ -58,6 +58,13 @@ copilot-prompter/
   - Core UX components: code-editor, template-builder, prompt-list
   - Route-based feature modules with lazy loading
 
+- **App flow**
+  - User navigates to the app
+  - Landing page is displayed
+  - User can navigate through templates and prompts
+  - New Prompt/Template creation will be done using the New Prompt/Template button in the header.
+
+
 - **Backend (`/backend/`):**
   - Spring Boot REST API
   - Data persistence and template management

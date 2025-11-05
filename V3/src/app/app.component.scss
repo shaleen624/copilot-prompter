@@ -121,6 +121,23 @@ mat-toolbar {
   }
 }
 
+// Profile button styles
+.profile-button {
+  margin-left: 16px;
+  
+  .mat-icon {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+  }
+}
+
+.mat-mdc-menu-item {
+  .mat-icon {
+    margin-right: 8px;
+  }
+}
+
 @media (max-width: 600px) {
   .nav-links {
     margin-left: 8px;
@@ -138,5 +155,15 @@ mat-toolbar {
   
   .brand-title {
     font-size: 1em;
+  }
+  
+  .profile-button {
+    margin-left: 8px;
+    
+    .mat-icon {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+    }
   }
 }

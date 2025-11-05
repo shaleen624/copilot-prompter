@@ -1,0 +1,92 @@
+<![CDATA[@if (submission(); as sub) {
+  <div class="detail-container">
+    <mat-card>
+      <mat-card-header>
+        <div mat-card-avatar>
+          <mat-icon>description</mat-icon>
+        </div>
+        <mat-card-title>{{sub.title}}</mat-card-title>
+        <mat-card-subtitle>
+          <div class="chip-list" role="list">
+            <mat-chip [class]="getStatusClass(sub.status)">
+              {{sub.status}}
+            </mat-chip>
+            <mat-chip>{{sub.category}}</mat-chip>
+          </div>
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="content-section">
+          <h3>Description</h3>
+          <p>{{sub.description}}</p>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="content-section">
+          <h3>Prompt</h3>
+          <pre class="prompt-content">{{sub.prompt}}</pre>
+        </div>
+
+        @if (sub.approverComments) {
+          <mat-divider></mat-divider>
+          <div class="content-section">
+            <h3>Approver Comments</h3>
+            <p class="approver-comments">{{sub.approverComments}}</p>
+          </div>
+        }
+
+        <mat-divider></mat-divider>
+
+        <div class="content-section">
+          <h3>Status History</h3>
+          <mat-list>
+            @for (history of sub.statusHistory; track history.changedDate) {
+              <mat-list-item>
+                <mat-icon matListItemIcon>history</mat-icon>
+                <div matListItemTitle>
+                  {{history.status}}
+                  <span class="history-date">
+                    {{history.changedDate | date:'medium'}}
+                  </span>
+                </div>
+                @if (history.comments) {
+                  <div matListItemLine>{{history.comments}}</div>
+                }
+              </mat-list-item>
+            }
+          </mat-list>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions align="end">
+        <button mat-button routerLink="/dashboard">
+          <mat-icon>arrow_back</mat-icon>
+          Back to Dashboard
+        </button>
+        
+        @if (canApprove() && sub.status === 'PENDING_APPROVAL') {
+          <button mat-raised-button color="primary" (click)="onApprove(sub)">
+            <mat-icon>check_circle</mat-icon>
+            Approve
+          </button>
+          <button mat-raised-button color="accent" (click)="onRequestChanges(sub)">
+            <mat-icon>feedback</mat-icon>
+            Request Changes
+          </button>
+          <button mat-raised-button color="warn" (click)="onReject(sub)">
+            <mat-icon>cancel</mat-icon>
+            Reject
+          </button>
+        }
+      </mat-card-actions>
+    </mat-card>
+  </div>
+} @else {
+  <mat-card>
+    <mat-card-content>
+      <p>Loading submission details...</p>
+    </mat-card-content>
+  </mat-card>
+}]]>

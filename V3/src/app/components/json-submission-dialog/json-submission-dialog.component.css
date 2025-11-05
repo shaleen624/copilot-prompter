@@ -10,13 +10,18 @@
   color: #424242;
 }
 
-.sharepoint-link {
-  color: #1976d2;
-  text-decoration: none;
+.json-field {
+  width: 100%;
+  margin: 16px 0;
 }
 
-.sharepoint-link:hover {
-  text-decoration: underline;
+.json-textarea {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 14px;
+}
+
+.submission-progress {
+  margin: 16px 0;
 }
 
 .json-field {

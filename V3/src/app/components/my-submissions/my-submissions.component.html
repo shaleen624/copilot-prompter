@@ -1,0 +1,41 @@
+<div class="my-submissions-container">
+  <h1>My Submissions</h1>
+  
+  @if (submissions()) {
+    <table mat-table [dataSource]="submissions()" class="mat-elevation-z8">
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef>Title</th>
+        <td mat-cell *matCellDef="let submission">{{submission.title}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef>Type</th>
+        <td mat-cell *matCellDef="let submission">{{submission.language}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let submission">{{submission.status}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="submittedDate">
+        <th mat-header-cell *matHeaderCellDef>Submitted Date</th>
+        <td mat-cell *matCellDef="let submission">{{submission.submittedDate | date}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let submission">
+          <button mat-button color="primary" [routerLink]="['/submissions', submission.id]">
+            View Details
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  } @else {
+    <mat-spinner></mat-spinner>
+  }
+</div>

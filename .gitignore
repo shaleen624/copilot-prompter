@@ -6,6 +6,8 @@
 /out-tsc
 /bazel-out
 
+/V4
+
 # Node
 # Ignore node_modules in all subdirectories
 **/node_modules/
