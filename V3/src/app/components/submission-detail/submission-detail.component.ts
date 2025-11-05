@@ -1,5 +1,5 @@
 import { Component, computed, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,7 +7,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { switchMap } from 'rxjs/operators';
+import { Clipboard } from '@angular/cdk/clipboard';
 import { PromptSubmission } from '../../models/prompt-submission.model';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -27,7 +29,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
     MatIconModule,
     MatChipsModule,
     MatDividerModule,
-    MatListModule
+    MatListModule,
+    MatTooltipModule
   ],
   template: `
     @if (submission(); as sub) {
@@ -204,14 +207,36 @@ export class SubmissionDetailComponent {
     return this.authService.canApproveCategory(sub.category);
   });
 
-  getStatusClass(status: string): string {
-    const statusMap: { [key: string]: string } = {
-      'PENDING_APPROVAL': 'pending',
-      'APPROVED': 'approved',
-      'REJECTED': 'rejected',
-      'NEED_AMENDMENT': 'amendment'
-    };
-    return `status-chip ${statusMap[status] || ''}`;
+  private clipboard = inject(Clipboard);
+  private location = inject(Location);
+
+  protected getStatusClass(status: string): string {
+    switch (status) {
+      case 'APPROVED':
+        return 'success';
+      case 'REJECTED':
+        return 'error';
+      case 'NEED_AMENDMENT':
+        return 'warning';
+      default:
+        return 'info';
+    }
+  }
+
+  protected isAdmin(): boolean {
+    return this.authService.getCurrentUser().role === 'ADMIN';
+  }
+
+  protected goBack(): void {
+    this.location.back();
+  }
+
+  protected copyPrompt(text: string): void {
+    this.clipboard.copy(text);
+    this.snackBar.open('Prompt copied to clipboard', 'Dismiss', {
+      duration: 2000,
+      horizontalPosition: 'end'
+    });
   }
 
   onApprove(submission: PromptSubmission) {

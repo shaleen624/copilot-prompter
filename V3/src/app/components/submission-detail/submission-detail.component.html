@@ -1,32 +1,65 @@
-<![CDATA[@if (submission(); as sub) {
-  <div class="detail-container">
-    <mat-card>
-      <mat-card-header>
-        <div mat-card-avatar>
-          <mat-icon>description</mat-icon>
+@if (submission(); as sub) {
+  <div class="submission-detail-container">
+    <div class="header-actions">
+      <button mat-stroked-button (click)="goBack()" class="back-button">
+        <mat-icon>arrow_back</mat-icon>
+        Back to Submissions
+      </button>
+      
+      @if (isAdmin() || canApprove(sub)) {
+        <div class="action-buttons">
+          <button mat-flat-button color="primary" (click)="approveSubmission()" [disabled]="sub.status === 'APPROVED'">
+            <mat-icon>check_circle</mat-icon>
+            Approve
+          </button>
+          <button mat-stroked-button color="warn" (click)="rejectSubmission()" [disabled]="sub.status === 'REJECTED'">
+            <mat-icon>cancel</mat-icon>
+            Reject
+          </button>
+          <button mat-stroked-button (click)="requestAmendment()" [disabled]="sub.status === 'NEED_AMENDMENT'">
+            <mat-icon>edit_note</mat-icon>
+            Request Changes
+          </button>
         </div>
+      }
+    </div>
+
+    <mat-card class="submission-info-card">
+      <mat-card-header>
         <mat-card-title>{{sub.title}}</mat-card-title>
         <mat-card-subtitle>
-          <div class="chip-list" role="list">
-            <mat-chip [class]="getStatusClass(sub.status)">
-              {{sub.status}}
-            </mat-chip>
-            <mat-chip>{{sub.category}}</mat-chip>
+          <div class="meta-info">
+            Submitted by {{sub.submittedBy}} | Category: {{sub.category}} | Language: {{sub.language}}
+          </div>
+          <div class="status-chips">
+            <mat-chip-set>
+              <mat-chip [class]="getStatusClass(sub.status)" highlighted>
+                {{sub.status}}
+              </mat-chip>
+              @for (tag of sub.tags; track $index) {
+                <mat-chip color="accent">{{tag}}</mat-chip>
+              }
+            </mat-chip-set>
           </div>
         </mat-card-subtitle>
       </mat-card-header>
 
       <mat-card-content>
-        <div class="content-section">
+        <div class="content-section description">
           <h3>Description</h3>
           <p>{{sub.description}}</p>
         </div>
 
         <mat-divider></mat-divider>
 
-        <div class="content-section">
-          <h3>Prompt</h3>
-          <pre class="prompt-content">{{sub.prompt}}</pre>
+        <div class="content-section prompt">
+          <h3>Prompt Content</h3>
+          <div class="prompt-wrapper">
+            <pre class="prompt-content">{{sub.prompt}}</pre>
+            <button mat-icon-button class="copy-button" (click)="copyPrompt(sub.prompt)" matTooltip="Copy prompt">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+          </div>
         </div>
 
         @if (sub.approverComments) {
@@ -89,4 +122,4 @@
       <p>Loading submission details...</p>
     </mat-card-content>
   </mat-card>
-}]]>
+}

@@ -194,6 +194,54 @@ export class SubmissionService {
             comments: 'Please add more details about security implementations and authentication flows'
           }
         ]
+      },
+      {
+        id: '4',
+        title: 'Code Review Template: Security Focus',
+        type: 'TEMPLATE',
+        prompt: '# Security-Focused Code Review Template 🔒\n\n' +
+                '## Security Review Checklist\n\n' +
+                '### Input Validation & Data Sanitization\n' +
+                '- [ ] Input validation on all user inputs\n' +
+                '- [ ] SQL injection prevention\n' +
+                '- [ ] XSS prevention\n' +
+                '- [ ] CSRF protection\n\n' +
+                '### Authentication & Authorization\n' +
+                '- [ ] Proper authentication mechanisms\n' +
+                '- [ ] Role-based access control\n' +
+                '- [ ] Session management\n' +
+                '- [ ] Password policies\n\n' +
+                '### Data Protection\n' +
+                '- [ ] Sensitive data encryption\n' +
+                '- [ ] Secure communication (HTTPS)\n' +
+                '- [ ] Safe data storage practices\n' +
+                '- [ ] Privacy compliance (GDPR, etc.)\n\n' +
+                '### Error Handling & Logging\n' +
+                '- [ ] Secure error messages\n' +
+                '- [ ] Proper logging practices\n' +
+                '- [ ] No sensitive data in logs\n\n' +
+                '## Review Notes\n' +
+                '[Insert detailed security review notes here]\n\n' +
+                '## Recommendations\n' +
+                '[List security improvements here]\n\n' +
+                '## Risk Assessment\n' +
+                '- Critical Issues: [Count]\n' +
+                '- High Risk: [Count]\n' +
+                '- Medium Risk: [Count]\n' +
+                '- Low Risk: [Count]\n',
+        description: 'A comprehensive security-focused code review template for identifying and addressing security vulnerabilities in code submissions',
+        category: 'Security',
+        tags: ['security', 'code-review', 'template', 'best-practices'],
+        language: 'Markdown',
+        author: 'john.doe',
+        status: 'PENDING_APPROVAL',
+        submittedBy: 'john.doe@example.com',
+        submittedDate: new Date(Date.now() - 43200000), // 12 hours ago
+        statusHistory: [{
+          status: 'PENDING_APPROVAL',
+          changedBy: 'john.doe@example.com',
+          changedDate: new Date(Date.now() - 43200000)
+        }]
       }
     ];
 

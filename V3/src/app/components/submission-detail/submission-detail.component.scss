@@ -1,33 +1,120 @@
-.detail-container {
-  padding: 20px;
+.submission-detail-container {
+  padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
-}
 
-.content-section {
-  margin: 20px 0;
+  .header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
 
-  h3 {
-    margin-bottom: 10px;
-    color: rgba(0, 0, 0, 0.87);
+    .back-button {
+      mat-icon {
+        margin-right: 0.5rem;
+      }
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+
+      button {
+        mat-icon {
+          margin-right: 0.5rem;
+        }
+      }
+    }
   }
-}
 
-.prompt-content {
-  background: #f5f5f5;
-  padding: 16px;
-  border-radius: 4px;
-  overflow-x: auto;
-}
+  .submission-info-card {
+    margin-bottom: 2rem;
+    box-shadow: var(--mat-card-shadow, 0 2px 8px rgba(0,0,0,0.1));
 
-.approver-comments {
-  padding: 16px;
-  background: #fff3e0;
-  border-radius: 4px;
-  border-left: 4px solid #ff9800;
-}
+    mat-card-header {
+      margin-bottom: 1.5rem;
 
-.history-date {
+      mat-card-title {
+        font-size: 1.5rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+      }
+
+      .meta-info {
+        color: var(--mat-card-subtitle-color, rgba(0,0,0,0.6));
+        margin-bottom: 1rem;
+      }
+
+      .status-chips {
+        mat-chip-set {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
+      }
+    }
+  }
+
+  .content-section {
+    margin: 2rem 0;
+
+    h3 {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--mat-primary-text-color, rgba(0,0,0,0.87));
+      margin-bottom: 1rem;
+    }
+
+    &.description {
+      p {
+        line-height: 1.6;
+        color: var(--mat-body-color, rgba(0,0,0,0.87));
+      }
+    }
+
+    &.prompt {
+      .prompt-wrapper {
+        position: relative;
+        background: var(--mat-surface-color, #f5f5f5);
+        border-radius: 4px;
+        overflow: hidden;
+
+        pre.prompt-content {
+          padding: 1.5rem;
+          margin: 0;
+          overflow-x: auto;
+          font-family: 'Roboto Mono', monospace;
+          line-height: 1.5;
+          color: var(--mat-code-color, rgba(0,0,0,0.87));
+        }
+
+        .copy-button {
+          position: absolute;
+          top: 0.5rem;
+          right: 0.5rem;
+          opacity: 0.7;
+          transition: opacity 0.2s ease;
+
+          &:hover {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+
+  .approver-comments {
+    padding: 1rem;
+    background: var(--mat-warn-lighter-color, #fff3e0);
+    border-radius: 4px;
+    border-left: 4px solid var(--mat-warn-color, #ff9800);
+    margin: 1rem 0;
+
+    h4 {
+      color: var(--mat-warn-color, #ff9800);
+      margin-bottom: 0.5rem;
+    }
+  }
   color: rgba(0, 0, 0, 0.54);
   font-size: 0.85em;
   margin-left: 8px;

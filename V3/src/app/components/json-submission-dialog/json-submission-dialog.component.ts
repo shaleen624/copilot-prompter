@@ -60,7 +60,7 @@ export class JsonSubmissionDialogComponent {
       
       const submission = {
         content: parsedJson,
-        type: this.data.type,
+        type: this.data.type === 'prompt' ? 'PROMPT' : 'TEMPLATE',
         category: parsedJson.category || 'GENERAL',
         submittedBy: this.authService.getCurrentUser().email,
       };

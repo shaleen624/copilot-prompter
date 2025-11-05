@@ -9,6 +9,8 @@ export interface PromptSubmission extends Prompt {
   approverComments?: string;
   statusHistory: StatusHistory[];
   category: string;
+  //type?: 'PROMPT' | 'TEMPLATE';
+  type?: string;
 }
 
 export interface PromptSubmissionResponse {
